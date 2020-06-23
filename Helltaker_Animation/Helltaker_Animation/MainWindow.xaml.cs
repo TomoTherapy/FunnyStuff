@@ -38,15 +38,9 @@ namespace Helltaker_Animation
         {
             InitializeComponent();
 
-            //original = new Bitmap(path);
-            //System.Drawing.Image.FromFile(path);
-            //original = new Bitmap(.Properties.Resources.);
+            
 
-            //((App)Application.Current).Properties.
-
-            //original = (Bitmap)System.Resources.ResourceManager.GetObject("");
-
-            original = new Bitmap(@"C:\Users\crazy\source\repos\Helltaker\Helltaker_Animation\Helltaker_Animation\ImageSources\Azazel.png");
+            original = new Bitmap(@"ImageSources\Azazel.png");
 
             for (int i = 0; i < 12; i++)
             {
@@ -75,6 +69,27 @@ namespace Helltaker_Animation
             timer.Interval = TimeSpan.FromSeconds(0.0167 * 2);
             timer.Tick += NextFrame;
             timer.Start();
+
+            var menu = new System.Windows.Forms.ContextMenu();
+            var noti = new System.Windows.Forms.NotifyIcon
+            {
+                Icon = System.Drawing.Icon.FromHandle(bitmapFrames[0].GetHicon()),
+                Visible = true,
+                Text = "Helltaker",
+                ContextMenu = menu
+            };
+            var item = new System.Windows.Forms.MenuItem
+            {
+                Index = 0,
+                Text = "Exit"
+            };
+            item.Click += (object o, EventArgs e) =>
+            {
+                this.Close();
+            };
+
+            menu.MenuItems.Add(item);
+            noti.ContextMenu = menu;
         }
 
         private void NextFrame(object sender, EventArgs e)
@@ -85,7 +100,8 @@ namespace Helltaker_Animation
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
         }
     }
 }

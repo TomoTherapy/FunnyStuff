@@ -24,78 +24,12 @@ namespace Helltaker_Animation
     /// </summary>
     public partial class MainWindow : Window
     {
-        Bitmap original;
-        Bitmap[] bitmapFrames = new Bitmap[12];
-        ImageSource[] imgSourceFrames = new ImageSource[12];
-        //string path = ;
-        int frame = -1;
-
-        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeleteObject([In] IntPtr hObject);
 
         public MainWindow()
         {
             InitializeComponent();
 
-            
-
-            original = new Bitmap(@"ImageSources\Azazel.png");
-
-            for (int i = 0; i < 12; i++)
-            {
-                bitmapFrames[i] = new Bitmap(100, 100);
-                using (Graphics g = Graphics.FromImage(bitmapFrames[i]))
-                {
-                    g.DrawImage(original, new System.Drawing.Rectangle(0, 0, 100, 100), new System.Drawing.Rectangle(i * 100, 0, 100, 100), GraphicsUnit.Pixel);
-                }
-
-                var handle = bitmapFrames[i].GetHbitmap();
-                try
-                {
-                    imgSourceFrames[i] = Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                }
-                catch
-                {
-
-                }
-                finally
-                {
-                    DeleteObject(handle);
-                }
-            }
-
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(0.0167 * 2);
-            timer.Tick += NextFrame;
-            timer.Start();
-
-            var menu = new System.Windows.Forms.ContextMenu();
-            var noti = new System.Windows.Forms.NotifyIcon
-            {
-                Icon = System.Drawing.Icon.FromHandle(bitmapFrames[0].GetHicon()),
-                Visible = true,
-                Text = "Helltaker",
-                ContextMenu = menu
-            };
-            var item = new System.Windows.Forms.MenuItem
-            {
-                Index = 0,
-                Text = "Exit"
-            };
-            item.Click += (object o, EventArgs e) =>
-            {
-                this.Close();
-            };
-
-            menu.MenuItems.Add(item);
-            noti.ContextMenu = menu;
-        }
-
-        private void NextFrame(object sender, EventArgs e)
-        {
-            frame = (frame + 1) % 12;
-            ImageControl.Source = imgSourceFrames[frame];
+            DataContext = new MainWindow_ViewModel(this);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

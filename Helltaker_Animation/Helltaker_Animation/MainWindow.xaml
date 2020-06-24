@@ -5,13 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Helltaker_Animation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="100" Width="100"
+        Title="MainWindow" 
         AllowsTransparency="True"
         Background="Transparent"
-        WindowStyle="None" MouseDown="Window_MouseDown"
+        WindowStyle="None"
+        WindowState="Minimized"
         Topmost="True">
-    <Grid>
-        <Image Margin="0" Name="ImageControl"/>
-
-    </Grid>
 </Window>

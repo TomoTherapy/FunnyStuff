@@ -62,9 +62,9 @@ namespace Helltaker_Animation
             (DataContext as HellGirl_ViewModel).Lucifer_button_Click();
         }
 
-        private void Lucifer_Apron_button_Click(object sender, RoutedEventArgs e)
+        private void LuciferApron_button_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as HellGirl_ViewModel).Lucifer_Apron_button_Click();
+            (DataContext as HellGirl_ViewModel).LuciferApron_button_Click();
         }
 
         private void Malina_button_Click(object sender, RoutedEventArgs e)
@@ -87,14 +87,24 @@ namespace Helltaker_Animation
             (DataContext as HellGirl_ViewModel).Zdrada_button_Click();
         }
 
-        private void Glorious_Left_button_Click(object sender, RoutedEventArgs e)
+        private void GloriousLeft_button_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as HellGirl_ViewModel).Glorious_Left_button_Click();
+            (DataContext as HellGirl_ViewModel).GloriousLeft_button_Click();
         }
 
-        private void Glorious_Right_button_Click(object sender, RoutedEventArgs e)
+        private void GloriousRight_button_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as HellGirl_ViewModel).Glorious_Right_button_Click();
+            (DataContext as HellGirl_ViewModel).GloriousRight_button_Click();
+        }
+
+        private void Helltaker_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).Helltaker_button_Click();
+        }
+
+        private void HelltakerApron_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).HelltakerApron_button_Click();
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Helltaker_Animation"
         mc:Ignorable="d"
-        Title="HellGirl" Height="100" Width="100"
+        Title="{Binding GirlsName}" Height="100" Width="100"
         AllowsTransparency="True"
         Background="Transparent"
         WindowStyle="None" MouseDown="Window_MouseDown"
@@ -14,22 +14,24 @@
         <Image Margin="0" Name="ImageControl" Source="{Binding FinalSource}">
             <Image.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Which girl?">
-                        <MenuItem Header="Azazel" Name="Azazel_button" Click="Azazel_button_Click"/>
-                        <MenuItem Header="Cerberus" Name="Cerberus_button" Click="Cerberus_button_Click"/>
-                        <MenuItem Header="Judgement" Name="Judgement_button" Click="Judgement_button_Click"/>
-                        <MenuItem Header="Justice" Name="Justice_button" Click="Justice_button_Click"/>
-                        <MenuItem Header="Lucifer" Name="Lucifer_button" Click="Lucifer_button_Click"/>
-                        <MenuItem Header="Lucifer_Apron" Name="Lucifer_Apron_button" Click="Lucifer_Apron_button_Click"/>
-                        <MenuItem Header="Malina" Name="Malina_button" Click="Malina_button_Click"/>
-                        <MenuItem Header="Modeus" Name="Modeus_button" Click="Modeus_button_Click"/>
-                        <MenuItem Header="Pandemonica" Name="Pandemonica_button" Click="Pandemonica_button_Click"/>
-                        <MenuItem Header="Zdrada" Name="Zdrada_button" Click="Zdrada_button_Click"/>
-                        <MenuItem Header="Glorious_Left" Name="Glorious_Left_button" Click="Glorious_Left_button_Click"/>
-                        <MenuItem Header="Glorious_Right" Name="Glorious_Right_button" Click="Glorious_Right_button_Click"/>
+                    <MenuItem Header="{Binding Which}">
+                        <MenuItem Header="{Binding Azazel}" Name="Azazel_button" Click="Azazel_button_Click"/>
+                        <MenuItem Header="{Binding Cerberus}" Name="Cerberus_button" Click="Cerberus_button_Click"/>
+                        <MenuItem Header="{Binding Judgement}" Name="Judgement_button" Click="Judgement_button_Click"/>
+                        <MenuItem Header="{Binding Justice}" Name="Justice_button" Click="Justice_button_Click"/>
+                        <MenuItem Header="{Binding Lucifer}" Name="Lucifer_button" Click="Lucifer_button_Click"/>
+                        <MenuItem Header="{Binding LuciferApron}" Name="LuciferApron_button" Click="LuciferApron_button_Click"/>
+                        <MenuItem Header="{Binding Malina}" Name="Malina_button" Click="Malina_button_Click"/>
+                        <MenuItem Header="{Binding Modeus}" Name="Modeus_button" Click="Modeus_button_Click"/>
+                        <MenuItem Header="{Binding Pandemonica}" Name="Pandemonica_button" Click="Pandemonica_button_Click"/>
+                        <MenuItem Header="{Binding Zdrada}" Name="Zdrada_button" Click="Zdrada_button_Click"/>
+                        <MenuItem Header="{Binding GloriousLeft}" Name="GloriousLeft_button" Click="GloriousLeft_button_Click"/>
+                        <MenuItem Header="{Binding GloriousRight}" Name="GloriousRight_button" Click="GloriousRight_button_Click"/>
+                        <MenuItem Header="{Binding Helltaker}" Name="Helltaker_button" Click="Helltaker_button_Click"/>
+                        <MenuItem Header="{Binding HelltakerApron}" Name="HelltakerApron_button" Click="HelltakerApron_button_Click"/>
                     </MenuItem>
                     <Separator/>
-                    <MenuItem Header="Dismiss" Name="Dismiss_button" Click="Dismiss_button_Click"/>
+                    <MenuItem Header="{Binding Dismiss}" Name="Dismiss_button" Click="Dismiss_button_Click"/>
                 </ContextMenu>
             </Image.ContextMenu>
         </Image>

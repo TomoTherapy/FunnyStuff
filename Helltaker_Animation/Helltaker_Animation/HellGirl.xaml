@@ -9,7 +9,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         WindowStyle="None" MouseDown="Window_MouseDown"
-        Topmost="True">
+        Topmost="True" Closing="Window_Closing">
     <Grid>
         <Image Margin="0" Name="ImageControl" Source="{Binding FinalSource}">
             <Image.ContextMenu>
@@ -25,10 +25,11 @@
                         <MenuItem Header="{Binding Modeus}" Name="Modeus_button" Click="Modeus_button_Click"/>
                         <MenuItem Header="{Binding Pandemonica}" Name="Pandemonica_button" Click="Pandemonica_button_Click"/>
                         <MenuItem Header="{Binding Zdrada}" Name="Zdrada_button" Click="Zdrada_button_Click"/>
-                        <MenuItem Header="{Binding GloriousLeft}" Name="GloriousLeft_button" Click="GloriousLeft_button_Click"/>
-                        <MenuItem Header="{Binding GloriousRight}" Name="GloriousRight_button" Click="GloriousRight_button_Click"/>
+                        <MenuItem Header="{Binding Skeleton}" Name="Skeleton_button" Click="Skeleton_button_Click"/>
                         <MenuItem Header="{Binding Helltaker}" Name="Helltaker_button" Click="Helltaker_button_Click"/>
                         <MenuItem Header="{Binding HelltakerApron}" Name="HelltakerApron_button" Click="HelltakerApron_button_Click"/>
+                        <MenuItem Header="{Binding GloriousLeft}" Name="GloriousLeft_button" Click="GloriousLeft_button_Click"/>
+                        <MenuItem Header="{Binding GloriousRight}" Name="GloriousRight_button" Click="GloriousRight_button_Click"/>
                     </MenuItem>
                     <Separator/>
                     <MenuItem Header="{Binding Dismiss}" Name="Dismiss_button" Click="Dismiss_button_Click"/>

@@ -106,5 +106,15 @@ namespace Helltaker_Animation
         {
             (DataContext as HellGirl_ViewModel).HelltakerApron_button_Click();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).Window_Closing();
+        }
+
+        private void Skeleton_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).Skeleton_button_Click();
+        }
     }
 }

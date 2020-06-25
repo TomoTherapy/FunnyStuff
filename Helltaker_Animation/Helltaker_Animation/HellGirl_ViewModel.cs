@@ -41,6 +41,7 @@ namespace Helltaker_Animation
         public string Zdrada { get; set; }
         public string Helltaker { get; set; }
         public string HelltakerApron { get; set; }
+        public string Skeleton { get; set; }
         public string GloriousLeft { get; set; }
         public string GloriousRight { get; set; }
         #endregion
@@ -48,7 +49,6 @@ namespace Helltaker_Animation
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteObject([In] IntPtr hObject);
-
 
         public HellGirl_ViewModel(HellGirl window)
         {
@@ -59,53 +59,28 @@ namespace Helltaker_Animation
             Naming(m_Language);
         }
 
+        internal void Window_Closing()
+        {
+            Dispose();
+        }
+
         private void CreateSpriteCollection(string girl)
         {
+            Dispose();
+
             GirlsName = m_Language ? EnglishToKorean(girl) : girl;
 
-            if (girl.Equals("LuciferApron"))
-            {
-                string path = @"Resources\Lucifer.png";
-                if (!File.Exists(path)) return;
-                m_Original = new Bitmap(path);
+            string path = girl.Equals("LuciferApron") ? @"Resources\Lucifer.png" : @"Resources\" + girl + ".png";
 
-                for (int i = 0; i < 24; i++)
-                {
-                    m_BitmapFrames[i] = new Bitmap(100, 100);
-                    using (Graphics g = Graphics.FromImage(m_BitmapFrames[i]))
-                    {
-                        g.DrawImage(m_Original, new Rectangle(0, 0, 100, 100), new Rectangle(i * 100, 100, 100, 100), GraphicsUnit.Pixel);
-                    }
-
-                    var handle = m_BitmapFrames[i].GetHbitmap();
-                    try
-                    {
-                        m_ImgSourceFrames[i] = Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Fucked");
-                        break;
-                    }
-                    finally
-                    {
-                        DeleteObject(handle);
-                    }
-                }
-
-                return;
-            }
-
-            string path1 = @"Resources\" + girl + ".png";
-            if (!File.Exists(path1)) return;
-            m_Original = new Bitmap(path1);
+            if (!File.Exists(path)) return;
+            m_Original = new Bitmap(path);
 
             for (int i = 0; i < 24; i++)
             {
                 m_BitmapFrames[i] = new Bitmap(100, 100);
                 using (Graphics g = Graphics.FromImage(m_BitmapFrames[i]))
                 {
-                    g.DrawImage(m_Original, new Rectangle(0, 0, 100, 100), new Rectangle(i * 100, 0, 100, 100), GraphicsUnit.Pixel);
+                    g.DrawImage(m_Original, new Rectangle(0, 0, 100, 100), new Rectangle(i * 100, girl.Equals("LuciferApron")? 100 : 0, 100, 100), GraphicsUnit.Pixel);
                 }
 
                 var handle = m_BitmapFrames[i].GetHbitmap();
@@ -122,6 +97,16 @@ namespace Helltaker_Animation
                 {
                     DeleteObject(handle);
                 }
+            }
+        }
+
+        private void Dispose()
+        {
+            if (m_Original != null) m_Original.Dispose();
+            foreach (var bitmap in m_BitmapFrames) if (bitmap != null) bitmap.Dispose();
+            for (int i = 0; i < 24; i++)
+            {
+                m_ImgSourceFrames[i] = null;
             }
         }
 
@@ -206,6 +191,10 @@ namespace Helltaker_Animation
         {
             CreateSpriteCollection("Azazel");
         }
+        internal void Skeleton_button_Click()
+        {
+            CreateSpriteCollection("Skeleton");
+        }
 
         private string EnglishToKorean(string girl)
         {
@@ -215,24 +204,25 @@ namespace Helltaker_Animation
                 case "Azazel": koreanName = "아자젤"; break;
                 case "Cerberus": koreanName = "케르베로스"; break;
                 case "Lucifer": koreanName = "루시퍼"; break;
-                case "Lucifer_Apron": koreanName = "앞치마 루시퍼"; break;
+                case "LuciferApron": koreanName = "앞치마 루시퍼"; break;
                 case "Malina": koreanName = "말리나"; break;
                 case "Modeus": koreanName = "모데우스"; break;
                 case "Justice": koreanName = "저스티스"; break;
-                case "Judgement": koreanName = "젓지먼트"; break;
+                case "Judgement": koreanName = "저지먼트"; break;
                 case "Pandemonica": koreanName = "판데모니카"; break;
                 case "Zdrada": koreanName = "즈드라다"; break;
+                case "Skeleton": koreanName = "스켈레톤"; break;
                 case "Helltaker": koreanName = "헬테이커"; break;
-                case "Helltaker_Apron": koreanName = "앞치마 헬테이커"; break;
+                case "HelltakerApron": koreanName = "앞치마 헬테이커"; break;
                 default: koreanName = girl; break;
             }
             return koreanName;
         }
 
-        private void Naming(bool lang)
+        public void Naming(bool lang)
         {
             Which = lang ? "누구?" : "Which girl?";
-            Dismiss = lang ? "탈출" : "Dismiss";
+            Dismiss = lang ? "소환 해제" : "Dismiss";
             Azazel = lang ? "아자젤" : "Azazel";
             Cerberus = lang ? "케르베로스" : "Cerberus";
             Judgement = lang ? "저지먼트" : "Judgement";
@@ -242,9 +232,10 @@ namespace Helltaker_Animation
             Malina = lang ? "말리나" : "Malina";
             Modeus = lang ? "모데우스" : "Modeus";
             Pandemonica = lang ? "판데모니카" : "Pandemonica";
-            Zdrada = lang ? "크드라다" : "Zdrada";
+            Zdrada = lang ? "즈드라다" : "Zdrada";
             Helltaker = lang ? "헬테이커" : "Helltaker";
             HelltakerApron = lang ? "앞치마 헬테이커" : "Helltaker Apron";
+            Skeleton = lang ? "스켈레톤" : "Skeleton";
             GloriousLeft = lang ? "Glorious 왼쪽" : "Glorious Left";
             GloriousRight = lang ? "Glorious 오른쪽" : "Glorious Right";
 
@@ -262,6 +253,7 @@ namespace Helltaker_Animation
             RaisePropertyChanged(nameof(Zdrada));
             RaisePropertyChanged(nameof(Helltaker));
             RaisePropertyChanged(nameof(HelltakerApron));
+            RaisePropertyChanged(nameof(Skeleton));
             RaisePropertyChanged(nameof(GloriousLeft));
             RaisePropertyChanged(nameof(GloriousRight));
         }

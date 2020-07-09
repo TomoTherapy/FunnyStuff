@@ -14,24 +14,24 @@
         <Ellipse MouseDown="Ellipse_MouseDown" Width="{Binding ReticleSize}" Height="{Binding ReticleSize}" Grid.RowSpan="2" Fill="{Binding ColorBrush}"/>
         <Grid.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Position ScreenCenter" Name="Center_menuItem" Click="Center_menuItem_Click" StaysOpenOnClick="True"/>
-                <MenuItem Header="Position Hunt:Showdown" Name="Hunt_menuItem" Click="Hunt_menuItem_Click" StaysOpenOnClick="True"/>
+                <MenuItem Header="Profile - ScreenCenter" Name="Center_menuItem" Click="Center_menuItem_Click" StaysOpenOnClick="True"/>
+                <MenuItem Header="Profile - Hunt:Showdown" Name="Hunt_menuItem" Click="Hunt_menuItem_Click" StaysOpenOnClick="True"/>
                 <MenuItem Header="Color" StaysOpenOnClick="True">
                     <StackPanel Orientation="Vertical" Width="200" Margin="0,0,-45,0">
                         <StackPanel>
-                            <Label Content="Alpha" Width="40"/>
+                            <Label Content="Alpha"/>
                             <Slider Name="alphaSlider" Minimum="0" Maximum="255" Value="{Binding ColorA}"/>
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Red" Width="40"/>
+                            <Label Content="Red"/>
                             <Slider Name="redSlider" Minimum="0" Maximum="255" Value="{Binding ColorR}"/>
                         </StackPanel>
                         <StackPanel>
-                            <Label Content="Green" Width="40"/>
+                            <Label Content="Green"/>
                             <Slider Name="greenSlider" Minimum="0" Maximum="255" Value="{Binding ColorG}"/>
                         </StackPanel>
-                        <StackPanel>
-                            <Label Content="Blue" Width="40"/>
+                        <StackPanel Margin="0,0,0,5">
+                            <Label Content="Blue"/>
                             <Slider Name="blueSlider" Minimum="0" Maximum="255" Value="{Binding ColorB}"/>
                         </StackPanel>
                     </StackPanel>
@@ -46,7 +46,7 @@
                 </MenuItem>
                 <MenuItem Header="Reticle Size" StaysOpenOnClick="True">
                     <StackPanel Orientation="Horizontal" Margin="0,0,-45,0">
-                        <Slider Width="200" Margin="0" Value="{Binding ReticleSize}" Minimum="4" LargeChange="0.1" Maximum="15"/>
+                        <Slider Width="260" Margin="0" Value="{Binding ReticleSize}" Minimum="4" LargeChange="0.1" Maximum="13"/>
                         <TextBox Text="{Binding ReticleSize}" Width="55"/>
                     </StackPanel>
                 </MenuItem>

@@ -37,8 +37,7 @@ namespace OnScreenReticle
 
         public Brush ColorBrush
         {
-            get => new SolidColorBrush(Color.FromArgb(
-                byte.Parse(ColorA.ToString(), NumberStyles.Integer)
+            get => new SolidColorBrush(Color.FromArgb(byte.Parse(ColorA.ToString(), NumberStyles.Integer)
                 , byte.Parse(ColorR.ToString(), NumberStyles.Integer)
                 , byte.Parse(ColorG.ToString(), NumberStyles.Integer)
                 , byte.Parse(ColorB.ToString(), NumberStyles.Integer)));
@@ -52,21 +51,18 @@ namespace OnScreenReticle
             ColorR = 255;
             ColorG = 50;
             ColorB = 50;
-
         }
 
         internal void Center_menuItem_Click()
         {
-            WindowLeft = Screen.PrimaryScreen.Bounds.Width / 2 - 50;
-            WindowTop = Screen.PrimaryScreen.Bounds.Height / 2 - 50;
-
+            WindowLeft = Screen.PrimaryScreen.Bounds.Width * 0.5 - 50;
+            WindowTop = Screen.PrimaryScreen.Bounds.Height * 0.5 - 50;
         }
 
         internal void Hunt_menuItem_Click()
         {
-            WindowLeft = Screen.PrimaryScreen.Bounds.Width / 2 - 50;
-            WindowTop = Screen.PrimaryScreen.Bounds.Height / 2 + 58;
-
+            WindowLeft = Screen.PrimaryScreen.Bounds.Width * 0.5 - 50;
+            WindowTop = Screen.PrimaryScreen.Bounds.Height * 0.6 - 50;
         }
 
         internal void UpAdjust_Click()

@@ -89,7 +89,7 @@ namespace Helltaker_Animation
                 }
             };
 
-            #region girls menuItem
+            #region Girls menuItem
             MenuItem SummonGirls = new MenuItem()
             {
                 Text = m_Language ? "소환" : "Summon"
@@ -288,7 +288,7 @@ namespace Helltaker_Animation
             SummonGirls.MenuItems.Add(SummonAllItem);
             #endregion
 
-            #region Lang setting menuItem
+            #region Language setting menuItem
             MenuItem LangItem = new MenuItem()
             {
                 Text = m_Language ? "언어" : "Language"
@@ -542,12 +542,10 @@ namespace Helltaker_Animation
 
         private void NextFrame(object sender, EventArgs e)
         {
-            Frame = (Frame + 1) % 24;
+            Frame++;
+            if (Frame == 24) Frame = 0;
 
-            foreach (var girl in m_Girls)
-            {
-                (girl.DataContext as HellGirl_ViewModel).NextFrame(Frame);
-            }
+            foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).NextFrame(Frame);
         }
 
     }

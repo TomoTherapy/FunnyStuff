@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -20,11 +22,33 @@ namespace Helltaker_Animation
         private Bitmap m_Original;
         private Bitmap[] m_BitmapFrames = new Bitmap[24];
         private ImageSource[] m_ImgSourceFrames = new ImageSource[24];
+        private MainWindow_ViewModel m_MainWindow_ViewModel;
+
 
         private ImageSource _finalSource;
         private string _girlsName;
+        private string musicLang;
+        private string volumeLang;
+        private string frameIntervalLang;
+
         public ImageSource FinalSource { get => _finalSource; set { _finalSource = value; RaisePropertyChanged(nameof(FinalSource)); } }
         public string GirlsName { get => _girlsName; set { _girlsName = value; RaisePropertyChanged(nameof(GirlsName)); } }
+        public string MusicLang { get => musicLang; set { musicLang = value; RaisePropertyChanged(nameof(MusicLang)); } }
+        public string VolumeLang { get => volumeLang; set { volumeLang = value; RaisePropertyChanged(nameof(VolumeLang)); } }
+        public string FrameIntervalLang { get => frameIntervalLang; set { frameIntervalLang = value; RaisePropertyChanged(nameof(FrameIntervalLang)); } }
+
+        public int Volume { get => m_MainWindow_ViewModel.Volume; set { m_MainWindow_ViewModel.Volume = value; RaisePropertyChanged(nameof(Volume)); } }
+        public double FrameInterval { get => m_MainWindow_ViewModel.FrameInterval; 
+            set 
+            {
+                if (45 <= value && value <= 60)
+                {
+                    m_MainWindow_ViewModel.FrameInterval = value;
+                    RaisePropertyChanged(nameof(FrameInterval)); 
+                }
+            } 
+        }
+        public int SelectedMusic { get => m_MainWindow_ViewModel.SelectedMusic; set { m_MainWindow_ViewModel.SelectedMusic = value; RaisePropertyChanged(nameof(SelectedMusic)); } }
 
         #region name properties
         public string Which { get; set; }
@@ -50,10 +74,11 @@ namespace Helltaker_Animation
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteObject([In] IntPtr hObject);
 
-        public HellGirl_ViewModel(HellGirl window)
+        public HellGirl_ViewModel(HellGirl window, MainWindow_ViewModel mainWindow)
         {
             m_Language = (Application.Current as App).Language;
             m_Window = window;
+            m_MainWindow_ViewModel = mainWindow;
             CreateSpriteCollection("Lucifer");
 
             Naming(m_Language);
@@ -80,7 +105,7 @@ namespace Helltaker_Animation
                 m_BitmapFrames[i] = new Bitmap(100, 100);
                 using (Graphics g = Graphics.FromImage(m_BitmapFrames[i]))
                 {
-                    g.DrawImage(m_Original, new Rectangle(0, 0, 100, 100), new Rectangle(i * 100, girl.Equals("LuciferApron")? 100 : 0, 100, 100), GraphicsUnit.Pixel);
+                    g.DrawImage(m_Original, new Rectangle(0, 0, 100, 100), new Rectangle(i * 100, girl.Equals("LuciferApron") ? 100 : 0, 100, 100), GraphicsUnit.Pixel);
                 }
 
                 var handle = m_BitmapFrames[i].GetHbitmap();
@@ -98,6 +123,67 @@ namespace Helltaker_Animation
                     DeleteObject(handle);
                 }
             }
+        }
+
+        internal void Luminescent_button_Click()
+        {
+            if (SelectedMusic != 4)
+            {
+                SelectedMusic = 4;
+                m_MainWindow_ViewModel.PlayLuminescent();
+            }
+            else
+            {
+                SelectedMusic = 0;
+                m_MainWindow_ViewModel.StopPlayer();
+            }
+        }
+
+        internal void Epitomize_button_Click()
+        {
+            if (SelectedMusic != 3)
+            {
+                SelectedMusic = 3;
+                m_MainWindow_ViewModel.PlayEpitomize();
+            }
+            else
+            {
+                SelectedMusic = 0;
+                m_MainWindow_ViewModel.StopPlayer();
+            }
+        }
+
+        internal void Vitality_button_Click()
+        {
+            if (SelectedMusic != 2)
+            {
+                SelectedMusic = 2;
+                m_MainWindow_ViewModel.PlayVitality();
+            }
+            else
+            {
+                SelectedMusic = 0;
+                m_MainWindow_ViewModel.StopPlayer();
+            }
+        }
+
+        internal void Apropos_button_Click()
+        {
+            if (SelectedMusic != 1)
+            {
+                SelectedMusic = 1;
+                m_MainWindow_ViewModel.PlayApropos();
+            }
+            else
+            {
+                SelectedMusic = 0;
+                m_MainWindow_ViewModel.StopPlayer();
+            }
+        }
+
+        internal void FrameIntervaleDefault_button_Click()
+        {
+            FrameInterval = 49;
         }
 
         private void Dispose()
@@ -239,6 +325,10 @@ namespace Helltaker_Animation
             GloriousLeft = lang ? "Glorious 왼쪽" : "Glorious Left";
             GloriousRight = lang ? "Glorious 오른쪽" : "Glorious Right";
 
+            MusicLang = lang ? "배경음악" : "BGM";
+            VolumeLang = lang ? "볼륨" : "Volume";
+            FrameIntervalLang = lang ? "프레임간격" : "Frame Interval";
+
             RaisePropertyChanged(nameof(Which));
             RaisePropertyChanged(nameof(Dismiss));
             RaisePropertyChanged(nameof(Azazel));
@@ -256,7 +346,114 @@ namespace Helltaker_Animation
             RaisePropertyChanged(nameof(Skeleton));
             RaisePropertyChanged(nameof(GloriousLeft));
             RaisePropertyChanged(nameof(GloriousRight));
+
+            RaisePropertyChanged(nameof(MusicLang));
+            RaisePropertyChanged(nameof(VolumeLang));
+            RaisePropertyChanged(nameof(FrameIntervalLang));
+        }
+
+        public void RefreshAll()
+        {
+            RaisePropertyChanged(nameof(GirlsName));
+
+            RaisePropertyChanged(nameof(Which));
+            RaisePropertyChanged(nameof(Dismiss));
+            RaisePropertyChanged(nameof(Azazel));
+            RaisePropertyChanged(nameof(Cerberus));
+            RaisePropertyChanged(nameof(Judgement));
+            RaisePropertyChanged(nameof(Justice));
+            RaisePropertyChanged(nameof(Lucifer));
+            RaisePropertyChanged(nameof(LuciferApron));
+            RaisePropertyChanged(nameof(Malina));
+            RaisePropertyChanged(nameof(Modeus));
+            RaisePropertyChanged(nameof(Pandemonica));
+            RaisePropertyChanged(nameof(Zdrada));
+            RaisePropertyChanged(nameof(Helltaker));
+            RaisePropertyChanged(nameof(HelltakerApron));
+            RaisePropertyChanged(nameof(Skeleton));
+            RaisePropertyChanged(nameof(GloriousLeft));
+            RaisePropertyChanged(nameof(GloriousRight));
+
+            RaisePropertyChanged(nameof(MusicLang));
+            RaisePropertyChanged(nameof(VolumeLang));
+            RaisePropertyChanged(nameof(FrameIntervalLang));
+
+            RaisePropertyChanged(nameof(Volume));
+            RaisePropertyChanged(nameof(FrameInterval));
+            RaisePropertyChanged(nameof(SelectedMusic));
         }
         #endregion
+    }
+
+    public class MusicOneToBool : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int val)
+            {
+                if (val == 1) return true;
+                else return false;
+            }
+            else return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MusicTwoToBool : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int val)
+            {
+                if (val == 2) return true;
+                else return false;
+            }
+            else return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MusicThreeToBool : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int val)
+            {
+                if (val == 3) return true;
+                else return false;
+            }
+            else return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MusicFourToBool : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int val)
+            {
+                if (val == 4) return true;
+                else return false;
+            }
+            else return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -19,11 +19,12 @@ namespace Helltaker_Animation
     /// </summary>
     public partial class HellGirl : Window
     {
-        public HellGirl()
+
+        public HellGirl(MainWindow_ViewModel mainWindow_ViewModel)
         {
             InitializeComponent();
 
-            DataContext = new HellGirl_ViewModel(this);
+            DataContext = new HellGirl_ViewModel(this, mainWindow_ViewModel);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -115,6 +116,31 @@ namespace Helltaker_Animation
         private void Skeleton_button_Click(object sender, RoutedEventArgs e)
         {
             (DataContext as HellGirl_ViewModel).Skeleton_button_Click();
+        }
+
+        private void FrameIntervaleDefault_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).FrameIntervaleDefault_button_Click();
+        }
+
+        private void Apropos_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).Apropos_button_Click();
+        }
+
+        private void Vitality_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).Vitality_button_Click();
+        }
+
+        private void Epitomize_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).Epitomize_button_Click();
+        }
+
+        private void Luminescent_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).Luminescent_button_Click();
         }
     }
 }

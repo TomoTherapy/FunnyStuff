@@ -8,6 +8,9 @@ using Application = System.Windows.Application;
 using System.Windows.Forms.Design;
 using System.Threading;
 using WMPLib;
+using System.Windows.Data;
+using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Helltaker_Animation
 {
@@ -16,36 +19,81 @@ namespace Helltaker_Animation
         private List<HellGirl> m_Girls;
         private bool m_Language;
         private NotifyIcon Noti;
-        private WMPLib.WindowsMediaPlayer m_Player;
-
-        private int _interval;
-        private int _frame;
-
-        public int Interval { get => _interval; set { _interval = value; RaisePropertyChanged(nameof(Interval)); } }
-        public int Frame { get => _frame; set { _frame = value; RaisePropertyChanged(nameof(Frame)); } }
-
         private MainWindow m_Window;
+        private WMPLib.WindowsMediaPlayer m_Player;
+        //private System.Windows.Forms.Timer timer;
+        //private DispatcherTimer timer;
+        private System.Timers.Timer timer;
+
+        private int _frame;
+        private int _volume;
+        private double _frameInterval;
+        private int selectedMusic;
+
+        public int Frame { get => _frame; set { _frame = value; RaisePropertyChanged(nameof(Frame)); } }
+        public int Volume
+        {
+            get => _volume;
+            set
+            {
+                _volume = value;
+                RaisePropertyChanged(nameof(Volume));
+                if (m_Player != null) m_Player.settings.volume = _volume;
+                foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).RefreshAll();
+            }
+        }
+        public double FrameInterval
+        {
+            get => _frameInterval;
+            set
+            {
+                _frameInterval = Math.Round(value, 2);
+                if (timer != null) timer.Interval = FrameInterval;
+                RaisePropertyChanged(nameof(FrameInterval));
+                foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).RefreshAll();
+            }
+        }
+        public int SelectedMusic
+        {
+            get => selectedMusic;
+            set
+            {
+                selectedMusic = value;
+                RaisePropertyChanged(nameof(SelectedMusic));
+                foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).RefreshAll();
+            }
+        }
 
         public MainWindow_ViewModel(MainWindow window)
         {
             m_Window = window;
             m_Language = (Application.Current as App).Language;
             m_Girls = (Application.Current as App).Girls;
+            Volume = 50;
             m_Player = new WindowsMediaPlayer();
-            m_Player.settings.volume = 50;
+            m_Player.settings.volume = Volume;
 
-            Interval = 49;
+            FrameInterval = 49;
             Frame = -1;
 
             //Timer
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = Interval;
-            timer.Tick += NextFrame;
+            //timer = new System.Windows.Forms.Timer();
+            //timer.Interval = FrameInterval;
+            //timer.Tick += NextFrame;
+
+            //timer = new DispatcherTimer();
+            //timer.Interval = TimeSpan.FromMilliseconds(FrameInterval);
+            //timer.Tick += NextFrame;
+
+            timer = new System.Timers.Timer();
+            timer.Interval = FrameInterval;
+            timer.Elapsed += NextFrame;
+
             timer.Start();
 
             GenerateNotifyIcon();
 
-            m_Girls.Add(new HellGirl());
+            m_Girls.Add(new HellGirl(this));
             m_Girls.Last().Show();
 
             m_Window.Close();
@@ -98,7 +146,7 @@ namespace Helltaker_Animation
             MenuItem AzazelItem = new MenuItem() { Text = m_Language ? "아자젤" : "Azazel" };
             AzazelItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Azazel_button_Click();
                 m_Girls.Last().Show();
             };
@@ -109,7 +157,7 @@ namespace Helltaker_Animation
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    m_Girls.Add(new HellGirl());
+                    m_Girls.Add(new HellGirl(this));
                     (m_Girls.Last().DataContext as HellGirl_ViewModel).Cerberus_button_Click();
                     m_Girls.Last().Show();
                 }
@@ -119,7 +167,7 @@ namespace Helltaker_Animation
             MenuItem JudgementItem = new MenuItem() { Text = m_Language ? "저지먼트" : "Judgement" };
             JudgementItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Judgement_button_Click();
                 m_Girls.Last().Show();
             };
@@ -128,7 +176,7 @@ namespace Helltaker_Animation
             MenuItem JusticeItem = new MenuItem() { Text = m_Language ? "저스티스" : "Justice" };
             JusticeItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Justice_button_Click();
                 m_Girls.Last().Show();
             };
@@ -137,7 +185,7 @@ namespace Helltaker_Animation
             MenuItem LuciferItem = new MenuItem() { Text = m_Language ? "루시퍼" : "Lucifer" };
             LuciferItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Lucifer_button_Click();
                 m_Girls.Last().Show();
             };
@@ -146,7 +194,7 @@ namespace Helltaker_Animation
             MenuItem LuciferApronItem = new MenuItem() { Text = m_Language ? "앞치마 루시퍼" : "Lucifer Apron" };
             LuciferApronItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).LuciferApron_button_Click();
                 m_Girls.Last().Show();
             };
@@ -155,7 +203,7 @@ namespace Helltaker_Animation
             MenuItem MalinaItem = new MenuItem() { Text = m_Language ? "말리나" : "Malina" };
             MalinaItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Malina_button_Click();
                 m_Girls.Last().Show();
             };
@@ -164,7 +212,7 @@ namespace Helltaker_Animation
             MenuItem ModeusItem = new MenuItem() { Text = m_Language ? "모데우스" : "Modeus" };
             ModeusItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Modeus_button_Click();
                 m_Girls.Last().Show();
             };
@@ -173,7 +221,7 @@ namespace Helltaker_Animation
             MenuItem PandemonicaItem = new MenuItem() { Text = m_Language ? "판데모니카" : "Pandemonica" };
             PandemonicaItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Pandemonica_button_Click();
                 m_Girls.Last().Show();
             };
@@ -182,7 +230,7 @@ namespace Helltaker_Animation
             MenuItem ZdradaItem = new MenuItem() { Text = m_Language ? "즈드라다" : "Zdrada" };
             ZdradaItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Zdrada_button_Click();
                 m_Girls.Last().Show();
             };
@@ -191,7 +239,7 @@ namespace Helltaker_Animation
             MenuItem SkeletonItem = new MenuItem() { Text = m_Language ? "스켈레톤" : "Skeleton" };
             SkeletonItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Skeleton_button_Click();
                 m_Girls.Last().Show();
             };
@@ -200,7 +248,7 @@ namespace Helltaker_Animation
             MenuItem HelltakerItem = new MenuItem() { Text = m_Language ? "헬테이커" : "Helltaker" };
             HelltakerItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Helltaker_button_Click();
                 m_Girls.Last().Show();
             };
@@ -209,7 +257,7 @@ namespace Helltaker_Animation
             MenuItem HelltakerApronItem = new MenuItem() { Text = m_Language ? "앞치마 헬테이커" : "Helltaker Apron" };
             HelltakerApronItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).HelltakerApron_button_Click();
                 m_Girls.Last().Show();
             };
@@ -218,7 +266,7 @@ namespace Helltaker_Animation
             MenuItem GloriousLeftItem = new MenuItem() { Text = m_Language ? "Glorious 왼쪽" : "Glorious Left" };
             GloriousLeftItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).GloriousLeft_button_Click();
                 m_Girls.Last().Show();
             };
@@ -227,7 +275,7 @@ namespace Helltaker_Animation
             MenuItem GloriousRightItem = new MenuItem() { Text = m_Language ? "Glorious 오른쪽" : "Glorious Right" };
             GloriousRightItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).GloriousRight_button_Click();
                 m_Girls.Last().Show();
             };
@@ -236,52 +284,52 @@ namespace Helltaker_Animation
             MenuItem SummonAllItem = new MenuItem() { Text = m_Language ? "전부소환" : "Summon all" };
             SummonAllItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Azazel_button_Click();
                 m_Girls.Last().Show();
                 for (int i = 0; i < 3; i++)
                 {
-                    m_Girls.Add(new HellGirl());
+                    m_Girls.Add(new HellGirl(this));
                     (m_Girls.Last().DataContext as HellGirl_ViewModel).Cerberus_button_Click();
                     m_Girls.Last().Show();
                 }
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Judgement_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Justice_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Lucifer_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).LuciferApron_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Malina_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Modeus_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Pandemonica_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Zdrada_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Skeleton_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Helltaker_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).HelltakerApron_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).GloriousLeft_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl());
+                m_Girls.Add(new HellGirl(this));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).GloriousRight_button_Click();
                 m_Girls.Last().Show();
             };
@@ -330,191 +378,184 @@ namespace Helltaker_Animation
             else LangEnglishItem.Checked = true;
             #endregion
 
+
             #region BGM menuItem
-            MenuItem BGMItem = new MenuItem()
-            {
-                Text = m_Language ? "배경음악" : "BGM"
-            };
+            //MenuItem BGMItem = new MenuItem()
+            //{
+            //    Text = m_Language ? "배경음악" : "BGM"
+            //};
 
-            MenuItem AproposItem = new MenuItem()
-            {
-                Text = "Apropos"
-            };
-            MenuItem VitalityItem = new MenuItem()
-            {
-                Text = "Vitality"
-            };
-            MenuItem EpitomizeItem = new MenuItem()
-            {
-                Text = "Epitomize"
-            };
-            MenuItem LuminescentItem = new MenuItem()
-            {
-                Text = "Luminescent"
-            };
+            //MenuItem AproposItem = new MenuItem()
+            //{
+            //    Text = "Apropos"
+            //};
+            //MenuItem VitalityItem = new MenuItem()
+            //{
+            //    Text = "Vitality"
+            //};
+            //MenuItem EpitomizeItem = new MenuItem()
+            //{
+            //    Text = "Epitomize"
+            //};
+            //MenuItem LuminescentItem = new MenuItem()
+            //{
+            //    Text = "Luminescent"
+            //};
 
-            AproposItem.Click += (object o, EventArgs e) =>
-            {
-                if (AproposItem.Checked)
-                {
-                    AproposItem.Checked = false;
-                    m_Player.controls.stop();
-                }
-                else
-                {
-                    m_Player.URL = @"Resources\Mittsies - Apropos.mp3";
-                    m_Player.controls.play();
-                    m_Player.settings.setMode("loop", true);
-                    AproposItem.Checked = true;
-                    VitalityItem.Checked = false;
-                    EpitomizeItem.Checked = false;
-                    LuminescentItem.Checked = false;
-                }
-            };
-            VitalityItem.Click += (object o, EventArgs e) =>
-            {
-                if (VitalityItem.Checked)
-                {
-                    VitalityItem.Checked = false;
-                    m_Player.controls.stop();
-                }
-                else
-                {
-                    m_Player.URL = @"Resources\Mittsies - Vitality.mp3";
-                    m_Player.controls.play();
-                    m_Player.settings.setMode("loop", true);
-                    AproposItem.Checked = false;
-                    VitalityItem.Checked = true;
-                    EpitomizeItem.Checked = false;
-                    LuminescentItem.Checked = false;
-                }
-            };
-            EpitomizeItem.Click += (object o, EventArgs e) =>
-            {
-                if (EpitomizeItem.Checked)
-                {
-                    EpitomizeItem.Checked = false;
-                    m_Player.controls.stop();
-                }
-                else
-                {
-                    m_Player.URL = @"Resources\Mittsies - Epitomize.mp3";
-                    m_Player.controls.play();
-                    m_Player.settings.setMode("loop", true);
-                    AproposItem.Checked = false;
-                    VitalityItem.Checked = false;
-                    EpitomizeItem.Checked = true;
-                    LuminescentItem.Checked = false;
-                }
-            };
-            LuminescentItem.Click += (object o, EventArgs e) =>
-            {
-                if (LuminescentItem.Checked)
-                {
-                    LuminescentItem.Checked = false;
-                    m_Player.controls.stop();
-                }
-                else
-                {
-                    m_Player.URL = @"Resources\Mittsies - Luminescent.mp3";
-                    m_Player.controls.play();
-                    m_Player.settings.setMode("loop", true);
-                    AproposItem.Checked = false;
-                    VitalityItem.Checked = false;
-                    EpitomizeItem.Checked = false;
-                    LuminescentItem.Checked = true;
-                }
-            };
+            //AproposItem.Click += (object o, EventArgs e) =>
+            //{
+            //    if (AproposItem.Checked)
+            //    {
+            //        AproposItem.Checked = false;
+            //        m_Player.controls.stop();
+            //    }
+            //    else
+            //    {
+            //        PlayApropos();
+            //        AproposItem.Checked = true;
+            //        VitalityItem.Checked = false;
+            //        EpitomizeItem.Checked = false;
+            //        LuminescentItem.Checked = false;
+            //    }
+            //};
+            //VitalityItem.Click += (object o, EventArgs e) =>
+            //{
+            //    if (VitalityItem.Checked)
+            //    {
+            //        VitalityItem.Checked = false;
+            //        m_Player.controls.stop();
+            //    }
+            //    else
+            //    {
+            //        PlayVitality();
+            //        AproposItem.Checked = false;
+            //        VitalityItem.Checked = true;
+            //        EpitomizeItem.Checked = false;
+            //        LuminescentItem.Checked = false;
+            //    }
+            //};
+            //EpitomizeItem.Click += (object o, EventArgs e) =>
+            //{
+            //    if (EpitomizeItem.Checked)
+            //    {
+            //        EpitomizeItem.Checked = false;
+            //        m_Player.controls.stop();
+            //    }
+            //    else
+            //    {
+            //        PlayEpitomize();
+            //        AproposItem.Checked = false;
+            //        VitalityItem.Checked = false;
+            //        EpitomizeItem.Checked = true;
+            //        LuminescentItem.Checked = false;
+            //    }
+            //};
+            //LuminescentItem.Click += (object o, EventArgs e) =>
+            //{
+            //    if (LuminescentItem.Checked)
+            //    {
+            //        LuminescentItem.Checked = false;
+            //        m_Player.controls.stop();
+            //    }
+            //    else
+            //    {
+            //        PlayLuminescent();
+            //        AproposItem.Checked = false;
+            //        VitalityItem.Checked = false;
+            //        EpitomizeItem.Checked = false;
+            //        LuminescentItem.Checked = true;
+            //    }
+            //};
 
-            MenuItem VolumeControlItem = new MenuItem() { Text = m_Language ? "음량" : "Volume" };
+            //MenuItem VolumeControlItem = new MenuItem() { Text = m_Language ? "음량" : "Volume" };
 
-            MenuItem Volume10Item = new MenuItem() { Text = "10" };
-            MenuItem Volume20Item = new MenuItem() { Text = "20" };
-            MenuItem Volume30Item = new MenuItem() { Text = "30" };
-            MenuItem Volume40Item = new MenuItem() { Text = "40" };
-            MenuItem Volume50Item = new MenuItem() { Text = "50", Checked = true };
-            MenuItem Volume60Item = new MenuItem() { Text = "60" };
-            MenuItem Volume70Item = new MenuItem() { Text = "70" };
-            MenuItem Volume80Item = new MenuItem() { Text = "80" };
-            MenuItem Volume90Item = new MenuItem() { Text = "90" };
-            MenuItem Volume100Item = new MenuItem() { Text = "100" };
-            Volume10Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 10;
-                Volume10Item.Checked = true; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
-                Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
-            };
-            Volume20Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 20;
-                Volume10Item.Checked = false; Volume20Item.Checked = true; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
-                Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
-            };
-            Volume30Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 30;
-                Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = true; Volume40Item.Checked = false; Volume50Item.Checked = false;
-                Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
-            };
-            Volume40Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 40;
-                Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = true; Volume50Item.Checked = false;
-                Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
-            };
-            Volume50Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 50;
-                Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = true;
-                Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
-            };
-            Volume60Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 60;
-                Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
-                Volume60Item.Checked = true; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
-            };
-            Volume70Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 70;
-                Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
-                Volume60Item.Checked = false; Volume70Item.Checked = true; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
-            };
-            Volume80Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 80;
-                Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
-                Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = true; Volume90Item.Checked = false; Volume100Item.Checked = false;
-            };
-            Volume90Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 90;
-                Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
-                Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = true; Volume100Item.Checked = false;
-            };
-            Volume100Item.Click += (object o, EventArgs e) => 
-            { 
-                m_Player.settings.volume = 100;
-                Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
-                Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = true;
-            };
+            //MenuItem Volume10Item = new MenuItem() { Text = "10" };
+            //MenuItem Volume20Item = new MenuItem() { Text = "20" };
+            //MenuItem Volume30Item = new MenuItem() { Text = "30" };
+            //MenuItem Volume40Item = new MenuItem() { Text = "40" };
+            //MenuItem Volume50Item = new MenuItem() { Text = "50", Checked = true };
+            //MenuItem Volume60Item = new MenuItem() { Text = "60" };
+            //MenuItem Volume70Item = new MenuItem() { Text = "70" };
+            //MenuItem Volume80Item = new MenuItem() { Text = "80" };
+            //MenuItem Volume90Item = new MenuItem() { Text = "90" };
+            //MenuItem Volume100Item = new MenuItem() { Text = "100" };
+            //Volume10Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 10;
+            //    Volume10Item.Checked = true; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
+            //    Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
+            //};
+            //Volume20Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 20;
+            //    Volume10Item.Checked = false; Volume20Item.Checked = true; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
+            //    Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
+            //};
+            //Volume30Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 30;
+            //    Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = true; Volume40Item.Checked = false; Volume50Item.Checked = false;
+            //    Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
+            //};
+            //Volume40Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 40;
+            //    Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = true; Volume50Item.Checked = false;
+            //    Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
+            //};
+            //Volume50Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 50;
+            //    Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = true;
+            //    Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
+            //};
+            //Volume60Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 60;
+            //    Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
+            //    Volume60Item.Checked = true; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
+            //};
+            //Volume70Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 70;
+            //    Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
+            //    Volume60Item.Checked = false; Volume70Item.Checked = true; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = false;
+            //};
+            //Volume80Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 80;
+            //    Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
+            //    Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = true; Volume90Item.Checked = false; Volume100Item.Checked = false;
+            //};
+            //Volume90Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 90;
+            //    Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
+            //    Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = true; Volume100Item.Checked = false;
+            //};
+            //Volume100Item.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Player.settings.volume = 100;
+            //    Volume10Item.Checked = false; Volume20Item.Checked = false; Volume30Item.Checked = false; Volume40Item.Checked = false; Volume50Item.Checked = false;
+            //    Volume60Item.Checked = false; Volume70Item.Checked = false; Volume80Item.Checked = false; Volume90Item.Checked = false; Volume100Item.Checked = true;
+            //};
 
-            VolumeControlItem.MenuItems.Add(Volume10Item);
-            VolumeControlItem.MenuItems.Add(Volume20Item);
-            VolumeControlItem.MenuItems.Add(Volume30Item);
-            VolumeControlItem.MenuItems.Add(Volume40Item);
-            VolumeControlItem.MenuItems.Add(Volume50Item);
-            VolumeControlItem.MenuItems.Add(Volume60Item);
-            VolumeControlItem.MenuItems.Add(Volume70Item);
-            VolumeControlItem.MenuItems.Add(Volume80Item);
-            VolumeControlItem.MenuItems.Add(Volume90Item);
-            VolumeControlItem.MenuItems.Add(Volume100Item);
+            //VolumeControlItem.MenuItems.Add(Volume10Item);
+            //VolumeControlItem.MenuItems.Add(Volume20Item);
+            //VolumeControlItem.MenuItems.Add(Volume30Item);
+            //VolumeControlItem.MenuItems.Add(Volume40Item);
+            //VolumeControlItem.MenuItems.Add(Volume50Item);
+            //VolumeControlItem.MenuItems.Add(Volume60Item);
+            //VolumeControlItem.MenuItems.Add(Volume70Item);
+            //VolumeControlItem.MenuItems.Add(Volume80Item);
+            //VolumeControlItem.MenuItems.Add(Volume90Item);
+            //VolumeControlItem.MenuItems.Add(Volume100Item);
 
-            BGMItem.MenuItems.Add(AproposItem);
-            BGMItem.MenuItems.Add(VitalityItem);
-            BGMItem.MenuItems.Add(EpitomizeItem);
-            BGMItem.MenuItems.Add(LuminescentItem);
-            BGMItem.MenuItems.Add(VolumeControlItem);
+            //BGMItem.MenuItems.Add(AproposItem);
+            //BGMItem.MenuItems.Add(VitalityItem);
+            //BGMItem.MenuItems.Add(EpitomizeItem);
+            //BGMItem.MenuItems.Add(LuminescentItem);
+            //BGMItem.MenuItems.Add(VolumeControlItem);
             #endregion
 
             MenuItem ExitItem = new MenuItem()
@@ -533,19 +574,54 @@ namespace Helltaker_Animation
 
             Menu.MenuItems.Add(SummonGirls);
             Menu.MenuItems.Add(TopMostItem);
-            Menu.MenuItems.Add(BGMItem);
+            //Menu.MenuItems.Add(BGMItem);
             Menu.MenuItems.Add(LangItem);
             Menu.MenuItems.Add(ExitItem);
             Noti.ContextMenu = Menu;
         }
 
-
-        private void NextFrame(object sender, EventArgs e)
+        public void PlayApropos()
         {
-            Frame++;
-            if (Frame == 24) Frame = 0;
+            m_Player.URL = @"Resources\Mittsies - Apropos.mp3";
+            m_Player.controls.play();
+            m_Player.settings.setMode("loop", true);
+        }
 
-            foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).NextFrame(Frame);
+        public void PlayVitality()
+        {
+            m_Player.URL = @"Resources\Mittsies - Vitality.mp3";
+            m_Player.controls.play();
+            m_Player.settings.setMode("loop", true);
+        }
+
+        public void PlayEpitomize()
+        {
+            m_Player.URL = @"Resources\Mittsies - Epitomize.mp3";
+            m_Player.controls.play();
+            m_Player.settings.setMode("loop", true);
+        }
+
+        public void PlayLuminescent()
+        {
+            m_Player.URL = @"Resources\Mittsies - Luminescent.mp3";
+            m_Player.controls.play();
+            m_Player.settings.setMode("loop", true);
+        }
+
+        public void StopPlayer()
+        {
+            m_Player.controls.stop();
+        }
+
+        private void NextFrame(object sender, System.Timers.ElapsedEventArgs e)//EventArgs
+        {
+            Application.Current.Dispatcher.Invoke(delegate
+            {
+                Frame++;
+                if (Frame == 24) Frame = 0;
+
+                foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).NextFrame(Frame);
+            });
         }
 
     }

@@ -24,7 +24,6 @@ namespace Helltaker_Animation
         private ImageSource[] m_ImgSourceFrames = new ImageSource[24];
         private MainWindow_ViewModel m_MainWindow_ViewModel;
 
-
         private ImageSource _finalSource;
         private string _girlsName;
         private string musicLang;
@@ -36,19 +35,21 @@ namespace Helltaker_Animation
         public string MusicLang { get => musicLang; set { musicLang = value; RaisePropertyChanged(nameof(MusicLang)); } }
         public string VolumeLang { get => volumeLang; set { volumeLang = value; RaisePropertyChanged(nameof(VolumeLang)); } }
         public string FrameIntervalLang { get => frameIntervalLang; set { frameIntervalLang = value; RaisePropertyChanged(nameof(FrameIntervalLang)); } }
-
         public int Volume { get => m_MainWindow_ViewModel.Volume; set { m_MainWindow_ViewModel.Volume = value; RaisePropertyChanged(nameof(Volume)); } }
-        public double FrameInterval { get => m_MainWindow_ViewModel.FrameInterval; 
-            set 
+        public double FrameInterval
+        {
+            get => m_MainWindow_ViewModel.FrameInterval;
+            set
             {
                 if (45 <= value && value <= 60)
                 {
                     m_MainWindow_ViewModel.FrameInterval = value;
-                    RaisePropertyChanged(nameof(FrameInterval)); 
+                    RaisePropertyChanged(nameof(FrameInterval));
                 }
-            } 
+            }
         }
         public int SelectedMusic { get => m_MainWindow_ViewModel.SelectedMusic; set { m_MainWindow_ViewModel.SelectedMusic = value; RaisePropertyChanged(nameof(SelectedMusic)); } }
+        public int WidthHeight { get => m_MainWindow_ViewModel.WidthHeight; set { m_MainWindow_ViewModel.WidthHeight = value; RaisePropertyChanged(nameof(WidthHeight)); Window_SizeChanged(m_Window); } }
 
         #region name properties
         public string Which { get; set; }
@@ -80,6 +81,8 @@ namespace Helltaker_Animation
             m_Window = window;
             m_MainWindow_ViewModel = mainWindow;
             CreateSpriteCollection("Lucifer");
+
+            WidthHeight = 100;
 
             Naming(m_Language);
         }
@@ -137,6 +140,27 @@ namespace Helltaker_Animation
                 SelectedMusic = 0;
                 m_MainWindow_ViewModel.StopPlayer();
             }
+        }
+
+        internal void FHD_button_Click()
+        {
+            WidthHeight = 100; 
+        }
+
+        internal void QHD_button_Click()
+        {
+            WidthHeight = 133;
+        }
+
+        internal void UHD_button_Click()
+        {
+            WidthHeight = 200;
+        }
+
+        internal void Window_SizeChanged(HellGirl hellGirl)
+        {
+            hellGirl.Width = WidthHeight;
+            hellGirl.Height = WidthHeight;
         }
 
         internal void Epitomize_button_Click()
@@ -381,6 +405,8 @@ namespace Helltaker_Animation
             RaisePropertyChanged(nameof(Volume));
             RaisePropertyChanged(nameof(FrameInterval));
             RaisePropertyChanged(nameof(SelectedMusic));
+
+            RaisePropertyChanged(nameof(WidthHeight));
         }
         #endregion
     }

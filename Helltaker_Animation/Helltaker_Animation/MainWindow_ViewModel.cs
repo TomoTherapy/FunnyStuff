@@ -29,6 +29,7 @@ namespace Helltaker_Animation
         private int _volume;
         private double _frameInterval;
         private int selectedMusic;
+        private int _widthHeight;
 
         public int Frame { get => _frame; set { _frame = value; RaisePropertyChanged(nameof(Frame)); } }
         public int Volume
@@ -60,6 +61,16 @@ namespace Helltaker_Animation
             {
                 selectedMusic = value;
                 RaisePropertyChanged(nameof(SelectedMusic));
+                foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).RefreshAll();
+            }
+        }
+        public int WidthHeight
+        {
+            get => _widthHeight;
+            set
+            {
+                _widthHeight = value;
+                RaisePropertyChanged(nameof(WidthHeight));
                 foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).RefreshAll();
             }
         }

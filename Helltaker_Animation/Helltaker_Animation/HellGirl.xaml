@@ -9,7 +9,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         WindowStyle="None" MouseDown="Window_MouseDown"
-        Topmost="True" Closing="Window_Closing">
+        Topmost="True" Closing="Window_Closing" StateChanged="Window_StateChanged" SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <local:MusicOneToBool x:Key="MusicOneToBool"/>
         <local:MusicTwoToBool x:Key="MusicTwoToBool"/>
@@ -46,6 +46,11 @@
                             <TextBlock Text="{Binding VolumeLang}" Margin="5,0,8,0" />
                             <Slider Value="{Binding Volume}" Maximum="100" SmallChange="1" Width="200"/>
                         </StackPanel>
+                    </MenuItem>
+                    <MenuItem Header="Size">
+                        <MenuItem Header="FHD" Name="FHD_button" Click="FHD_button_Click" StaysOpenOnClick="True"/>
+                        <MenuItem Header="QHD" Name="QHD_button" Click="QHD_button_Click" StaysOpenOnClick="True"/>
+                        <MenuItem Header="UHD" Name="UHD_button" Click="UHD_button_Click" StaysOpenOnClick="True"/>
                     </MenuItem>
                     <MenuItem Header="{Binding FrameIntervalLang}">
                         <StackPanel Margin="0,0,-45,0" Orientation="Horizontal">

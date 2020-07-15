@@ -26,15 +26,17 @@ namespace Helltaker_Animation
 
         private ImageSource _finalSource;
         private string _girlsName;
-        private string musicLang;
-        private string volumeLang;
-        private string frameIntervalLang;
+        private string _musicLang;
+        private string _volumeLang;
+        private string _frameIntervalLang;
+        private string _defaultLang;
 
         public ImageSource FinalSource { get => _finalSource; set { _finalSource = value; RaisePropertyChanged(nameof(FinalSource)); } }
         public string GirlsName { get => _girlsName; set { _girlsName = value; RaisePropertyChanged(nameof(GirlsName)); } }
-        public string MusicLang { get => musicLang; set { musicLang = value; RaisePropertyChanged(nameof(MusicLang)); } }
-        public string VolumeLang { get => volumeLang; set { volumeLang = value; RaisePropertyChanged(nameof(VolumeLang)); } }
-        public string FrameIntervalLang { get => frameIntervalLang; set { frameIntervalLang = value; RaisePropertyChanged(nameof(FrameIntervalLang)); } }
+        public string MusicLang { get => _musicLang; set { _musicLang = value; RaisePropertyChanged(nameof(MusicLang)); } }
+        public string VolumeLang { get => _volumeLang; set { _volumeLang = value; RaisePropertyChanged(nameof(VolumeLang)); } }
+        public string FrameIntervalLang { get => _frameIntervalLang; set { _frameIntervalLang = value; RaisePropertyChanged(nameof(FrameIntervalLang)); } }
+        public string DefaultLang { get => _defaultLang; set { _defaultLang = value; RaisePropertyChanged(nameof(DefaultLang)); } }
         public int Volume { get => m_MainWindow_ViewModel.Volume; set { m_MainWindow_ViewModel.Volume = value; RaisePropertyChanged(nameof(Volume)); } }
         public double FrameInterval
         {
@@ -49,10 +51,9 @@ namespace Helltaker_Animation
             }
         }
         public int SelectedMusic { get => m_MainWindow_ViewModel.SelectedMusic; set { m_MainWindow_ViewModel.SelectedMusic = value; RaisePropertyChanged(nameof(SelectedMusic)); } }
-        public int WidthHeight { get => m_MainWindow_ViewModel.WidthHeight; set { m_MainWindow_ViewModel.WidthHeight = value; RaisePropertyChanged(nameof(WidthHeight)); Window_SizeChanged(m_Window); } }
 
         #region name properties
-        public string Which { get; set; }
+        public string Who { get; set; }
         public string Dismiss { get; set; }
         public string Azazel { get; set; }
         public string Cerberus { get; set; }
@@ -82,7 +83,6 @@ namespace Helltaker_Animation
             m_MainWindow_ViewModel = mainWindow;
             CreateSpriteCollection("Lucifer");
 
-            WidthHeight = 100;
 
             Naming(m_Language);
         }
@@ -142,25 +142,10 @@ namespace Helltaker_Animation
             }
         }
 
-        internal void FHD_button_Click()
-        {
-            WidthHeight = 100; 
-        }
-
-        internal void QHD_button_Click()
-        {
-            WidthHeight = 133;
-        }
-
-        internal void UHD_button_Click()
-        {
-            WidthHeight = 200;
-        }
-
         internal void Window_SizeChanged(HellGirl hellGirl)
         {
-            hellGirl.Width = WidthHeight;
-            hellGirl.Height = WidthHeight;
+            hellGirl.Width = 100;
+            hellGirl.Height = 100;
         }
 
         internal void Epitomize_button_Click()
@@ -331,7 +316,7 @@ namespace Helltaker_Animation
 
         public void Naming(bool lang)
         {
-            Which = lang ? "누구?" : "Which girl?";
+            Who = lang ? "누구?" : "Who?";
             Dismiss = lang ? "소환 해제" : "Dismiss";
             Azazel = lang ? "아자젤" : "Azazel";
             Cerberus = lang ? "케르베로스" : "Cerberus";
@@ -352,8 +337,9 @@ namespace Helltaker_Animation
             MusicLang = lang ? "배경음악" : "BGM";
             VolumeLang = lang ? "볼륨" : "Volume";
             FrameIntervalLang = lang ? "프레임간격" : "Frame Interval";
+            DefaultLang = lang ? "기본값" : "Default";
 
-            RaisePropertyChanged(nameof(Which));
+            RaisePropertyChanged(nameof(Who));
             RaisePropertyChanged(nameof(Dismiss));
             RaisePropertyChanged(nameof(Azazel));
             RaisePropertyChanged(nameof(Cerberus));
@@ -374,13 +360,14 @@ namespace Helltaker_Animation
             RaisePropertyChanged(nameof(MusicLang));
             RaisePropertyChanged(nameof(VolumeLang));
             RaisePropertyChanged(nameof(FrameIntervalLang));
+            RaisePropertyChanged(nameof(DefaultLang));
         }
 
         public void RefreshAll()
         {
             RaisePropertyChanged(nameof(GirlsName));
 
-            RaisePropertyChanged(nameof(Which));
+            RaisePropertyChanged(nameof(Who));
             RaisePropertyChanged(nameof(Dismiss));
             RaisePropertyChanged(nameof(Azazel));
             RaisePropertyChanged(nameof(Cerberus));
@@ -401,12 +388,11 @@ namespace Helltaker_Animation
             RaisePropertyChanged(nameof(MusicLang));
             RaisePropertyChanged(nameof(VolumeLang));
             RaisePropertyChanged(nameof(FrameIntervalLang));
+            RaisePropertyChanged(nameof(DefaultLang));
 
             RaisePropertyChanged(nameof(Volume));
             RaisePropertyChanged(nameof(FrameInterval));
             RaisePropertyChanged(nameof(SelectedMusic));
-
-            RaisePropertyChanged(nameof(WidthHeight));
         }
         #endregion
     }

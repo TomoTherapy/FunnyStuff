@@ -153,19 +153,5 @@ namespace Helltaker_Animation
             (DataContext as HellGirl_ViewModel).Window_SizeChanged(this);
         }
 
-        private void FHD_button_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as HellGirl_ViewModel).FHD_button_Click();
-        }
-
-        private void QHD_button_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as HellGirl_ViewModel).QHD_button_Click();
-        }
-
-        private void UHD_button_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as HellGirl_ViewModel).UHD_button_Click();
-        }
     }
 }

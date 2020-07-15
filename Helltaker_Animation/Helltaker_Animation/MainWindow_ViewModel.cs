@@ -28,8 +28,7 @@ namespace Helltaker_Animation
         private int _frame;
         private int _volume;
         private double _frameInterval;
-        private int selectedMusic;
-        private int _widthHeight;
+        private int _selectedMusic;
 
         public int Frame { get => _frame; set { _frame = value; RaisePropertyChanged(nameof(Frame)); } }
         public int Volume
@@ -56,21 +55,11 @@ namespace Helltaker_Animation
         }
         public int SelectedMusic
         {
-            get => selectedMusic;
+            get => _selectedMusic;
             set
             {
-                selectedMusic = value;
+                _selectedMusic = value;
                 RaisePropertyChanged(nameof(SelectedMusic));
-                foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).RefreshAll();
-            }
-        }
-        public int WidthHeight
-        {
-            get => _widthHeight;
-            set
-            {
-                _widthHeight = value;
-                RaisePropertyChanged(nameof(WidthHeight));
                 foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).RefreshAll();
             }
         }
@@ -86,15 +75,6 @@ namespace Helltaker_Animation
 
             FrameInterval = 49;
             Frame = -1;
-
-            //Timer
-            //timer = new System.Windows.Forms.Timer();
-            //timer.Interval = FrameInterval;
-            //timer.Tick += NextFrame;
-
-            //timer = new DispatcherTimer();
-            //timer.Interval = TimeSpan.FromMilliseconds(FrameInterval);
-            //timer.Tick += NextFrame;
 
             timer = new System.Timers.Timer();
             timer.Interval = FrameInterval;

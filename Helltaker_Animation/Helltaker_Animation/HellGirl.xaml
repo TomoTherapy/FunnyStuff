@@ -47,11 +47,6 @@
                             <Slider Value="{Binding Volume}" Maximum="100" SmallChange="1" Width="200"/>
                         </StackPanel>
                     </MenuItem>
-                    <MenuItem Header="Size">
-                        <MenuItem Header="FHD" Name="FHD_button" Click="FHD_button_Click" StaysOpenOnClick="True"/>
-                        <MenuItem Header="QHD" Name="QHD_button" Click="QHD_button_Click" StaysOpenOnClick="True"/>
-                        <MenuItem Header="UHD" Name="UHD_button" Click="UHD_button_Click" StaysOpenOnClick="True"/>
-                    </MenuItem>
                     <MenuItem Header="{Binding FrameIntervalLang}">
                         <StackPanel Margin="0,0,-45,0" Orientation="Horizontal">
                             <Slider Value="{Binding FrameInterval}" Width="220" Minimum="45" Maximum="60" SmallChange="0.01" LargeChange="0.01"/>

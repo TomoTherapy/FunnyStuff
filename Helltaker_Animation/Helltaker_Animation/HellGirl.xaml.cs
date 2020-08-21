@@ -20,11 +20,11 @@ namespace Helltaker_Animation
     public partial class HellGirl : Window
     {
 
-        public HellGirl(MainWindow_ViewModel mainWindow_ViewModel)
+        public HellGirl(MainWindow_ViewModel mainWindow_ViewModel, GirlSetting girlSetting)
         {
             InitializeComponent();
 
-            DataContext = new HellGirl_ViewModel(this, mainWindow_ViewModel);
+            DataContext = new HellGirl_ViewModel(this, mainWindow_ViewModel, girlSetting);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

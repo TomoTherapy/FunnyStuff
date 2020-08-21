@@ -36,5 +36,6 @@ namespace Helltaker_Animation
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
+
     }
 }

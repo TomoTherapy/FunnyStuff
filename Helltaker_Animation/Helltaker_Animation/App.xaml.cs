@@ -16,44 +16,29 @@ namespace Helltaker_Animation
     {
         public bool Language { get; set; }
         public List<HellGirl> Girls { get; set; }
+        public Xml_Parser xml_Parser;
         public App()
         {
-            if (File.Exists(@"lang.txt"))
-            {
-                using (StreamReader sr = new StreamReader(@"lang.txt"))
-                {
-                    string lang = sr.ReadLine();
-                    if (lang.Equals("Korean"))
-                        Language = true;
-                    else
-                        Language = false;
-                    sr.Close();
-                }
-            }
-            else
-            {
-                if (System.Threading.Thread.CurrentThread.CurrentCulture.Name.Contains("KR"))
-                {
-                    SaveLangInfo("Korean");
-                    Language = true;
-                }
-                else
-                {
-                    SaveLangInfo("English");
-                    Language = false;
-                }
-            }
+            xml_Parser = new Xml_Parser();
+            xml_Parser.LoadSettings();
+
+            if (xml_Parser.settings.Language == "Korean") Language = true;
+            else Language = false;
 
             Girls = new List<HellGirl>();
         }
 
-        public void SaveLangInfo(string lang)
+        public void SaveCurrentState()
         {
-            using (StreamWriter sw = new StreamWriter(@"lang.txt"))
+            xml_Parser.settings.GirlSettings.Clear();
+
+            foreach (HellGirl girl in Girls)
             {
-                sw.Write(lang);
-                sw.Close();
+                xml_Parser.settings.GirlSettings.Add(new GirlSetting() { Name = girl.Title, Top = girl.Top, Left = girl.Left });
             }
+
+            xml_Parser.SaveSettings();
         }
+
     }
 }

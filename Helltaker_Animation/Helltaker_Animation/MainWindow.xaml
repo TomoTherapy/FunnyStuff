@@ -10,5 +10,4 @@
         Background="Transparent"
         WindowStyle="None"
         WindowState="Minimized"
-        Topmost="True">
-</Window>
+        Topmost="True"/>

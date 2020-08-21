@@ -66,6 +66,7 @@
     <Compile Include="HellGirl_ViewModel.cs" />
     <Compile Include="MainWindow_ViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="Xml_Parser.cs" />
     <Page Include="HellGirl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

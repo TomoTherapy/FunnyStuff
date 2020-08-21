@@ -38,12 +38,12 @@ namespace Helltaker_Animation
         public string FrameIntervalLang { get => _frameIntervalLang; set { _frameIntervalLang = value; RaisePropertyChanged(nameof(FrameIntervalLang)); } }
         public string DefaultLang { get => _defaultLang; set { _defaultLang = value; RaisePropertyChanged(nameof(DefaultLang)); } }
         public int Volume { get => m_MainWindow_ViewModel.Volume; set { m_MainWindow_ViewModel.Volume = value; RaisePropertyChanged(nameof(Volume)); } }
-        public double FrameInterval
+        public int FrameInterval
         {
             get => m_MainWindow_ViewModel.FrameInterval;
             set
             {
-                if (45 <= value && value <= 60)
+                if (45 <= value && value <= 55)
                 {
                     m_MainWindow_ViewModel.FrameInterval = value;
                     RaisePropertyChanged(nameof(FrameInterval));
@@ -76,13 +76,20 @@ namespace Helltaker_Animation
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteObject([In] IntPtr hObject);
 
-        public HellGirl_ViewModel(HellGirl window, MainWindow_ViewModel mainWindow)
+        public HellGirl_ViewModel(HellGirl window, MainWindow_ViewModel mainWindow, GirlSetting girlSetting)
         {
             m_Language = (Application.Current as App).Language;
             m_Window = window;
             m_MainWindow_ViewModel = mainWindow;
-            CreateSpriteCollection("Lucifer");
 
+            if (girlSetting == null)
+                CreateSpriteCollection("Lucifer");
+            else
+            {
+                CreateSpriteCollection(girlSetting.Name);
+                window.Top = girlSetting.Top;
+                window.Left = girlSetting.Left;
+            }
 
             Naming(m_Language);
         }
@@ -96,7 +103,8 @@ namespace Helltaker_Animation
         {
             Dispose();
 
-            GirlsName = m_Language ? EnglishToKorean(girl) : girl;
+            //GirlsName = m_Language ? EnglishToKorean(girl) : girl;
+            GirlsName = girl;
 
             string path = girl.Equals("LuciferApron") ? @"Resources\Lucifer.png" : @"Resources\" + girl + ".png";
 
@@ -209,6 +217,7 @@ namespace Helltaker_Animation
         {
             m_Window.Close();
             (Application.Current as App).Girls.Remove(m_Window);
+            (Application.Current as App).SaveCurrentState();
         }
 
         public void NextFrame(int frame)

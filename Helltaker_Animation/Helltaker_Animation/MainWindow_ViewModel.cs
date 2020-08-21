@@ -21,13 +21,14 @@ namespace Helltaker_Animation
         private NotifyIcon Noti;
         private MainWindow m_Window;
         private WMPLib.WindowsMediaPlayer m_Player;
-        //private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer timer;
         //private DispatcherTimer timer;
-        private System.Timers.Timer timer;
+        //private System.Timers.Timer timer;
+        private Xml_Parser m_Xml;
 
         private int _frame;
         private int _volume;
-        private double _frameInterval;
+        private int _frameInterval;
         private int _selectedMusic;
 
         public int Frame { get => _frame; set { _frame = value; RaisePropertyChanged(nameof(Frame)); } }
@@ -42,12 +43,13 @@ namespace Helltaker_Animation
                 foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).RefreshAll();
             }
         }
-        public double FrameInterval
+
+        public int FrameInterval
         {
             get => _frameInterval;
             set
             {
-                _frameInterval = Math.Round(value, 2);
+                _frameInterval = value;
                 if (timer != null) timer.Interval = FrameInterval;
                 RaisePropertyChanged(nameof(FrameInterval));
                 foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).RefreshAll();
@@ -69,6 +71,7 @@ namespace Helltaker_Animation
             m_Window = window;
             m_Language = (Application.Current as App).Language;
             m_Girls = (Application.Current as App).Girls;
+            m_Xml = (Application.Current as App).xml_Parser;
             Volume = 50;
             m_Player = new WindowsMediaPlayer();
             m_Player.settings.volume = Volume;
@@ -76,16 +79,30 @@ namespace Helltaker_Animation
             FrameInterval = 49;
             Frame = -1;
 
-            timer = new System.Timers.Timer();
+            //timer = new System.Timers.Timer();
+            //timer.Interval = FrameInterval;
+            //timer.Elapsed += NextFrame;
+            timer = new System.Windows.Forms.Timer();
             timer.Interval = FrameInterval;
-            timer.Elapsed += NextFrame;
+            timer.Tick += NextFrame;
 
             timer.Start();
 
             GenerateNotifyIcon();
 
-            m_Girls.Add(new HellGirl(this));
-            m_Girls.Last().Show();
+            if (m_Xml.settings.GirlSettings.Count == 0)
+            {
+                m_Girls.Add(new HellGirl(this, null));
+                m_Girls.Last().Show();
+            }
+            else
+            {
+                foreach (GirlSetting girl in m_Xml.settings.GirlSettings)
+                {
+                    m_Girls.Add(new HellGirl(this, girl));
+                    m_Girls.Last().Show();
+                }
+            }
 
             m_Window.Close();
         }
@@ -137,7 +154,7 @@ namespace Helltaker_Animation
             MenuItem AzazelItem = new MenuItem() { Text = m_Language ? "아자젤" : "Azazel" };
             AzazelItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Azazel_button_Click();
                 m_Girls.Last().Show();
             };
@@ -148,7 +165,7 @@ namespace Helltaker_Animation
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    m_Girls.Add(new HellGirl(this));
+                    m_Girls.Add(new HellGirl(this, null));
                     (m_Girls.Last().DataContext as HellGirl_ViewModel).Cerberus_button_Click();
                     m_Girls.Last().Show();
                 }
@@ -158,7 +175,7 @@ namespace Helltaker_Animation
             MenuItem JudgementItem = new MenuItem() { Text = m_Language ? "저지먼트" : "Judgement" };
             JudgementItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Judgement_button_Click();
                 m_Girls.Last().Show();
             };
@@ -167,7 +184,7 @@ namespace Helltaker_Animation
             MenuItem JusticeItem = new MenuItem() { Text = m_Language ? "저스티스" : "Justice" };
             JusticeItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Justice_button_Click();
                 m_Girls.Last().Show();
             };
@@ -176,7 +193,7 @@ namespace Helltaker_Animation
             MenuItem LuciferItem = new MenuItem() { Text = m_Language ? "루시퍼" : "Lucifer" };
             LuciferItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Lucifer_button_Click();
                 m_Girls.Last().Show();
             };
@@ -185,7 +202,7 @@ namespace Helltaker_Animation
             MenuItem LuciferApronItem = new MenuItem() { Text = m_Language ? "앞치마 루시퍼" : "Lucifer Apron" };
             LuciferApronItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).LuciferApron_button_Click();
                 m_Girls.Last().Show();
             };
@@ -194,7 +211,7 @@ namespace Helltaker_Animation
             MenuItem MalinaItem = new MenuItem() { Text = m_Language ? "말리나" : "Malina" };
             MalinaItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Malina_button_Click();
                 m_Girls.Last().Show();
             };
@@ -203,7 +220,7 @@ namespace Helltaker_Animation
             MenuItem ModeusItem = new MenuItem() { Text = m_Language ? "모데우스" : "Modeus" };
             ModeusItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Modeus_button_Click();
                 m_Girls.Last().Show();
             };
@@ -212,7 +229,7 @@ namespace Helltaker_Animation
             MenuItem PandemonicaItem = new MenuItem() { Text = m_Language ? "판데모니카" : "Pandemonica" };
             PandemonicaItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Pandemonica_button_Click();
                 m_Girls.Last().Show();
             };
@@ -221,7 +238,7 @@ namespace Helltaker_Animation
             MenuItem ZdradaItem = new MenuItem() { Text = m_Language ? "즈드라다" : "Zdrada" };
             ZdradaItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Zdrada_button_Click();
                 m_Girls.Last().Show();
             };
@@ -230,7 +247,7 @@ namespace Helltaker_Animation
             MenuItem SkeletonItem = new MenuItem() { Text = m_Language ? "스켈레톤" : "Skeleton" };
             SkeletonItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Skeleton_button_Click();
                 m_Girls.Last().Show();
             };
@@ -239,7 +256,7 @@ namespace Helltaker_Animation
             MenuItem HelltakerItem = new MenuItem() { Text = m_Language ? "헬테이커" : "Helltaker" };
             HelltakerItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Helltaker_button_Click();
                 m_Girls.Last().Show();
             };
@@ -248,7 +265,7 @@ namespace Helltaker_Animation
             MenuItem HelltakerApronItem = new MenuItem() { Text = m_Language ? "앞치마 헬테이커" : "Helltaker Apron" };
             HelltakerApronItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).HelltakerApron_button_Click();
                 m_Girls.Last().Show();
             };
@@ -257,7 +274,7 @@ namespace Helltaker_Animation
             MenuItem GloriousLeftItem = new MenuItem() { Text = m_Language ? "Glorious 왼쪽" : "Glorious Left" };
             GloriousLeftItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).GloriousLeft_button_Click();
                 m_Girls.Last().Show();
             };
@@ -266,7 +283,7 @@ namespace Helltaker_Animation
             MenuItem GloriousRightItem = new MenuItem() { Text = m_Language ? "Glorious 오른쪽" : "Glorious Right" };
             GloriousRightItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).GloriousRight_button_Click();
                 m_Girls.Last().Show();
             };
@@ -275,52 +292,52 @@ namespace Helltaker_Animation
             MenuItem SummonAllItem = new MenuItem() { Text = m_Language ? "전부소환" : "Summon all" };
             SummonAllItem.Click += (object o, EventArgs e) =>
             {
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Azazel_button_Click();
                 m_Girls.Last().Show();
                 for (int i = 0; i < 3; i++)
                 {
-                    m_Girls.Add(new HellGirl(this));
+                    m_Girls.Add(new HellGirl(this, null));
                     (m_Girls.Last().DataContext as HellGirl_ViewModel).Cerberus_button_Click();
                     m_Girls.Last().Show();
                 }
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Judgement_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Justice_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Lucifer_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).LuciferApron_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Malina_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Modeus_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Pandemonica_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Zdrada_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Skeleton_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).Helltaker_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).HelltakerApron_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).GloriousLeft_button_Click();
                 m_Girls.Last().Show();
-                m_Girls.Add(new HellGirl(this));
+                m_Girls.Add(new HellGirl(this, null));
                 (m_Girls.Last().DataContext as HellGirl_ViewModel).GloriousRight_button_Click();
                 m_Girls.Last().Show();
             };
@@ -341,7 +358,8 @@ namespace Helltaker_Animation
             {
                 if (!m_Language)
                 {
-                    (Application.Current as App).SaveLangInfo("Korean");
+                    m_Xml.settings.Language = "Korean";
+                    m_Xml.SaveSettings();
                     m_Language = true;
                     GenerateNotifyIcon();
                     foreach (HellGirl girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).Naming(m_Language);
@@ -357,7 +375,8 @@ namespace Helltaker_Animation
             {
                 if (m_Language)
                 {
-                    (Application.Current as App).SaveLangInfo("English");
+                    m_Xml.settings.Language = "English";
+                    m_Xml.LoadSettings();
                     m_Language = false;
                     GenerateNotifyIcon();
                     foreach (HellGirl girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).Naming(m_Language);
@@ -555,6 +574,8 @@ namespace Helltaker_Animation
             };
             ExitItem.Click += (object o, EventArgs e) =>
             {
+                (Application.Current as App).SaveCurrentState();
+
                 foreach (var girl in m_Girls)
                 {
                     girl.Close();
@@ -604,15 +625,12 @@ namespace Helltaker_Animation
             m_Player.controls.stop();
         }
 
-        private void NextFrame(object sender, System.Timers.ElapsedEventArgs e)//EventArgs
+        private void NextFrame(object sender, EventArgs e)//EventArgs
         {
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                Frame++;
-                if (Frame == 24) Frame = 0;
+            Frame++;
+            if (Frame == 24) Frame = 0;
 
-                foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).NextFrame(Frame);
-            });
+            foreach (var girl in m_Girls) (girl.DataContext as HellGirl_ViewModel).NextFrame(Frame);
         }
 
     }

@@ -63,10 +63,10 @@
     <Compile Include="HellGirl.xaml.cs">
       <DependentUpon>HellGirl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HellGirl_ViewModel.cs" />
-    <Compile Include="MainWindow_ViewModel.cs" />
-    <Compile Include="ViewModelBase.cs" />
-    <Compile Include="Xml_Parser.cs" />
+    <Compile Include="ViewModels\HellGirl_ViewModel.cs" />
+    <Compile Include="ViewModels\MainWindow_ViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Xml\Xml_Parser.cs" />
     <Page Include="HellGirl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

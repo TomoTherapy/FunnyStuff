@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Helltaker_Sticker"
+        xmlns:local2="clr-namespace:Helltaker_Sticker.ViewModels"
         mc:Ignorable="d"
         Title="{Binding GirlsName, Mode=TwoWay}" Height="100" Width="100"
         AllowsTransparency="True"
@@ -11,10 +12,10 @@
         WindowStyle="None" MouseDown="Window_MouseDown"
         Topmost="True" Closing="Window_Closing" StateChanged="Window_StateChanged" SizeChanged="Window_SizeChanged" MouseUp="Window_MouseUp">
     <Window.Resources>
-        <local:MusicOneToBool x:Key="MusicOneToBool"/>
-        <local:MusicTwoToBool x:Key="MusicTwoToBool"/>
-        <local:MusicThreeToBool x:Key="MusicThreeToBool"/>
-        <local:MusicFourToBool x:Key="MusicFourToBool"/>
+        <local2:MusicOneToBool x:Key="MusicOneToBool"/>
+        <local2:MusicTwoToBool x:Key="MusicTwoToBool"/>
+        <local2:MusicThreeToBool x:Key="MusicThreeToBool"/>
+        <local2:MusicFourToBool x:Key="MusicFourToBool"/>
     </Window.Resources>
     <Grid>
         <Image Margin="0" Name="ImageControl" Source="{Binding FinalSource}">

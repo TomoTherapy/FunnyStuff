@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Threading;
 using System.Windows.Forms;
 using Application = System.Windows.Application;
-using System.Windows.Forms.Design;
-using System.Threading;
 using WMPLib;
-using System.Windows.Data;
-using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
+using Helltaker_Sticker.Xml;
 
-namespace Helltaker_Sticker
+namespace Helltaker_Sticker.ViewModels
 {
     public class MainWindow_ViewModel : ViewModelBase
     {

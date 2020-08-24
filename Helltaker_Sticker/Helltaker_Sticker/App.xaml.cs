@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Helltaker_Sticker.Xml;
 
 namespace Helltaker_Sticker
 {

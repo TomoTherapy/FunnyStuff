@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Helltaker_Sticker.ViewModels;
+using Helltaker_Sticker.Xml;
 
 namespace Helltaker_Sticker
 {

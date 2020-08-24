@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Helltaker_Animation
+namespace Helltaker_Sticker
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -15,10 +15,12 @@ namespace Helltaker_Animation
     public partial class App : Application
     {
         public bool Language { get; set; }
+        public bool IsOnClose { get; set; }
         public List<HellGirl> Girls { get; set; }
         public Xml_Parser xml_Parser;
         public App()
         {
+            IsOnClose = false;
             xml_Parser = new Xml_Parser();
             xml_Parser.LoadSettings();
 

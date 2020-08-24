@@ -13,7 +13,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Helltaker_Animation
+namespace Helltaker_Sticker
 {
     class HellGirl_ViewModel : ViewModelBase
     {
@@ -134,6 +134,8 @@ namespace Helltaker_Animation
                     DeleteObject(handle);
                 }
             }
+
+            //(Application.Current as App).SaveCurrentState();
         }
 
         internal void Luminescent_button_Click()

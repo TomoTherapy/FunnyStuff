@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Helltaker_Animation
+namespace Helltaker_Sticker
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

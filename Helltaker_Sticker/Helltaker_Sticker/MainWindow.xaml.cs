@@ -17,7 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace Helltaker_Animation
+namespace Helltaker_Sticker
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -36,6 +36,5 @@ namespace Helltaker_Animation
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
-
     }
 }

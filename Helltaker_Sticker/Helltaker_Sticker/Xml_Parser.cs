@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
 
-namespace Helltaker_Animation
+namespace Helltaker_Sticker
 {
     public class Xml_Parser
     {

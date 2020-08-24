@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B1D0B845-E665-43F6-830A-1D18810CDC18}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Helltaker_Animation</RootNamespace>
-    <AssemblyName>Helltaker_Animation</AssemblyName>
+    <RootNamespace>Helltaker_Sticker</RootNamespace>
+    <AssemblyName>Helltaker_Sticker</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

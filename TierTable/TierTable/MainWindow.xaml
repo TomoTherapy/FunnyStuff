@@ -5,17 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TierTable"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="703" Width="1115">
     <Grid>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <Image Grid.Column="0" Source="Life01.jpg" Stretch="None" Margin="10"
-            MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
-            <Image Grid.Column="1" Margin="10" AllowDrop="True" Drop="Image_Drop" Source="DropHere.png" />
-        </Grid>
+        
     </Grid>
 </Window>

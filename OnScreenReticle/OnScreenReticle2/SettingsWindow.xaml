@@ -5,15 +5,91 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnScreenReticle2"
         mc:Ignorable="d"
-        Title="SettingsWindow" Height="450" Width="392.105" Closing="Window_Closing">
+        ResizeMode="NoResize"
+        Topmost="True"
+        Top="400"
+        Left="550"
+        Title="Reticle Settings" Height="343" Width="287" Closing="Window_Closing">
     <Grid>
-        <Button x:Name="CenterScreen_button" Content="Profile : Center Screen" HorizontalAlignment="Left" Height="28" Margin="45,41,0,0" VerticalAlignment="Top" Width="260" Click="CenterScreen_button_Click"/>
-        <Button x:Name="HuntShowdown_button" Content="Profile : Hunt Showdown" HorizontalAlignment="Left" Height="28" Margin="45,74,0,0" VerticalAlignment="Top" Width="260" Click="HuntShowdown_button_Click"/>
-        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="45,170,0,0" VerticalAlignment="Top" Width="100" Value="{Binding Path=ColorR}" Maximum="255"/>
-        <Slider x:Name="slider_Copy" HorizontalAlignment="Left" Margin="45,193,0,0" VerticalAlignment="Top" Width="100" Value="{Binding Path=ColorG}" Maximum="255"/>
-        <Slider x:Name="slider_Copy1" HorizontalAlignment="Left" Margin="45,216,0,0" VerticalAlignment="Top" Width="100" Value="{Binding Path=ColorB}" Maximum="255"/>
-        <Slider x:Name="slider_Copy2" HorizontalAlignment="Left" Margin="45,239,0,0" VerticalAlignment="Top" Width="100" Value="{Binding Path=ColorA}" Maximum="255"/>
-        <Rectangle Fill="{Binding Path=ColorBrush}" HorizontalAlignment="Left" Height="50" Margin="224,193,0,0" Stroke="Black" VerticalAlignment="Top" Width="50"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="74"/>
+            <RowDefinition Height="127"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Button x:Name="CenterScreen_button" Content="Profile : Center Screen" Height="28" Margin="10,5,10,0" VerticalAlignment="Top" Click="CenterScreen_button_Click" FontFamily="Arial"/>
+        <Button x:Name="HuntShowdown_button" Content="Profile : Hunt Showdown" Height="28" Margin="10,38,10,0" VerticalAlignment="Top" Click="HuntShowdown_button_Click" FontFamily="Arial"/>
+        <Slider x:Name="slider" Margin="18,8,107,0" VerticalAlignment="Top" Value="{Binding Path=ColorR}" Maximum="255" Grid.Row="1" Height="18"/>
+        <Slider x:Name="slidpy" Margin="18,31,107,0" VerticalAlignment="Top" Value="{Binding Path=ColorG}" Maximum="255" Grid.Row="1" Height="18"/>
+        <Slider x:Name="slide1" Margin="18,54,107,0" VerticalAlignment="Top" Value="{Binding Path=ColorB}" Maximum="255" Grid.Row="1" Height="18"/>
+        <Slider x:Name="slidy2" Margin="18,77,107,0" VerticalAlignment="Top" Value="{Binding Path=ColorA}" Maximum="255" Grid.Row="1" Height="18"/>
+        <Slider x:Name="sldey2" Margin="18,100,107,0" VerticalAlignment="Top" Value="{Binding Path=ReticleSize}" Grid.Row="1" Height="18" Minimum="4"/>
+        <Grid HorizontalAlignment="Right" Height="54" Margin="0,0,17,46" VerticalAlignment="Bottom" Width="54" Background="White" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.ColumnSpan="2" Grid.Column="2" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="4" Grid.ColumnSpan="2" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="1" Grid.Row="1" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="3" Grid.Row="1" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="5" Grid.Row="1" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Row="2" Grid.RowSpan="2" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="4" Grid.Row="2" Grid.RowSpan="2" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="1" Grid.Row="3" Grid.RowSpan="2" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="3" Grid.Row="3" Grid.RowSpan="2" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="5" Grid.Row="3" Grid.RowSpan="2" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Row="4" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="2" Grid.Row="4" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="4" Grid.Row="4" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="1" Grid.Row="5" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="3" Grid.Row="5" StrokeThickness="0"/>
+            <Rectangle Fill="LightGray" HorizontalAlignment="Left" Height="9" Stroke="Black" VerticalAlignment="Top" Width="9" Grid.Column="5" Grid.Row="5" StrokeThickness="0"/>
+            <Rectangle Fill="{Binding ColorBrush}" HorizontalAlignment="Left" Height="54" Stroke="Black" VerticalAlignment="Top" Width="54" Grid.ColumnSpan="6" Grid.RowSpan="6"/>
+        </Grid>
+        <TextBox HorizontalAlignment="Right" Height="20" Margin="0,8,16,0" TextWrapping="Wrap" Text="{Binding Path=ColorR, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="55" TextAlignment="Center" Grid.Row="1" FontFamily="Arial" Padding="0,2,0,0"/>
+        <TextBox HorizontalAlignment="Right" Height="20" Margin="0,31,16,0" TextWrapping="Wrap" Text="{Binding Path=ColorG, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="55" TextAlignment="Center" Grid.Row="1" FontFamily="Arial" Padding="0,2,0,0"/>
+        <TextBox HorizontalAlignment="Right" Height="20" Margin="0,54,16,0" TextWrapping="Wrap" Text="{Binding Path=ColorB, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="55" TextAlignment="Center" Grid.Row="1" FontFamily="Arial" Padding="0,2,0,0"/>
+        <TextBox HorizontalAlignment="Right" Height="20" Margin="0,77,16,0" TextWrapping="Wrap" Text="{Binding Path=ColorA, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="55" TextAlignment="Center" Grid.Row="1" FontFamily="Arial" Padding="0,2,0,0"/>
+        <TextBox HorizontalAlignment="Right" Height="20" Margin="0,100,16,0" TextWrapping="Wrap" Text="{Binding Path=ReticleSize, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Top" Width="55" TextAlignment="Center" Grid.Row="1" FontFamily="Arial" Padding="0,2,0,0"/>
+        <Label Content="R" HorizontalAlignment="Right" Margin="0,5,83,0" VerticalAlignment="Top" FontFamily="Arial" FontWeight="Bold" Grid.Row="1" Height="24" Width="19" Foreground="#FFD80000"/>
+        <Label Content="G" HorizontalAlignment="Right" Margin="0,28,83,0" VerticalAlignment="Top" FontFamily="Arial" FontWeight="Bold" Grid.Row="1" Height="24" Width="19" Foreground="#FF00CF09"/>
+        <Label Content="B" HorizontalAlignment="Right" Margin="0,51,83,0" VerticalAlignment="Top" FontFamily="Arial" FontWeight="Bold" Grid.Row="1" Height="24" Width="19" Foreground="#FF003AFF"/>
+        <Label Content="A" HorizontalAlignment="Right" Margin="0,74,83,0" VerticalAlignment="Top" FontFamily="Arial" FontWeight="Bold" Grid.Row="1" Height="24" Width="19"/>
+        <TextBox HorizontalAlignment="Left" Margin="123,0,0,55" TextWrapping="Wrap" Text="{Binding Path=WindowTop}" Width="58" Height="20" VerticalAlignment="Bottom" Grid.Row="2" FontFamily="Arial" TextAlignment="Center" Padding="0,2,0,0"/>
+        <TextBox HorizontalAlignment="Left" Margin="123,0,0,13" TextWrapping="Wrap" Text="{Binding Path=WindowLeft}" Width="58" Height="20" VerticalAlignment="Bottom" Grid.Row="2" FontFamily="Arial" TextAlignment="Center" Padding="0,2,0,0"/>
+        <Grid HorizontalAlignment="Left" Margin="13,0,0,12" Width="90" Background="#FFECECEC" Grid.Row="2" Height="90" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Up_button" Content="▲" Grid.Column="1" FontFamily="Arial" Padding="1,2,1,1" Click="Up_button_Click"/>
+            <Button x:Name="Left_button" Content="◀" Grid.Row="1" FontFamily="Arial" Padding="1,2,3,1" Click="Left_button_Click"/>
+            <Button x:Name="Right_button" Content="▶" Grid.Column="2" Grid.Row="1" FontFamily="Arial" Padding="3,2,1,1" Click="Right_button_Click"/>
+            <Button x:Name="Down_button" Content="▼" Grid.Column="1" Grid.Row="2" FontFamily="Arial" Padding="1,3,1,1" Click="Down_button_Click"/>
+        </Grid>
+        <Label Content="Top" HorizontalAlignment="Left" Margin="129,0,0,73" FontFamily="Arial" FontSize="14" Height="26" VerticalAlignment="Bottom" Grid.Row="2" Width="33"/>
+        <Label Content="Left" HorizontalAlignment="Left" Margin="129,0,0,30" FontFamily="Arial" FontSize="14" Height="26" VerticalAlignment="Bottom" Grid.Row="2" Width="33"/>
+        <Label Content="Size" HorizontalAlignment="Right" Margin="0,97,75,0" VerticalAlignment="Top" FontFamily="Arial" Grid.Row="1" Height="24" Width="33"/>
 
     </Grid>
 </Window>

@@ -1,23 +1,11 @@
 ﻿using OnScreenReticle2.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 using MenuItem = System.Windows.Forms.MenuItem;
 
@@ -55,9 +43,11 @@ namespace OnScreenReticle2
             InitializeComponent();
             GenerateNotifyIcon();
             DataContext = new MainWindow_ViewModel();
+
         }
 
         private NotifyIcon Noti;
+        private SettingsWindow window;
 
         private void GenerateNotifyIcon()
         {
@@ -69,7 +59,7 @@ namespace OnScreenReticle2
             };
             OpenSettingsItem.Click += (object o, EventArgs e) =>
             {
-                var window = new SettingsWindow(this.DataContext as MainWindow_ViewModel);
+                window = new SettingsWindow(this.DataContext as MainWindow_ViewModel);
                 window.ShowDialog();
             };
             Menu.MenuItems.Add(OpenSettingsItem);
@@ -80,6 +70,7 @@ namespace OnScreenReticle2
             };
             ExitItem.Click += (object o, EventArgs e) =>
             {
+                if (window != null) window.Close();
                 this.Close();
             };
             Menu.MenuItems.Add(ExitItem);
@@ -93,9 +84,7 @@ namespace OnScreenReticle2
             };
         }
 
-        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            System.Windows.MessageBox.Show(e.Key.ToString());
-        }
+        
+
     }
 }

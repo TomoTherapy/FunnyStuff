@@ -1,17 +1,5 @@
 ﻿using OnScreenReticle2.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace OnScreenReticle2
 {
@@ -39,6 +27,26 @@ namespace OnScreenReticle2
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             (DataContext as SettingsWindow_ViewModel).Window_Closing();
+        }
+
+        private void Up_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as SettingsWindow_ViewModel).Up_button_Click();
+        }
+
+        private void Left_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as SettingsWindow_ViewModel).Left_button_Click();
+        }
+
+        private void Right_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as SettingsWindow_ViewModel).Right_button_Click();
+        }
+
+        private void Down_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as SettingsWindow_ViewModel).Down_button_Click();
         }
     }
 }

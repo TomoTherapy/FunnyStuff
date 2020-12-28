@@ -10,12 +10,12 @@
         WindowStyle="None"
         Title="Reticle" 
         Height="100" 
-        Width="100" 
+        Width="100"
         Loaded="Window_Loaded" 
         Background="{x:Null}" 
         Foreground="{x:Null}"
         Top="{Binding Path=WindowTop, Mode=TwoWay}"
-        Left="{Binding Path=WindowLeft, Mode=TwoWay}" KeyDown="Window_KeyDown">
+        Left="{Binding Path=WindowLeft, Mode=TwoWay}">
     <Grid>
         <Ellipse Fill="{Binding Path=ColorBrush}" Width="{Binding Path=ReticleSize}" Height="{Binding Path=ReticleSize}"/>
     </Grid>

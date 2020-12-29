@@ -1,5 +1,4 @@
-﻿using Hotkeys;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;

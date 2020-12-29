@@ -11,6 +11,7 @@
         Title="Reticle" 
         Height="100" 
         Width="100"
+        ShowInTaskbar="False"
         Loaded="Window_Loaded" 
         Background="{x:Null}" 
         Foreground="{x:Null}"

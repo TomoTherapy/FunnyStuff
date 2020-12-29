@@ -9,7 +9,7 @@
         Topmost="True"
         Top="400"
         Left="550"
-        Title="Reticle Settings" Height="343" Width="287" Closing="Window_Closing">
+        Title="Reticle Settings" Height="343" Width="287" Closing="Window_Closing" Background="White">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="74"/>
@@ -87,9 +87,10 @@
             <Button x:Name="Right_button" Content="▶" Grid.Column="2" Grid.Row="1" FontFamily="Arial" Padding="3,2,1,1" Click="Right_button_Click"/>
             <Button x:Name="Down_button" Content="▼" Grid.Column="1" Grid.Row="2" FontFamily="Arial" Padding="1,3,1,1" Click="Down_button_Click"/>
         </Grid>
-        <Label Content="Top" HorizontalAlignment="Left" Margin="129,0,0,73" FontFamily="Arial" FontSize="14" Height="26" VerticalAlignment="Bottom" Grid.Row="2" Width="33"/>
-        <Label Content="Left" HorizontalAlignment="Left" Margin="129,0,0,30" FontFamily="Arial" FontSize="14" Height="26" VerticalAlignment="Bottom" Grid.Row="2" Width="33"/>
+        <Label Content="Top" HorizontalAlignment="Left" Margin="135,0,0,73" FontFamily="Arial" FontSize="14" Height="26" VerticalAlignment="Bottom" Grid.Row="2" Width="33"/>
+        <Label Content="Left" HorizontalAlignment="Left" Margin="135,0,0,30" FontFamily="Arial" FontSize="14" Height="26" VerticalAlignment="Bottom" Grid.Row="2" Width="33"/>
         <Label Content="Size" HorizontalAlignment="Right" Margin="0,97,75,0" VerticalAlignment="Top" FontFamily="Arial" Grid.Row="1" Height="24" Width="33"/>
+        <Label x:Name="label" Content="Shortcut" HorizontalAlignment="Right" Margin="0,0,17,12" Grid.Row="2" VerticalAlignment="Bottom" Background="#FFE8E8E8" ToolTip="Ctrl+Alt+Shift+Z"/>
 
     </Grid>
 </Window>

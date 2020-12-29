@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Hotkeys;
+using System;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace OnScreenReticle2.ViewModels
@@ -25,11 +28,6 @@ namespace OnScreenReticle2.ViewModels
             set { return; }
         }
 
-        public MainWindow_ViewModel()
-        {
-            settings = ((App)Application.Current).Xml.settings;
-        }
-
         public void Refresh()
         {
             RaisePropertyChanged(nameof(ReticleSize));
@@ -41,5 +39,11 @@ namespace OnScreenReticle2.ViewModels
             RaisePropertyChanged(nameof(ColorA));
             RaisePropertyChanged(nameof(ColorBrush));
         }
+
+        public MainWindow_ViewModel()
+        {
+            settings = ((App)Application.Current).Xml.settings;
+        }
+        
     }
 }

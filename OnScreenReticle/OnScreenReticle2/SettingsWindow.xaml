@@ -7,8 +7,6 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Topmost="True"
-        Top="400"
-        Left="550"
         Title="Reticle Settings" Height="343" Width="287" Closing="Window_Closing" Background="White">
     <Grid>
         <Grid.RowDefinitions>

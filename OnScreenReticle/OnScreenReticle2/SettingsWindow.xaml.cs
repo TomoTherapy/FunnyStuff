@@ -1,5 +1,6 @@
 ﻿using OnScreenReticle2.ViewModels;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace OnScreenReticle2
 {
@@ -12,6 +13,9 @@ namespace OnScreenReticle2
         {
             InitializeComponent();
             DataContext = new SettingsWindow_ViewModel(main);
+
+            this.Top = Screen.PrimaryScreen.Bounds.Height * 0.5 - 171;
+            this.Left = Screen.PrimaryScreen.Bounds.Width * 0.45 - 287;
         }
 
         private void CenterScreen_button_Click(object sender, RoutedEventArgs e)

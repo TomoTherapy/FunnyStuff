@@ -25,7 +25,7 @@ namespace MousePointerChaser
         {
             InitializeComponent();
 
-            DataContext = new MainWindow_ViewModel(this);
+            DataContext = new MainWindow_ViewModel();
         }
     }
 }

@@ -68,6 +68,7 @@ namespace OnScreenReticle2
             settings.ReticleSize = 6;
             settings.WindowTop = Screen.PrimaryScreen.Bounds.Height * 0.5 - 50;
             settings.WindowLeft = Screen.PrimaryScreen.Bounds.Width * 0.5 - 50;
+            settings.Visibility = true;
         }
 
     }
@@ -81,5 +82,6 @@ namespace OnScreenReticle2
         public int ColorG { get; set; }
         public int ColorB { get; set; }
         public int ColorA { get; set; }
+        public bool Visibility { get; set; }
     }
 }

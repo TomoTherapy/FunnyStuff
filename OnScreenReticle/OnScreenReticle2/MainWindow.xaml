@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnScreenReticle2"
+        xmlns:local2="clr-namespace:OnScreenReticle2.ViewModels"
         mc:Ignorable="d"
         Topmost="True"
         AllowsTransparency="True"
@@ -17,7 +18,11 @@
         Foreground="{x:Null}"
         Top="{Binding Path=WindowTop, Mode=TwoWay}"
         Left="{Binding Path=WindowLeft, Mode=TwoWay}">
+    <Window.Resources>
+        <local2:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Window.Resources>
     <Grid>
-        <Ellipse Fill="{Binding Path=ColorBrush}" Width="{Binding Path=ReticleSize}" Height="{Binding Path=ReticleSize}"/>
+        <Ellipse Fill="{Binding Path=ColorBrush}" Width="{Binding Path=ReticleSize}" Height="{Binding Path=ReticleSize}"
+                 Visibility="{Binding Path=Visibility, Converter={StaticResource ResourceKey=BoolToVisibilityConverter}}"/>
     </Grid>
 </Window>

@@ -39,9 +39,16 @@ namespace OnScreenReticle2
 
         private void OpenSettingWindow()
         {
-            if (window != null) window.Close();
-            window = new SettingsWindow(this.DataContext as MainWindow_ViewModel);
-            window.ShowDialog();
+            if (window != null)
+            { 
+                window.Close();
+                window = null;
+            }
+            else
+            {
+                window = new SettingsWindow(this.DataContext as MainWindow_ViewModel);
+                window.ShowDialog();
+            }
         }
 
         #region NotifyIcon
@@ -108,12 +115,14 @@ namespace OnScreenReticle2
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         private HwndSource _source;
-        private const int HOTKEY_ID = 9000;
+        private const int HOTKEY_ID1 = 9000;
+        private const int HOTKEY_ID2 = 9001;
 
         private void RegisterHotKey()
         {
             var helper = new WindowInteropHelper(this);
-            RegisterHotKey(helper.Handle, HOTKEY_ID, Constants.CTRL + Constants.SHIFT + Constants.ALT, (int)Keys.Z);
+            RegisterHotKey(helper.Handle, HOTKEY_ID1, Constants.CTRL + Constants.SHIFT, (int)Keys.F9);
+            RegisterHotKey(helper.Handle, HOTKEY_ID2, Constants.CTRL + Constants.SHIFT, (int)Keys.F10);
         }
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -124,8 +133,12 @@ namespace OnScreenReticle2
                 case WM_HOTKEY:
                     switch (wParam.ToInt32())
                     {
-                        case HOTKEY_ID:
-                            OnHotKeyPressed();
+                        case HOTKEY_ID1:
+                            OnHotKeyPressed1();
+                            handled = true;
+                            break;
+                        case HOTKEY_ID2:
+                            OnHotKeyPressed2();
                             handled = true;
                             break;
                     }
@@ -134,9 +147,13 @@ namespace OnScreenReticle2
             return IntPtr.Zero;
         }
 
-        private void OnHotKeyPressed()
+        private void OnHotKeyPressed1()
         {
             OpenSettingWindow();
+        }
+        private void OnHotKeyPressed2()
+        {
+            (DataContext as MainWindow_ViewModel).SetVisible();
         }
         #endregion
     }

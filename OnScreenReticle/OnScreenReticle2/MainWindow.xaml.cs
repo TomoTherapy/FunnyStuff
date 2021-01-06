@@ -117,12 +117,14 @@ namespace OnScreenReticle2
         private HwndSource _source;
         private const int HOTKEY_ID1 = 9000;
         private const int HOTKEY_ID2 = 9001;
+        private const int HOTKEY_ID3 = 9002;
 
         private void RegisterHotKey()
         {
             var helper = new WindowInteropHelper(this);
-            RegisterHotKey(helper.Handle, HOTKEY_ID1, Constants.CTRL + Constants.SHIFT, (int)Keys.F9);
-            RegisterHotKey(helper.Handle, HOTKEY_ID2, Constants.CTRL + Constants.SHIFT, (int)Keys.F10);
+            RegisterHotKey(helper.Handle, HOTKEY_ID1, Constants.CTRL + Constants.SHIFT + Constants.ALT, (int)Keys.A);
+            RegisterHotKey(helper.Handle, HOTKEY_ID2, Constants.CTRL + Constants.SHIFT + Constants.ALT, (int)Keys.S);
+            RegisterHotKey(helper.Handle, HOTKEY_ID3, Constants.CTRL + Constants.SHIFT + Constants.ALT, (int)Keys.D);
         }
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -141,6 +143,10 @@ namespace OnScreenReticle2
                             OnHotKeyPressed2();
                             handled = true;
                             break;
+                        case HOTKEY_ID3:
+                            OnHotKeyPressed3();
+                            handled = true;
+                            break;
                     }
                     break;
             }
@@ -154,6 +160,10 @@ namespace OnScreenReticle2
         private void OnHotKeyPressed2()
         {
             (DataContext as MainWindow_ViewModel).SetVisible();
+        }
+        private void OnHotKeyPressed3()
+        {
+            (DataContext as MainWindow_ViewModel).RotateProfiles();
         }
         #endregion
     }

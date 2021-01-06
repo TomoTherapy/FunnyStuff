@@ -3,8 +3,10 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Application = System.Windows.Application;
 
 namespace OnScreenReticle2.ViewModels
 {
@@ -51,6 +53,27 @@ namespace OnScreenReticle2.ViewModels
         internal void SetVisible()
         {
             Visibility = !Visibility;
+        }
+
+        internal void RotateProfiles()
+        {
+            if (settings.WindowTop == Screen.PrimaryScreen.Bounds.Height * 0.5 - 50 && settings.WindowLeft == Screen.PrimaryScreen.Bounds.Width * 0.5 - 50)
+            {
+                settings.WindowTop = Screen.PrimaryScreen.Bounds.Height * 0.6 - 50;
+                settings.WindowLeft = Screen.PrimaryScreen.Bounds.Width * 0.5 - 50;
+            }
+            else if (settings.WindowTop == Screen.PrimaryScreen.Bounds.Height * 0.6 - 50 && settings.WindowLeft == Screen.PrimaryScreen.Bounds.Width * 0.5 - 50)
+            {
+                settings.WindowTop = Screen.PrimaryScreen.Bounds.Height * 0.5 - 50;
+                settings.WindowLeft = Screen.PrimaryScreen.Bounds.Width * 0.5 - 50;
+            }
+            else
+            {
+                settings.WindowTop = Screen.PrimaryScreen.Bounds.Height * 0.5 - 50;
+                settings.WindowLeft = Screen.PrimaryScreen.Bounds.Width * 0.5 - 50;
+            }
+
+            Refresh();
         }
     }
 

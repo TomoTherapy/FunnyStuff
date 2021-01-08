@@ -21,5 +21,10 @@ namespace Helltaker_Sticker
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).Window_Closing();
+        }
     }
 }

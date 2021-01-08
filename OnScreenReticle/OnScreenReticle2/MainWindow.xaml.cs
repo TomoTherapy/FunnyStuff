@@ -15,11 +15,13 @@ namespace OnScreenReticle2
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainWindow_ViewModel viewmodel;
+
         public MainWindow()
         {
             InitializeComponent();
-            GenerateNotifyIcon();
-            DataContext = new MainWindow_ViewModel();
+            DataContext = new MainWindow_ViewModel(this);
+            viewmodel = DataContext as MainWindow_ViewModel;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -36,59 +38,6 @@ namespace OnScreenReticle2
             _source.AddHook(HwndHook);
             RegisterHotKey();
         }
-
-        private void OpenSettingWindow()
-        {
-            if (window != null)
-            { 
-                window.Close();
-                window = null;
-            }
-            else
-            {
-                window = new SettingsWindow(this.DataContext as MainWindow_ViewModel);
-                window.ShowDialog();
-            }
-        }
-
-        #region NotifyIcon
-        private NotifyIcon Noti;
-        private SettingsWindow window;
-
-        private void GenerateNotifyIcon()
-        {
-            ContextMenu Menu = new ContextMenu();
-
-            MenuItem OpenSettingsItem = new MenuItem()
-            {
-                Text = "Open Setting"
-            };
-            OpenSettingsItem.Click += (object o, EventArgs e) =>
-            {
-                OpenSettingWindow();
-            };
-            Menu.MenuItems.Add(OpenSettingsItem);
-
-            MenuItem ExitItem = new MenuItem()
-            {
-                Text = "Exit"
-            };
-            ExitItem.Click += (object o, EventArgs e) =>
-            {
-                if (window != null) window.Close();
-                this.Close();
-            };
-            Menu.MenuItems.Add(ExitItem);
-
-            Noti = new NotifyIcon
-            {
-                Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location),
-                Visible = true,
-                Text = "OnScreenReticle",
-                ContextMenu = Menu
-            };
-        }
-        #endregion
 
         #region EX Transparent
         const int WS_EX_TRANSPARENT = 0x00000020;
@@ -155,17 +104,25 @@ namespace OnScreenReticle2
 
         private void OnHotKeyPressed1()
         {
-            OpenSettingWindow();
+            viewmodel.OpenSettingWindow();
         }
         private void OnHotKeyPressed2()
         {
-            (DataContext as MainWindow_ViewModel).SetVisible();
+            viewmodel.SetVisibility();
+            ((App)System.Windows.Application.Current).Xml.SaveSettings();
         }
         private void OnHotKeyPressed3()
         {
-            (DataContext as MainWindow_ViewModel).RotateProfiles();
+            viewmodel.RotateProfiles();
+            ((App)System.Windows.Application.Current).Xml.SaveSettings();
         }
         #endregion
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ((App)System.Windows.Application.Current).Xml.SaveSettings();
+            viewmodel.Window_Closing();
+        }
     }
 
     public static class Constants

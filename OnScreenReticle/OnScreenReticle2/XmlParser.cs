@@ -11,7 +11,7 @@ namespace OnScreenReticle2
 {
     public class XmlParser
     {
-        private string path = @"Settings.xml";
+        private string path = @"OnScreenReticle2_Settings.xml";
         private XmlSerializer SettingsSerializer;
         public Settings settings { get; set; }
 

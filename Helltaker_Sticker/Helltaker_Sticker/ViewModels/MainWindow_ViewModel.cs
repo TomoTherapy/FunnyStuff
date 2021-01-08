@@ -112,7 +112,13 @@ namespace Helltaker_Sticker.ViewModels
                 (Application.Current as App).SaveCurrentState();
             }
 
-            m_Window.Close();
+            //m_Window.Close();
+        }
+
+        internal void Window_Closing()
+        {
+            Noti.Visible = false;
+            Noti.Icon = null;
         }
 
         private void GenerateNotifyIcon()

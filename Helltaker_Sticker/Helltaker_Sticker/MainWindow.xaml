@@ -6,8 +6,10 @@
         xmlns:local="clr-namespace:Helltaker_Sticker"
         mc:Ignorable="d"
         Title="MainWindow" 
+        Visibility="Hidden"
         AllowsTransparency="True"
         Background="Transparent"
         WindowStyle="None"
         WindowState="Minimized"
-        Topmost="True"/>
+        ShowInTaskbar="False"
+        Topmost="True" Closing="Window_Closing"/>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Data;
@@ -13,7 +14,9 @@ namespace OnScreenReticle2.ViewModels
     public class MainWindow_ViewModel : ViewModelBase
     {
         private Settings settings;
-        private string visibility;
+        private SettingsWindow window;
+        private MainWindow main;
+        private NotifyIcon Noti;
 
         public double ReticleSize { get => settings.ReticleSize; set { settings.ReticleSize = Math.Round(value, 1); RaisePropertyChanged(nameof(ReticleSize)); } }
         public double WindowTop { get => settings.WindowTop; set { settings.WindowTop = value; RaisePropertyChanged(nameof(WindowTop)); } }
@@ -45,12 +48,14 @@ namespace OnScreenReticle2.ViewModels
             RaisePropertyChanged(nameof(ColorBrush));
         }
 
-        public MainWindow_ViewModel()
+        public MainWindow_ViewModel(MainWindow main)
         {
+            this.main = main;
             settings = ((App)Application.Current).Xml.settings;
+            GenerateNotifyIcon();
         }
 
-        internal void SetVisible()
+        internal void SetVisibility()
         {
             Visibility = !Visibility;
         }
@@ -75,24 +80,83 @@ namespace OnScreenReticle2.ViewModels
 
             Refresh();
         }
-    }
 
-    public class BoolToVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        #region NotifyIcon
+        private void GenerateNotifyIcon()
         {
-            if (value is bool val)
-            {
-                if (val) return "Visible";
-                else return "Hidden";
-            }
+            ContextMenu Menu = new ContextMenu();
 
-            return "Visible";
+            MenuItem OpenSettingsItem = new MenuItem()
+            {
+                Text = "Open Setting"
+            };
+            OpenSettingsItem.Click += (object o, EventArgs e) =>
+            {
+                OpenSettingWindow();
+            };
+            Menu.MenuItems.Add(OpenSettingsItem);
+
+            MenuItem SetVisibilityItem = new MenuItem()
+            {
+                Text = "Set Visibility"
+            };
+            SetVisibilityItem.Click += (object o, EventArgs e) =>
+            {
+                SetVisibility();
+                ((App)Application.Current).Xml.SaveSettings();
+            };
+            Menu.MenuItems.Add(SetVisibilityItem);
+
+            MenuItem RotateProfilesItem = new MenuItem()
+            {
+                Text = "Rotate Profiles"
+            };
+            RotateProfilesItem.Click += (object o, EventArgs e) =>
+            {
+                RotateProfiles();
+                ((App)Application.Current).Xml.SaveSettings();
+            };
+            Menu.MenuItems.Add(RotateProfilesItem);
+
+            MenuItem ExitItem = new MenuItem()
+            {
+                Text = "Exit"
+            };
+            ExitItem.Click += (object o, EventArgs e) =>
+            {
+                if (window != null) window.Close();
+                main.Close();
+            };
+            Menu.MenuItems.Add(ExitItem);
+
+            Noti = new NotifyIcon
+            {
+                Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location),
+                Visible = true,
+                Text = "OnScreenReticle",
+                ContextMenu = Menu
+            };
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        internal void Window_Closing()
         {
-            throw new NotImplementedException();
+            Noti.Visible = false;
+            Noti.Icon = null;
+        }
+        #endregion
+
+        public void OpenSettingWindow()
+        {
+            if (window != null)
+            {
+                window.Close();
+                window = null;
+            }
+            else
+            {
+                window = new SettingsWindow(this);
+                window.ShowDialog();
+            }
         }
     }
 }

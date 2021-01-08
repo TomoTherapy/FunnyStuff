@@ -11,7 +11,7 @@ namespace Helltaker_Sticker.Xml
 {
     public class Xml_Parser
     {
-        private string path = @"Settings.xml";
+        private string path = @"HelltakerSticker_Settings.xml";
         private XmlSerializer SettingsSerializer;
         public Settings settings { get; set; }
 

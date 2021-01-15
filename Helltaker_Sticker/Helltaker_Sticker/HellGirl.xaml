@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Helltaker_Sticker"
         xmlns:local2="clr-namespace:Helltaker_Sticker.ViewModels"
         mc:Ignorable="d"
+        ShowInTaskbar="False"
         Title="{Binding GirlsName, Mode=TwoWay}" Height="100" Width="100"
         AllowsTransparency="True"
         Background="Transparent"

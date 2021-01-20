@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1500" Loaded="Window_Loaded">
     <Grid>
-        <ListView Name="Viewer" Margin="505,52,80,72" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center">
+        <ListView Name="Viewer" Margin="472,52,80,72" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Image Source="{Binding}" Width="{Binding ElementName=Slider, Path=Value}"/>

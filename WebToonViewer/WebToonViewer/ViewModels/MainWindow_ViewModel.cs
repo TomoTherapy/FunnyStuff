@@ -7,15 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WebToonViewer
+namespace WebToonViewer.ViewModels
 {
-    class MainWindow_ViewModel : INotifyPropertyChanged
+    class MainWindow_ViewModel : ViewModelBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         private List<Episode> m_Webtoon;
         private string m_Title;

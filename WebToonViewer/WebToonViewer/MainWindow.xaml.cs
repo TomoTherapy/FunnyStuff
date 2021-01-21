@@ -30,14 +30,7 @@ namespace WebToonViewer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            List<string> list = new List<string>();
 
-            list.Add(@"C:\Users\crazy\OneDrive\사진\만화\개목걸이\16화\3.jpg");
-            list.Add(@"C:\Users\crazy\OneDrive\사진\만화\개목걸이\16화\4.jpg");
-            list.Add(@"C:\Users\crazy\OneDrive\사진\만화\개목걸이\16화\5.jpg");
-            list.Add(@"C:\Users\crazy\OneDrive\사진\만화\개목걸이\16화\6.jpg");
-
-            Viewer.ItemsSource = list;
         }
 
         private void WebToonLoad_button_Click(object sender, RoutedEventArgs e)

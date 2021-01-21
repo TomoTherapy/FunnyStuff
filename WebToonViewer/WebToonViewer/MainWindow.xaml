@@ -7,22 +7,33 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1500" Loaded="Window_Loaded">
     <Grid>
-        <ListView Name="Viewer" Margin="472,52,80,72" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center">
+        <ListView Name="Viewer" Margin="472,52,80,72" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center" ItemsSource="{Binding SelectedEpisode.Parts}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding}" Width="{Binding ElementName=Slider, Path=Value}"/>
+                    <Image Source="{Binding}" Width="{Binding ElementName=WidthSlider, Path=Value}" Margin="0,-2"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
         <Button x:Name="WebToonLoad_button" Content="불러오기" HorizontalAlignment="Left" Height="58" Margin="44,52,0,0" VerticalAlignment="Top" Width="220" Click="WebToonLoad_button_Click"/>
-        <Slider Name="Slider" HorizontalAlignment="Left" Height="36" Margin="44,681,0,0" VerticalAlignment="Top" Width="298" Minimum="100" Maximum="1500" Value="700"/>
-        <DataGrid ItemsSource="{Binding WebToon}" HorizontalAlignment="Left" Height="478" Margin="44,169,0,0" VerticalAlignment="Top" Width="270" IsReadOnly="True" AutoGenerateColumns="False">
+        <Slider Name="WidthSlider" HorizontalAlignment="Left" Height="36" Margin="44,0,0,52" VerticalAlignment="Bottom" Width="270" Minimum="100" Maximum="1500" Value="700"/>
+        <DataGrid ItemsSource="{Binding WebToon}" HorizontalAlignment="Left" Margin="44,169,0,122" Width="270" IsReadOnly="True" AutoGenerateColumns="False" SelectedItem="{Binding SelectedEpisode}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="제목" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="제목" Binding="{Binding Name}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock HorizontalAlignment="Left" Height="49" Margin="44,115,0,0" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" Width="242"/>
-        <TextBlock HorizontalAlignment="Left" Height="42" Margin="347,695,0,0" TextWrapping="Wrap" Text="{Binding ElementName=Slider, Path=Value}" VerticalAlignment="Top" Width="125" FontSize="24" FontFamily="Arial"/>
+        <TextBox HorizontalAlignment="Left" Height="37" Margin="44,121,0,0" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" Width="242"/>
+        <TextBox HorizontalAlignment="Left" Height="42" Margin="347,0,0,32" TextWrapping="Wrap" Text="{Binding ElementName=WidthSlider, Path=Value}" VerticalAlignment="Bottom" Width="92" FontSize="24" FontFamily="Arial"/>
+        <CheckBox Content="레벨2" HorizontalAlignment="Left" Margin="328,81,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=IsLevel2}">
+            <CheckBox.LayoutTransform>
+                <ScaleTransform ScaleX="1.4" ScaleY="1.5"/>
+            </CheckBox.LayoutTransform>
+        </CheckBox>
+        <Button x:Name="FitImageWidth_button" Content="이미지가로길이" HorizontalAlignment="Left" Margin="334,0,0,106" VerticalAlignment="Bottom" Width="120" Height="41"/>
 
     </Grid>
 </Window>

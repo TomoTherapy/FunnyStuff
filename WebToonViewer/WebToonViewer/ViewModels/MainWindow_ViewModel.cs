@@ -11,57 +11,48 @@ namespace WebToonViewer.ViewModels
 {
     class MainWindow_ViewModel : ViewModelBase
     {
-
-        private List<Episode> m_Webtoon;
-        private string m_Title;
+        private List<Episode> webtoon;
+        private string title;
         private int m_Width;
+        private Episode selectedEpisode;
+        private bool isLevel2;
 
-        public List<Episode> WebToon
+        public List<Episode> WebToon { get => webtoon; set { webtoon = value; RaisePropertyChanged(nameof(WebToon)); } }
+        public Episode SelectedEpisode { get => selectedEpisode; set { selectedEpisode = value; RaisePropertyChanged(nameof(SelectedEpisode)); } }
+        public string Title { get => title; set { title = value; RaisePropertyChanged(nameof(Title)); } }
+        public int Width { get => m_Width; set { m_Width = value; RaisePropertyChanged(nameof(Width)); } }
+        public bool IsLevel2 { get => isLevel2; set { isLevel2 = value; RaisePropertyChanged(nameof(IsLevel2)); } }
+
+        public MainWindow_ViewModel()
         {
-            get { return m_Webtoon; }
-            set
-            {
-                if (m_Webtoon != value)
-                {
-                    m_Webtoon = value;
-                    RaisePropertyChanged("Webtoon");
-                }
-            }
-        }
 
-        public string Title
-        {
-            get { return m_Title; }
-            set
-            {
-                if (m_Title != value)
-                {
-                    m_Title = value;
-                    RaisePropertyChanged("Title");
-                }
-            }
         }
-
-        public int Width
-        {
-            get { return m_Width; }
-            set
-            {
-                if (m_Width != value)
-                {
-                    m_Width = value;
-                    RaisePropertyChanged("Width");
-                }
-            }
-        }
-
 
         public void OpenWebToonFolder()
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            
-            if (dialog.ShowDialog() == DialogResult.OK)
+
+            if (!IsLevel2)
             {
+                if (dialog.ShowDialog() != DialogResult.OK) return;
+
+                Title = dialog.SelectedPath.Split('\\').Last();
+
+                WebToon = new List<Episode>();
+
+                DirectoryInfo dir = new DirectoryInfo(dialog.SelectedPath);
+                List<string> parts = new List<string>();
+                foreach (var part in dir.GetFiles())
+                {
+                    parts.Add(part.FullName);
+                }
+
+                WebToon.Add(new Episode() { Name = Title, Parts = parts });
+            }
+            else
+            {
+                if (dialog.ShowDialog() != DialogResult.OK) return;
+
                 Title = dialog.SelectedPath.Split('\\').Last();
 
                 WebToon = new List<Episode>();
@@ -80,21 +71,10 @@ namespace WebToonViewer.ViewModels
                     WebToon.Add(new Episode() { Name = episode.Name, Parts = parts });
                 }
 
-                RaisePropertyChanged("WebToon");
-                    
+                //RaisePropertyChanged("WebToon");
+
             }
-
-
         }
-
-
-
-
-
-
-
-
-
     }
 
     class Episode

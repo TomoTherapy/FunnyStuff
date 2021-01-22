@@ -1,31 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace WebToonViewer.ViewModels
 {
     class MainWindow_ViewModel : ViewModelBase
     {
+        private Xml.Settings settings;
         private List<Episode> webtoon;
         private string title;
-        private int m_Width;
         private Episode selectedEpisode;
-        private bool isLevel2;
 
         public List<Episode> WebToon { get => webtoon; set { webtoon = value; RaisePropertyChanged(nameof(WebToon)); } }
         public Episode SelectedEpisode { get => selectedEpisode; set { selectedEpisode = value; RaisePropertyChanged(nameof(SelectedEpisode)); } }
         public string Title { get => title; set { title = value; RaisePropertyChanged(nameof(Title)); } }
-        public int Width { get => m_Width; set { m_Width = value; RaisePropertyChanged(nameof(Width)); } }
-        public bool IsLevel2 { get => isLevel2; set { isLevel2 = value; RaisePropertyChanged(nameof(IsLevel2)); } }
+        public int Width { get => settings.Width; set { settings.Width = value; RaisePropertyChanged(nameof(Width)); } }
+        public bool IsLevel2 { get => settings.IsLevel2; set { settings.IsLevel2 = value; RaisePropertyChanged(nameof(IsLevel2)); } }
+        public double SpeedFactor { get => settings.SpeedFactor; set { settings.SpeedFactor = value; RaisePropertyChanged(nameof(SpeedFactor)); } }
+
+        internal void FitImageWidth_button_Click()
+        {
+            try
+            {
+                Bitmap bmp = new Bitmap(SelectedEpisode.Parts[0]);
+                Width = bmp.Width;
+                bmp.Dispose();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show(e.Message);
+            }
+        }
+
+        internal void Window_Closing()
+        {
+            ((App)System.Windows.Application.Current).Xml.SettingsSave();
+        }
 
         public MainWindow_ViewModel()
         {
-
+            settings = ((App)System.Windows.Application.Current).Xml.Settings;
         }
 
         public void OpenWebToonFolder()
@@ -70,8 +91,6 @@ namespace WebToonViewer.ViewModels
 
                     WebToon.Add(new Episode() { Name = episode.Name, Parts = parts });
                 }
-
-                //RaisePropertyChanged("WebToon");
 
             }
         }

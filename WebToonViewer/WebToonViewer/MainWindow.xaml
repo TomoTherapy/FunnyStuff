@@ -4,36 +4,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WebToonViewer"
+        xmlns:local2="clr-namespace:WebToonViewer.Devices"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1500" Loaded="Window_Loaded">
+        Title="MainWindow" Height="800" Width="1500" Closing="Window_Closing">
     <Grid>
-        <ListView Name="Viewer" Margin="472,52,80,72" ScrollViewer.CanContentScroll="False" HorizontalContentAlignment="Center" ItemsSource="{Binding SelectedEpisode.Parts}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Image Source="{Binding}" Width="{Binding ElementName=WidthSlider, Path=Value}" Margin="0,-2"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="IsEnabled" Value="False"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-        <Button x:Name="WebToonLoad_button" Content="불러오기" HorizontalAlignment="Left" Height="58" Margin="44,52,0,0" VerticalAlignment="Top" Width="220" Click="WebToonLoad_button_Click"/>
-        <Slider Name="WidthSlider" HorizontalAlignment="Left" Height="36" Margin="44,0,0,52" VerticalAlignment="Bottom" Width="270" Minimum="100" Maximum="1500" Value="700"/>
-        <DataGrid ItemsSource="{Binding WebToon}" HorizontalAlignment="Left" Margin="44,169,0,122" Width="270" IsReadOnly="True" AutoGenerateColumns="False" SelectedItem="{Binding SelectedEpisode}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="제목" Binding="{Binding Name}" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <TextBox HorizontalAlignment="Left" Height="37" Margin="44,121,0,0" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" Width="242"/>
-        <TextBox HorizontalAlignment="Left" Height="42" Margin="347,0,0,32" TextWrapping="Wrap" Text="{Binding ElementName=WidthSlider, Path=Value}" VerticalAlignment="Bottom" Width="92" FontSize="24" FontFamily="Arial"/>
-        <CheckBox Content="레벨2" HorizontalAlignment="Left" Margin="328,81,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=IsLevel2}">
-            <CheckBox.LayoutTransform>
-                <ScaleTransform ScaleX="1.4" ScaleY="1.5"/>
-            </CheckBox.LayoutTransform>
-        </CheckBox>
-        <Button x:Name="FitImageWidth_button" Content="이미지가로길이" HorizontalAlignment="Left" Margin="334,0,0,106" VerticalAlignment="Bottom" Width="120" Height="41"/>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="316"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border Margin="43,52,48,32" Grid.Column="1" BorderThickness="1" BorderBrush="Black">
+            <local2:SpeedyScrollViewer SpeedFactor="{Binding SpeedFactor}" Name="SpeedyScrollViewer">
+                <ListView ScrollViewer.CanContentScroll="False" ItemsSource="{Binding SelectedEpisode.Parts}" HorizontalContentAlignment="Center">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}" Width="{Binding ElementName=WidthSlider, Path=Value}" Margin="0,-2"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </local2:SpeedyScrollViewer>
+        </Border>
+        <Grid HorizontalAlignment="Left" Height="704" Margin="28,33,0,0" VerticalAlignment="Top" Width="260" Background="#FFB8D1AC">
+            <Button x:Name="WebToonLoad_button" Content="불러오기" HorizontalAlignment="Left" Height="58" Margin="18,18,0,0" VerticalAlignment="Top" Width="106" Click="WebToonLoad_button_Click"/>
+            <Slider x:Name="WidthSlider" HorizontalAlignment="Left" Height="36" Margin="18,0,0,22" VerticalAlignment="Bottom" Width="220" Minimum="100" Maximum="1500" SmallChange="1" Value="{Binding Width}"/>
+            <DataGrid ItemsSource="{Binding WebToon}" Margin="18,134,22,234" IsReadOnly="True" AutoGenerateColumns="False" SelectedItem="{Binding SelectedEpisode}" SelectionChanged="DataGrid_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="제목" Binding="{Binding Name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBox HorizontalAlignment="Left" Height="38" Margin="18,86,0,0" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" Width="202"/>
+            <TextBox HorizontalAlignment="Left" Height="42" Margin="156,0,0,76" TextWrapping="Wrap" Text="{Binding Value, ElementName=WidthSlider}" VerticalAlignment="Bottom" Width="92" FontSize="24" FontFamily="Arial"/>
+            <CheckBox Content="레벨2" HorizontalAlignment="Left" Margin="146,24,0,0" VerticalAlignment="Top" IsChecked="{Binding IsLevel2}">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.4" ScaleY="1.5"/>
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <Button x:Name="FitImageWidth_button" Content="이미지가로길이" HorizontalAlignment="Left" Margin="18,0,0,80" VerticalAlignment="Bottom" Width="120" Height="40" Click="FitImageWidth_button_Click"/>
+        </Grid>
     </Grid>
 </Window>

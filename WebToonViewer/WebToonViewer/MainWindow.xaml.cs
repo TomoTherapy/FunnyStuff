@@ -24,18 +24,27 @@ namespace WebToonViewer
         public MainWindow()
         {
             InitializeComponent();
-
             DataContext = new MainWindow_ViewModel();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void WebToonLoad_button_Click(object sender, RoutedEventArgs e)
         {
             (DataContext as MainWindow_ViewModel).OpenWebToonFolder();
+        }
+
+        private void FitImageWidth_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).FitImageWidth_button_Click();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).Window_Closing();
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SpeedyScrollViewer.ScrollToTop();
         }
     }
 }

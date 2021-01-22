@@ -13,5 +13,10 @@ namespace WebToonViewer
     /// </summary>
     public partial class App : Application
     {
+        public Xml.XmlParser Xml;
+        public App()
+        {
+            Xml = new Xml.XmlParser();
+        }
     }
 }

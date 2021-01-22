@@ -23,7 +23,7 @@ namespace WebToonViewer.Xml
         {
             try
             {
-                string path = @"\ViewerSettings.xml";
+                string path = @"ViewerSettings.xml";
                 if (File.Exists(path))
                 {
                     using (StreamReader reader = new StreamReader(path))
@@ -47,7 +47,7 @@ namespace WebToonViewer.Xml
         {
             try
             {
-                string path = @"\ViewerSettings.xml";
+                string path = @"ViewerSettings.xml";
 
                 using (StreamWriter writer = new StreamWriter(path))
                 {
@@ -59,7 +59,6 @@ namespace WebToonViewer.Xml
                 MessageBox.Show(ex.Message);
             }
         }
-
     }
 
     public class Settings

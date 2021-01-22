@@ -23,11 +23,6 @@ namespace WebToonViewer.Devices
             set { SetValue(SpeedFactorProperty, value); }
         }
 
-        public SpeedyScrollViewer()
-        {
-            SpeedFactor = 1;
-        }
-
         protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
         {
             if (!e.Handled &&

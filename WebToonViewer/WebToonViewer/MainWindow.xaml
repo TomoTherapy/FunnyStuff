@@ -7,14 +7,14 @@
         xmlns:local2="clr-namespace:WebToonViewer.Devices"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1500" Closing="Window_Closing">
-    <Grid>
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="316"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Border Margin="43,52,48,32" Grid.Column="1" BorderThickness="1" BorderBrush="Black">
+        <Border Margin="10,0,10,10" Grid.Column="1" BorderThickness="1" BorderBrush="#FF575757">
             <local2:SpeedyScrollViewer SpeedFactor="{Binding SpeedFactor}" x:Name="SpeedyScrollViewer">
-                <ListView ScrollViewer.CanContentScroll="False" ItemsSource="{Binding SelectedEpisode.Parts}" HorizontalContentAlignment="Center">
+                <ListView ScrollViewer.CanContentScroll="False" ItemsSource="{Binding SelectedEpisode.Parts}" HorizontalContentAlignment="Center" Background="#FFD4D4D4">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Image Source="{Binding}" Width="{Binding ElementName=WidthSlider, Path=Value}" Margin="0,-2"/>
@@ -28,23 +28,40 @@
                 </ListView>
             </local2:SpeedyScrollViewer>
         </Border>
-        <Grid HorizontalAlignment="Left" Margin="28,33,0,32" Width="260" Background="#FFB8D1AC">
-            <Button x:Name="WebToonLoad_button" Content="불러오기" HorizontalAlignment="Left" Height="58" Margin="18,18,0,0" VerticalAlignment="Top" Width="106" Click="WebToonLoad_button_Click"/>
-            <Slider x:Name="WidthSlider" HorizontalAlignment="Left" Height="36" Margin="18,0,0,22" VerticalAlignment="Bottom" Width="220" Minimum="100" Maximum="1500" SmallChange="1" Value="{Binding Width}"/>
-            <DataGrid ItemsSource="{Binding WebToon}" Margin="18,134,22,234" IsReadOnly="True" AutoGenerateColumns="False" SelectedItem="{Binding SelectedEpisode}" SelectionChanged="DataGrid_SelectionChanged">
+        <Grid Margin="10,0,0,10" Background="#FFEAEAEA">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="129"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="WebToonLoad_button" Content="Load from folder" HorizontalAlignment="Left" Height="30" Margin="10,37,0,0" VerticalAlignment="Top" Width="138" Click="WebToonLoad_button_Click" FontFamily="Arial" FontSize="14"/>
+            <Slider x:Name="WidthSlider" Height="18" Margin="15,92,15,0" VerticalAlignment="Top" Minimum="100" Maximum="1500" SmallChange="1" Value="{Binding Width}" Grid.Row="2">
+                <Slider.LayoutTransform>
+                    <ScaleTransform ScaleY="1.3"/>
+                </Slider.LayoutTransform>
+            </Slider>
+            <DataGrid ItemsSource="{Binding WebToon}" Margin="10,108,10,10" IsReadOnly="True" AutoGenerateColumns="False" SelectedItem="{Binding SelectedEpisode}" SelectionChanged="DataGrid_SelectionChanged" FontSize="14">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="제목" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Titles" Binding="{Binding Name}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <TextBox HorizontalAlignment="Left" Height="38" Margin="18,86,0,0" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" Width="202"/>
-            <TextBox HorizontalAlignment="Left" Height="42" Margin="156,0,0,76" TextWrapping="Wrap" Text="{Binding Value, ElementName=WidthSlider}" VerticalAlignment="Bottom" Width="92" FontSize="24" FontFamily="Arial"/>
-            <CheckBox Content="레벨2" HorizontalAlignment="Left" Margin="146,24,0,0" VerticalAlignment="Top" IsChecked="{Binding IsLevel2}">
+            <TextBox Height="31" Margin="10,72,10,0" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" FontFamily="Arial" FontSize="14" Padding="5,6,0,0"/>
+            <TextBox HorizontalAlignment="Right" Height="35" Margin="0,45,10,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=WidthSlider}" VerticalAlignment="Top" Width="81" FontSize="20" FontFamily="Arial" RenderTransformOrigin="0.576,0.19" Padding="0,6,0,0" Grid.Row="2" TextAlignment="Center"/>
+            <CheckBox Content="Depth 2" HorizontalAlignment="Right" Margin="0,41,18,0" VerticalAlignment="Top" IsChecked="{Binding IsLevel2}" FontFamily="Arial" FontSize="11" Padding="4,1,0,0" Height="15" Width="59">
                 <CheckBox.LayoutTransform>
                     <ScaleTransform ScaleX="1.4" ScaleY="1.5"/>
                 </CheckBox.LayoutTransform>
             </CheckBox>
-            <Button x:Name="FitImageWidth_button" Content="이미지가로길이" HorizontalAlignment="Left" Margin="18,0,0,80" VerticalAlignment="Bottom" Width="120" Height="40" Click="FitImageWidth_button_Click"/>
-            <Slider HorizontalAlignment="Left" Margin="18,504,0,0" VerticalAlignment="Top" Height="22" Width="180"/>
+            <Button x:Name="FitImageWidth_button" Content="Set to Image's Width" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="138" Height="35" Click="FitImageWidth_button_Click" Grid.Row="2" FontFamily="Arial"/>
+            <Slider Margin="16,48,115,0" VerticalAlignment="Top" Height="18" Minimum="1" Maximum="4" SmallChange="1" Value="{Binding SpeedFactor}" Grid.Row="1">
+                <Slider.LayoutTransform>
+                    <ScaleTransform ScaleY="1.3"/>
+                </Slider.LayoutTransform>
+            </Slider>
+            <TextBox x:Name="textBox" HorizontalAlignment="Right" Margin="0,43,10,0" TextWrapping="Wrap" Text="{Binding SpeedFactor, StringFormat=N1}" Width="81" FontFamily="Arial" FontSize="20" Grid.Row="1" Height="35" VerticalAlignment="Top" Padding="0,6,0,0" TextAlignment="Center"/>
+            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Scroll Speed" VerticalAlignment="Top" Background="#FF0081D8" Height="30" Foreground="White" FontFamily="Arial" FontSize="16" Padding="7,6,0,0" Grid.Row="1" FontWeight="Bold"/>
+            <TextBlock x:Name="textBlock_Copy" TextWrapping="Wrap" Text="Image Width" VerticalAlignment="Top" Background="#FF0081D8" Height="30" Foreground="White" FontFamily="Arial" FontSize="16" Padding="7,6,0,0" Grid.Row="2" FontWeight="Bold"/>
+            <TextBlock x:Name="textBlock_Copy1" TextWrapping="Wrap" Text="General" VerticalAlignment="Top" Background="#FF0081D8" Height="30" Foreground="White" FontFamily="Arial" FontSize="16" Padding="7,6,0,0" FontWeight="Bold"/>
         </Grid>
     </Grid>
 </Window>

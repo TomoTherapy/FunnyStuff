@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Forms;
 
 namespace WebToonViewer.ViewModels
@@ -30,7 +33,10 @@ namespace WebToonViewer.ViewModels
             try
             {
                 Bitmap bmp = new Bitmap(SelectedEpisode.Parts[0]);
-                Width = bmp.Width;
+                if (bmp.Width > 1500)
+                    Width = 1500;
+                else
+                    Width = bmp.Width;
                 bmp.Dispose();
             }
             catch (Exception e)
@@ -49,6 +55,11 @@ namespace WebToonViewer.ViewModels
             settings = ((App)System.Windows.Application.Current).Xml.Settings;
         }
 
+        internal void ScrollSpeedReset_button_Click()
+        {
+            SpeedFactor = 2.5;
+        }
+
         public void OpenWebToonFolder()
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
@@ -63,9 +74,14 @@ namespace WebToonViewer.ViewModels
 
                 DirectoryInfo dir = new DirectoryInfo(dialog.SelectedPath);
                 List<string> parts = new List<string>();
-                foreach (var part in dir.GetFiles())
+
+                FileInfo[] files = dir.GetFiles().OrderBy(n => Regex.Replace(n.Name, @"\d+", a => a.Value.PadLeft(4, '0'))).ToArray();
+
+                foreach (var part in files)
                 {
-                    parts.Add(part.FullName);
+                    string ext = part.Extension.ToUpper();
+                    if (ext == ".JPEG" || ext == ".JPG" || ext == ".PNG" || ext == ".BMP")
+                        parts.Add(part.FullName);
                 }
 
                 WebToon.Add(new Episode() { Name = Title, Parts = parts });
@@ -79,14 +95,17 @@ namespace WebToonViewer.ViewModels
                 WebToon = new List<Episode>();
 
                 DirectoryInfo dir = new DirectoryInfo(dialog.SelectedPath);
-                DirectoryInfo[] episodes = dir.GetDirectories();
+                DirectoryInfo[] episodes = dir.GetDirectories().OrderBy(n => Regex.Replace(n.Name, @"\d+", a => a.Value.PadLeft(4, '0'))).ToArray();
 
                 foreach (var episode in episodes)
                 {
                     List<string> parts = new List<string>();
-                    foreach (var part in episode.GetFiles())
+                    FileInfo[] files = episode.GetFiles().OrderBy(n => Regex.Replace(n.Name, @"\d+", a => a.Value.PadLeft(4, '0'))).ToArray();
+                    foreach (var part in files)
                     {
-                        parts.Add(part.FullName);
+                        string ext = part.Extension.ToUpper();
+                        if (ext == ".JPEG" || ext == ".JPG" || ext == ".PNG" || ext == ".BMP")
+                            parts.Add(part.FullName);
                     }
 
                     WebToon.Add(new Episode() { Name = episode.Name, Parts = parts });
@@ -97,9 +116,10 @@ namespace WebToonViewer.ViewModels
         }
     }
 
-    class Episode
+    public class Episode
     {
         public string Name { get; set; }
         public List<string> Parts { get; set; }
     }
+
 }

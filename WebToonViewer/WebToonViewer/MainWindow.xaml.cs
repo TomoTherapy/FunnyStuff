@@ -46,5 +46,10 @@ namespace WebToonViewer
         {
             SpeedyScrollViewer.ScrollToTop();
         }
+
+        private void ScrollSpeedReset_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).ScrollSpeedReset_button_Click();
+        }
     }
 }

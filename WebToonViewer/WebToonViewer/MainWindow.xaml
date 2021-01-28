@@ -29,11 +29,11 @@
             </local2:SpeedyScrollViewer>
         </Border>
         <Grid HorizontalAlignment="Left" Margin="28,33,0,32" Width="260" Background="#FFB8D1AC">
-            <Button x:Name="WebToonLoad_button" Content="불러오기" HorizontalAlignment="Left" Height="58" Margin="18,18,0,0" VerticalAlignment="Top" Width="106" Click="WebToonLoad_button_Click"/>
+            <Button x:Name="WebToonLoad_button" Content="Load Comics" HorizontalAlignment="Left" Height="58" Margin="18,18,0,0" VerticalAlignment="Top" Width="106" Click="WebToonLoad_button_Click"/>
             <Slider x:Name="WidthSlider" HorizontalAlignment="Left" Height="36" Margin="18,0,0,22" VerticalAlignment="Bottom" Width="220" Minimum="100" Maximum="1500" SmallChange="1" Value="{Binding Width}"/>
             <DataGrid ItemsSource="{Binding WebToon}" Margin="18,134,22,234" IsReadOnly="True" AutoGenerateColumns="False" SelectedItem="{Binding SelectedEpisode}" SelectionChanged="DataGrid_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="제목" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Titles" Binding="{Binding Name}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <TextBox HorizontalAlignment="Left" Height="38" Margin="18,86,0,0" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" Width="202"/>
@@ -44,7 +44,7 @@
                 </CheckBox.LayoutTransform>
             </CheckBox>
             <Button x:Name="FitImageWidth_button" Content="이미지가로길이" HorizontalAlignment="Left" Margin="18,0,0,80" VerticalAlignment="Bottom" Width="120" Height="40" Click="FitImageWidth_button_Click"/>
-            <Slider HorizontalAlignment="Left" Margin="18,504,0,0" VerticalAlignment="Top" Height="22" Width="180"/>
+            <Slider Margin="18,0,0,178" VerticalAlignment="Bottom" Height="22" HorizontalAlignment="Left" Width="180"/>
         </Grid>
     </Grid>
 </Window>

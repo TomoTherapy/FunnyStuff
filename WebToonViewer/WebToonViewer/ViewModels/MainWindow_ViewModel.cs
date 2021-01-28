@@ -92,6 +92,7 @@ namespace WebToonViewer.ViewModels
                     WebToon.Add(new Episode() { Name = episode.Name, Parts = parts });
                 }
 
+                RaisePropertyChanged(nameof(WebToon));
             }
         }
     }

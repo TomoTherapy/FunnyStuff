@@ -28,6 +28,11 @@ namespace OnScreenReticle2
             (DataContext as SettingsWindow_ViewModel).HuntShowdown_button_Click();
         }
 
+        private void Default_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as SettingsWindow_ViewModel).Default_button_Click();
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             (DataContext as SettingsWindow_ViewModel).Window_Closing();

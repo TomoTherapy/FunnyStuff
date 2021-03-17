@@ -11,7 +11,7 @@ namespace OnScreenReticle2.ViewModels
         private Settings settings;
         private MainWindow_ViewModel main;
 
-        public double ReticleSize { get => settings.ReticleSize; set { if (value >= 4 && value <= 10) { settings.ReticleSize = Math.Round(value, 1); RaisePropertyChanged(nameof(ReticleSize)); main.Refresh(); } } }
+        public double ReticleSize { get => settings.ReticleSize; set { if (value >= 3 && value <= 10) { settings.ReticleSize = Math.Round(value, 1); RaisePropertyChanged(nameof(ReticleSize)); main.Refresh(); } } }
         public double WindowTop { get => settings.WindowTop; set { settings.WindowTop = value; RaisePropertyChanged(nameof(WindowTop)); main.Refresh(); } }
         public double WindowLeft { get => settings.WindowLeft; set { settings.WindowLeft = value; RaisePropertyChanged(nameof(WindowLeft)); main.Refresh(); } }
         public int ColorR { get => settings.ColorR; set { if (value >= 0 && value <= 255) { settings.ColorR = value; RaisePropertyChanged(nameof(ColorR)); RaisePropertyChanged(nameof(ColorBrush)); main.Refresh(); } } }
@@ -48,6 +48,16 @@ namespace OnScreenReticle2.ViewModels
         {
             WindowTop = Screen.PrimaryScreen.Bounds.Height * 0.6 - 50;
             WindowLeft = Screen.PrimaryScreen.Bounds.Width * 0.5 - 50;
+        }
+
+        internal void Default_button_Click()
+        {
+            CenterScreen_button_Click();
+            ColorR = 255;
+            ColorG = 10;
+            ColorB = 10;
+            ColorA = 255;
+            ReticleSize = 6;
         }
 
         internal void Up_button_Click()

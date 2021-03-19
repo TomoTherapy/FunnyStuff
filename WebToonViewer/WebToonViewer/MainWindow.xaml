@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WebToonViewer"
         xmlns:local2="clr-namespace:WebToonViewer.Devices"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1500" Closing="Window_Closing">
+        Title="Comics Viewer" Height="800" Width="1500" Closing="Window_Closing">
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="316"/>

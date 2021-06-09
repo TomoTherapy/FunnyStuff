@@ -177,5 +177,14 @@ namespace Helltaker_Sticker
             (DataContext as HellGirl_ViewModel).Window_Closing();
         }
 
+        private void Beelzebub_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).Beelzebub_button_Click();
+        }
+
+        private void Subject67_button_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as HellGirl_ViewModel).Subject67_button_Click();
+        }
     }
 }

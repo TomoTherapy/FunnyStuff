@@ -60,6 +60,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreditWindow.xaml.cs">
+      <DependentUpon>CreditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HellGirl.xaml.cs">
       <DependentUpon>HellGirl.xaml</DependentUpon>
     </Compile>
@@ -67,6 +70,10 @@
     <Compile Include="ViewModels\MainWindow_ViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Xml\Xml_Parser.cs" />
+    <Page Include="CreditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="HellGirl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,6 +119,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />
+    <Content Include="Resources\Beelzebub.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Subject67.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Azazel.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

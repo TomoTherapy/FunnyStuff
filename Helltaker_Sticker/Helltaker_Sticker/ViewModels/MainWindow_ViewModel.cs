@@ -15,6 +15,7 @@ namespace Helltaker_Sticker.ViewModels
         private bool m_Language;
         private NotifyIcon Noti;
         private MainWindow m_Window;
+        private CreditWindow credit;
         private WMPLib.WindowsMediaPlayer m_Player;
         private System.Windows.Forms.Timer timer;
         //private DispatcherTimer timer;
@@ -112,11 +113,11 @@ namespace Helltaker_Sticker.ViewModels
                 (Application.Current as App).SaveCurrentState();
             }
 
-            //m_Window.Close();
         }
 
         internal void Window_Closing()
         {
+            if (credit != null) credit.Close();
             Noti.Visible = false;
             Noti.Icon = null;
         }
@@ -268,6 +269,16 @@ namespace Helltaker_Sticker.ViewModels
             };
             SummonGirls.MenuItems.Add(ZdradaItem);
 
+            MenuItem Beelzebub = new MenuItem() { Text = m_Language ? "베엘제붑" : "Beelzebub" };
+            Beelzebub.Click += (object o, EventArgs e) =>
+            {
+                m_Girls.Add(new HellGirl(this, null));
+                (m_Girls.Last().DataContext as HellGirl_ViewModel).Beelzebub_button_Click();
+                m_Girls.Last().Show();
+                (Application.Current as App).SaveCurrentState();
+            };
+            SummonGirls.MenuItems.Add(Beelzebub);
+
             MenuItem SkeletonItem = new MenuItem() { Text = m_Language ? "스켈레톤" : "Skeleton" };
             SkeletonItem.Click += (object o, EventArgs e) =>
             {
@@ -297,6 +308,16 @@ namespace Helltaker_Sticker.ViewModels
                 (Application.Current as App).SaveCurrentState();
             };
             SummonGirls.MenuItems.Add(HelltakerApronItem);
+
+            MenuItem Subject67 = new MenuItem() { Text = m_Language ? "실험체 67" : "Subject 67" };
+            Subject67.Click += (object o, EventArgs e) =>
+            {
+                m_Girls.Add(new HellGirl(this, null));
+                (m_Girls.Last().DataContext as HellGirl_ViewModel).Subject67_button_Click();
+                m_Girls.Last().Show();
+                (Application.Current as App).SaveCurrentState();
+            };
+            SummonGirls.MenuItems.Add(Subject67);
 
             MenuItem GloriousLeftItem = new MenuItem() { Text = m_Language ? "Glorious 왼쪽" : "Glorious Left" };
             GloriousLeftItem.Click += (object o, EventArgs e) =>
@@ -444,6 +465,16 @@ namespace Helltaker_Sticker.ViewModels
                 (Application.Current as App).SaveCurrentState();
             };
 
+            MenuItem CreditItem = new MenuItem()
+            {
+                Text = m_Language ? "크레딧" : "Credit"
+            };
+            CreditItem.Click += (object o, EventArgs e) =>
+            {
+                credit = new CreditWindow();
+                credit.Show();
+            };
+
             MenuItem ExitItem = new MenuItem()
             {
                 Text = m_Language ? "탈출" : "Exit"
@@ -466,6 +497,7 @@ namespace Helltaker_Sticker.ViewModels
             Menu.MenuItems.Add(TopMostItem);
             Menu.MenuItems.Add(LangItem);
             Menu.MenuItems.Add(ResetItem);
+            Menu.MenuItems.Add(CreditItem);
             Menu.MenuItems.Add(ExitItem);
             Noti.ContextMenu = Menu;
         }

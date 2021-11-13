@@ -1,0 +1,91 @@
+﻿
+<Window
+  x:Name="NameMainWindow"
+  x:Class="WpfApplication1.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+  xmlns:local="clr-namespace:WpfApplication1"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+  xmlns:sysIO="clr-namespace:System.IO;assembly=mscorlib"
+  xmlns:utils="clr-namespace:Utils"
+  xmlns:vm="clr-namespace:WpfApplication1.ViewModel"
+  xmlns:vw="clr-namespace:WpfApplication1.View"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  d:DesignHeight="600"
+  d:DesignWidth="600"
+  mc:Ignorable="d" Title="Playing with TreeView">
+  
+  <!-- 
+    To keep Xaml file smaller some definitions elsewhere.
+    - Note that MainResources is refferred in App.Xaml
+    - Most Xaml is now first develloped in MainWindow and then moved to UserControls in View (Keeping specific VM bindings)
+  -->
+  
+  <!-- Datacontext databinding to; Initiated from MainViewWindow; generates an instance -->
+  <!-- Current datacontext available like "{Binding DataContext.FolderUpCommand,ElementName=NameMainWindow }"?? -->
+  <Window.DataContext>
+    <vm:MainVm x:Name="MyMainVm"/>
+  </Window.DataContext>
+  
+  <Grid x:Name="MainGrid">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    
+    <!-- Selected Path top of window -->
+    <StackPanel Grid.Row="0" Margin="5" Orientation="Horizontal">
+      <Label Content="Selected Path: " FontSize="12"/>
+      <TextBlock FontSize="12" Padding="5" Text="{Binding SelectedPath}"/>
+    </StackPanel>
+    
+    <!-- Below that we have 2 colomns, left SingleTree demo and right Tabbed Tree -->
+    <Grid Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      
+      <!-- Left Plane one tree with combobox RootItems,.. -->
+      <GroupBox Header="Single Tree Demo" Grid.Column="0">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          
+          <vw:NavTreeView Grid.Row="0" DataContext="{Binding SingleTree}"/>
+          
+          <GroupBox
+            Grid.Row="1"
+            Margin="5"
+            Background="Gainsboro"
+            Header="Set Parameters">
+            <StackPanel Orientation="Horizontal">
+              <ComboBox
+                Margin="5"
+                DisplayMemberPath=""
+                ItemsSource="{Binding Path=TabbedNavTrees.listNamesNavTrees, Mode=OneTime}"
+                SelectedIndex="{Binding RootNr}"
+                ToolTip="Choose a RootItem">
+              </ComboBox>
+              <CheckBox Margin="5" VerticalAlignment="Center" Content="Show Files" IsChecked="{Binding IncludeFiles}"/>
+              <Button
+                HorizontalAlignment="Left" Margin="5"
+                Command="{Binding RebuildTreeCommand }"
+                Content="Rebuild Tree"
+                ToolTip="Externally add new folder and press button"/>
+            </StackPanel>
+          </GroupBox>
+        </Grid>
+      </GroupBox>
+
+      <!-- Right Plane tabbed items -->
+      <GroupBox Grid.Column="1" Header="TabbedNavTrees Demo">
+        <vw:TabbedNavTreesView DataContext="{Binding TabbedNavTrees}" Padding="5"/>
+      </GroupBox>
+    </Grid>
+  </Grid>
+</Window>

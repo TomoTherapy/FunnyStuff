@@ -69,6 +69,7 @@
             <TextBlock x:Name="textBlock_Copy" TextWrapping="Wrap" Text="Image Width (px)" VerticalAlignment="Top" Background="#FF0081D8" Height="30" Foreground="White" FontFamily="Arial" FontSize="16" Padding="7,6,0,0" Grid.Row="2" FontWeight="Bold"/>
             <TextBlock x:Name="textBlock_Copy1" TextWrapping="Wrap" Text="Comics Infomation" VerticalAlignment="Top" Background="#FF0081D8" Height="30" Foreground="White" FontFamily="Arial" FontSize="16" Padding="7,6,0,0" FontWeight="Bold"/>
             <Button x:Name="ScrollSpeedReset_button" Content="Reset" Height="31" Margin="0,41,10,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.592,0.344" HorizontalAlignment="Right" Width="60" FontSize="14" FontFamily="Arial" Click="ScrollSpeedReset_button_Click"/>
+            <TreeView HorizontalAlignment="Left" Height="243" Margin="0,308,0,0" VerticalAlignment="Top" Width="306" ItemsSource="{Binding TreeItems}"/>
         </Grid>
     </Grid>
 </Window>

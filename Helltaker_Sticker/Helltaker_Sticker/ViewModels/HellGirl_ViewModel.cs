@@ -66,9 +66,11 @@ namespace Helltaker_Sticker.ViewModels
         public string Modeus { get; set; }
         public string Pandemonica { get; set; }
         public string Zdrada { get; set; }
+        public string Beelzebub { get; set; }
         public string Helltaker { get; set; }
         public string HelltakerApron { get; set; }
         public string Skeleton { get; set; }
+        public string Subject67 { get; set; }
         public string GloriousLeft { get; set; }
         public string GloriousRight { get; set; }
         #endregion
@@ -239,6 +241,11 @@ namespace Helltaker_Sticker.ViewModels
             CreateSpriteCollection("HelltakerApron");
         }
 
+        internal void Subject67_button_Click()
+        {
+            CreateSpriteCollection("Subject67");
+        }
+
         internal void Lucifer_button_Click()
         {
             CreateSpriteCollection("Lucifer");
@@ -277,6 +284,11 @@ namespace Helltaker_Sticker.ViewModels
         internal void Judgement_button_Click()
         {
             CreateSpriteCollection("Judgement");
+        }
+
+        internal void Beelzebub_button_Click()
+        {
+            CreateSpriteCollection("Beelzebub");
         }
 
         internal void GloriousLeft_button_Click()
@@ -340,9 +352,11 @@ namespace Helltaker_Sticker.ViewModels
             Modeus = lang ? "모데우스" : "Modeus";
             Pandemonica = lang ? "판데모니카" : "Pandemonica";
             Zdrada = lang ? "즈드라다" : "Zdrada";
+            Beelzebub = lang ? "베엘제붑" : "Beelzebub";
             Helltaker = lang ? "헬테이커" : "Helltaker";
             HelltakerApron = lang ? "앞치마 헬테이커" : "Helltaker Apron";
             Skeleton = lang ? "스켈레톤" : "Skeleton";
+            Subject67 = lang ? "실험체 67" : "Subject 67";
             GloriousLeft = lang ? "Glorious 왼쪽" : "Glorious Left";
             GloriousRight = lang ? "Glorious 오른쪽" : "Glorious Right";
 
@@ -363,6 +377,8 @@ namespace Helltaker_Sticker.ViewModels
             RaisePropertyChanged(nameof(Modeus));
             RaisePropertyChanged(nameof(Pandemonica));
             RaisePropertyChanged(nameof(Zdrada));
+            RaisePropertyChanged(nameof(Beelzebub));
+            RaisePropertyChanged(nameof(Subject67));
             RaisePropertyChanged(nameof(Helltaker));
             RaisePropertyChanged(nameof(HelltakerApron));
             RaisePropertyChanged(nameof(Skeleton));
@@ -391,6 +407,8 @@ namespace Helltaker_Sticker.ViewModels
             RaisePropertyChanged(nameof(Modeus));
             RaisePropertyChanged(nameof(Pandemonica));
             RaisePropertyChanged(nameof(Zdrada));
+            RaisePropertyChanged(nameof(Beelzebub));
+            RaisePropertyChanged(nameof(Subject67));
             RaisePropertyChanged(nameof(Helltaker));
             RaisePropertyChanged(nameof(HelltakerApron));
             RaisePropertyChanged(nameof(Skeleton));

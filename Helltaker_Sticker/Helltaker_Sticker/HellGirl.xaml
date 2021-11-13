@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Helltaker_Sticker"
         xmlns:local2="clr-namespace:Helltaker_Sticker.ViewModels"
         mc:Ignorable="d"
+        ShowInTaskbar="False"
         Title="{Binding GirlsName, Mode=TwoWay}" Height="100" Width="100"
         AllowsTransparency="True"
         Background="Transparent"
@@ -32,9 +33,11 @@
                         <MenuItem Header="{Binding Modeus}" Name="Modeus_button" Click="Modeus_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
                         <MenuItem Header="{Binding Pandemonica}" Name="Pandemonica_button" Click="Pandemonica_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
                         <MenuItem Header="{Binding Zdrada}" Name="Zdrada_button" Click="Zdrada_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
+                        <MenuItem Header="{Binding Beelzebub}" Name="Beelzebub_button" Click="Beelzebub_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
                         <MenuItem Header="{Binding Skeleton}" Name="Skeleton_button" Click="Skeleton_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
                         <MenuItem Header="{Binding Helltaker}" Name="Helltaker_button" Click="Helltaker_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
                         <MenuItem Header="{Binding HelltakerApron}" Name="HelltakerApron_button" Click="HelltakerApron_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
+                        <MenuItem Header="{Binding Subject67}" Name="Subject67_button" Click="Subject67_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
                         <MenuItem Header="{Binding GloriousLeft}" Name="GloriousLeft_button" Click="GloriousLeft_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
                         <MenuItem Header="{Binding GloriousRight}" Name="GloriousRight_button" Click="GloriousRight_button_Click" StaysOpenOnClick="True" FontFamily="Arial"/>
                     </MenuItem>

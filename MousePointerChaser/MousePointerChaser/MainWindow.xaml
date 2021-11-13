@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MousePointerChaser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Title="MainWindow" Height="100" Width="100">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="100,114,0,0" TextWrapping="Wrap" Text="{Binding PositionX}" VerticalAlignment="Top" Width="120"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="100,142,0,0" TextWrapping="Wrap" Text="{Binding PositionY}" VerticalAlignment="Top" Width="120"/>
+        <TextBox Height="24" Margin="10,10,10,0" TextWrapping="Wrap" Text="{Binding PositionX}" VerticalAlignment="Top"/>
+        <TextBox Height="23" Margin="10,39,10,0" TextWrapping="Wrap" Text="{Binding PositionY}" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

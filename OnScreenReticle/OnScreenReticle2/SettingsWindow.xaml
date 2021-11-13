@@ -7,20 +7,21 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Topmost="True"
-        Title="Reticle Settings" Height="343" Width="287" Closing="Window_Closing" Background="White">
+        Title="Reticle Settings" Height="377" Width="287" Closing="Window_Closing" Background="White">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="74"/>
+            <RowDefinition Height="104"/>
             <RowDefinition Height="127"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button x:Name="CenterScreen_button" Content="Profile : Center Screen" Height="28" Margin="10,5,10,0" VerticalAlignment="Top" Click="CenterScreen_button_Click" FontFamily="Arial"/>
         <Button x:Name="HuntShowdown_button" Content="Profile : Hunt Showdown" Height="28" Margin="10,38,10,0" VerticalAlignment="Top" Click="HuntShowdown_button_Click" FontFamily="Arial"/>
+        <Button x:Name="Default_button" Content="Set to default" Height="28" Margin="10,71,10,0" VerticalAlignment="Top" Click="Default_button_Click" FontFamily="Arial"/>
         <Slider x:Name="slider" Margin="18,8,107,0" VerticalAlignment="Top" Value="{Binding Path=ColorR}" Maximum="255" Grid.Row="1" Height="18"/>
         <Slider x:Name="slidpy" Margin="18,31,107,0" VerticalAlignment="Top" Value="{Binding Path=ColorG}" Maximum="255" Grid.Row="1" Height="18"/>
         <Slider x:Name="slide1" Margin="18,54,107,0" VerticalAlignment="Top" Value="{Binding Path=ColorB}" Maximum="255" Grid.Row="1" Height="18"/>
         <Slider x:Name="slidy2" Margin="18,77,107,0" VerticalAlignment="Top" Value="{Binding Path=ColorA}" Maximum="255" Grid.Row="1" Height="18"/>
-        <Slider x:Name="sldey2" Margin="18,100,107,0" VerticalAlignment="Top" Value="{Binding Path=ReticleSize}" Grid.Row="1" Height="18" Minimum="4"/>
+        <Slider x:Name="sldey2" Margin="18,100,107,0" VerticalAlignment="Top" Value="{Binding Path=ReticleSize}" Grid.Row="1" Height="18" Minimum="3"/>
         <Grid HorizontalAlignment="Right" Height="54" Margin="0,0,17,46" VerticalAlignment="Bottom" Width="54" Background="White" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -88,14 +89,30 @@
         <Label Content="Top" HorizontalAlignment="Left" Margin="135,0,0,73" FontFamily="Arial" FontSize="14" Height="26" VerticalAlignment="Bottom" Grid.Row="2" Width="33"/>
         <Label Content="Left" HorizontalAlignment="Left" Margin="135,0,0,30" FontFamily="Arial" FontSize="14" Height="26" VerticalAlignment="Bottom" Grid.Row="2" Width="33"/>
         <Label Content="Size" HorizontalAlignment="Right" Margin="0,97,75,0" VerticalAlignment="Top" FontFamily="Arial" Grid.Row="1" Height="24" Width="33"/>
-        <Label x:Name="label" Content="Hotkeys" HorizontalAlignment="Right" Margin="0,0,17,12" Grid.Row="2" VerticalAlignment="Bottom" Background="#FFE8E8E8">
-            <Label.ToolTip>
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Ctrl+Alt+Shift+A : Setting Window" FontFamily="Arial"/>
-                    <TextBlock Text="Ctrl+Alt+Shift+S : Visibility" FontFamily="Arial"/>
-                    <TextBlock Text="Ctrl+Alt+Shift+D : Rotate Profiles" FontFamily="Arial"/>
-                </StackPanel>
-            </Label.ToolTip>
-        </Label>
+        <Border HorizontalAlignment="Right" Margin="0,0,17,12" Grid.Row="2" VerticalAlignment="Bottom" Background="#FFE8E8E8" Width="54" Height="26" BorderThickness="1" BorderBrush="#FFCFCFCF">
+            <TextBlock x:Name="label" Text="HELP" ToolTipService.ShowDuration="60000" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock.ToolTip>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Hotkeys" FontFamily="Arial" FontWeight="Bold"/>
+                        <TextBlock Text="Ctrl+Alt+Shift+A : Setting Window" FontFamily="Arial"/>
+                        <TextBlock Text="Ctrl+Alt+Shift+S : Visibility" FontFamily="Arial"/>
+                        <TextBlock Text="Ctrl+Alt+Shift+D : Rotate Profiles" FontFamily="Arial"/>
+                        <Separator/>
+                        <TextBlock Text="How to use" FontFamily="Arial" FontWeight="Bold"/>
+                        <TextBlock Text="1. Run the reticle program" FontFamily="Arial"/>
+                        <TextBlock Text="2. Run the game you want" FontFamily="Arial"/>
+                        <TextBlock Text="3. Go to the game's display setting" FontFamily="Arial"/>
+                        <TextBlock Text="4. Choose window mode or borderless" FontFamily="Arial"/>
+                        <TextBlock Text="5. Will not work at Fullscreen mode" FontFamily="Arial"/>
+                        <TextBlock Text="This is basically a transparent window." FontFamily="Arial"/>
+                        <TextBlock Text="That's why the game should be 'window' as well." FontFamily="Arial"/>
+                        <Separator/>
+                        <TextBlock Text="Credit" FontFamily="Arial" FontWeight="Bold"/>
+                        <TextBlock Text="Developed by : TomoTherapy" FontFamily="Arial"/>
+                        <TextBlock Text="Email : wnsrlghd@gmail.com"/>
+                    </StackPanel>
+                </TextBlock.ToolTip>
+            </TextBlock>
+        </Border>
     </Grid>
 </Window>

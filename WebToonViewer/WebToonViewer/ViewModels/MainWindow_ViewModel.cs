@@ -32,6 +32,9 @@ namespace WebToonViewer.ViewModels
         {
             try
             {
+                if (SelectedEpisode == null) return;
+                if (SelectedEpisode.Parts.Count == 0) return;
+
                 Bitmap bmp = new Bitmap(SelectedEpisode.Parts[0]);
                 if (bmp.Width > 1500)
                     Width = 1500;

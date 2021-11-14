@@ -76,6 +76,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Devices\SpeedyScrollViewer.cs" />
+    <Compile Include="HeaderToImageConverter.cs" />
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -140,6 +141,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="comicviewer_2ZM_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\diskdrive.png" />
+    <Resource Include="Images\folder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

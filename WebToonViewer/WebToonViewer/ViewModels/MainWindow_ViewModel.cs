@@ -7,11 +7,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Forms;
 
 namespace WebToonViewer.ViewModels
 {
@@ -19,68 +19,111 @@ namespace WebToonViewer.ViewModels
     {
         private Xml.Settings settings;
         private List<Episode> webtoon;
-        private string title;
         private Episode selectedEpisode;
+        private object dummyNode = null;
 
         public List<Episode> WebToon { get => webtoon; set { webtoon = value; RaisePropertyChanged(nameof(WebToon)); } }
         public Episode SelectedEpisode { get => selectedEpisode; set { selectedEpisode = value; RaisePropertyChanged(nameof(SelectedEpisode)); } }
-        public string Title { get => title; set { title = value; RaisePropertyChanged(nameof(Title)); } }
         public int Width { get => settings.Width; set { settings.Width = value; RaisePropertyChanged(nameof(Width)); } }
-        public bool IsLevel2 { get => settings.IsLevel2; set { settings.IsLevel2 = value; RaisePropertyChanged(nameof(IsLevel2)); } }
         public double SpeedFactor { get => settings.SpeedFactor; set { settings.SpeedFactor = value; RaisePropertyChanged(nameof(SpeedFactor)); } }
-
-        internal void FitImageWidth_button_Click()
-        {
-            try
-            {
-                if (SelectedEpisode == null) return;
-                if (SelectedEpisode.Parts.Count == 0) return;
-
-                Bitmap bmp = new Bitmap(SelectedEpisode.Parts[0]);
-                if (bmp.Width > 1500)
-                    Width = 1500;
-                else
-                    Width = bmp.Width;
-                bmp.Dispose();
-            }
-            catch (Exception e)
-            {
-                System.Windows.MessageBox.Show(e.Message);
-            }
-        }
-
-        internal void Window_Closing()
-        {
-            ((App)System.Windows.Application.Current).Xml.SettingsSave();
-        }
+        public string SelectedImagePath { get; set; }
+        public int ScrollViewWidth { get; set; }
 
         public MainWindow_ViewModel()
         {
             settings = ((App)System.Windows.Application.Current).Xml.Settings;
+
         }
 
-        internal void ScrollSpeedReset_button_Click()
+        internal void FolderBrowser_treeView_Loaded(object sender)
         {
-            SpeedFactor = 2.5;
-        }
-
-        public void OpenWebToonFolder()
-        {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-
-            if (!IsLevel2)
+            List<string> specials = new List<string>();
+            specials.Add(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            specials.Add(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+            specials.Add(Environment.GetFolderPath(Environment.SpecialFolder.Favorites));
+            specials.Add(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
+            specials.Add(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
+            specials.Add(Environment.GetEnvironmentVariable("OneDriveConsumer"));
+            foreach (string s in specials)
             {
-                if (dialog.ShowDialog() != DialogResult.OK) return;
+                TreeViewItem item = new TreeViewItem();
+                item.Header = s;
+                item.Tag = s;
+                item.FontWeight = FontWeights.Normal;
+                item.Items.Add(dummyNode);
+                item.Expanded += new RoutedEventHandler(folder_Expanded);
+                (sender as TreeView).Items.Add(item);
+            }
 
-                Title = dialog.SelectedPath.Split('\\').Last();
+            foreach (string s in Directory.GetLogicalDrives())
+            {
+                TreeViewItem item = new TreeViewItem();
+                item.Header = s;
+                item.Tag = s;
+                item.FontWeight = FontWeights.Normal;
+                item.Items.Add(dummyNode);
+                item.Expanded += new RoutedEventHandler(folder_Expanded);
+                (sender as TreeView).Items.Add(item);
+            }
+        }
+
+        void folder_Expanded(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem item = (TreeViewItem)sender;
+            if (item.Items.Count == 1 && item.Items[0] == dummyNode)
+            {
+                item.Items.Clear();
+                try
+                {
+                    foreach (string s in Directory.GetDirectories(item.Tag.ToString()))
+                    {
+                        TreeViewItem subitem = new TreeViewItem();
+                        subitem.Header = s.Substring(s.LastIndexOf("\\") + 1);
+                        subitem.Tag = s;
+                        subitem.FontWeight = FontWeights.Normal;
+                        subitem.Items.Add(dummyNode);
+                        subitem.Expanded += new RoutedEventHandler(folder_Expanded);
+                        item.Items.Add(subitem);
+                    }
+                }
+                catch (Exception) { }
+            }
+        }
+
+        internal void FolderBrowser_treeView_SelectedItemChanged(object sender, ListView ScrollListView)
+        {
+            try
+            {
+                TreeView tree = (TreeView)sender;
+                TreeViewItem temp = ((TreeViewItem)tree.SelectedItem);
+
+                if (temp == null)
+                    return;
+                SelectedImagePath = "";
+                string temp1 = "";
+                string temp2 = "";
+                while (true)
+                {
+                    temp1 = temp.Header.ToString();
+                    if (temp1.Contains(@"\"))
+                    {
+                        temp1 = temp1 + '\\';
+                        temp2 = "";
+                    }
+                    SelectedImagePath = temp1 + temp2 + SelectedImagePath;
+                    if (temp.Parent.GetType().Equals(typeof(TreeView)))
+                    {
+                        break;
+                    }
+                    temp = ((TreeViewItem)temp.Parent);
+                    temp2 = @"\";
+                }
 
                 WebToon = new List<Episode>();
 
-                DirectoryInfo dir = new DirectoryInfo(dialog.SelectedPath);
+                DirectoryInfo dir = new DirectoryInfo(SelectedImagePath);
                 List<string> parts = new List<string>();
-
                 FileInfo[] files = dir.GetFiles().OrderBy(n => Regex.Replace(n.Name, @"\d+", a => a.Value.PadLeft(4, '0'))).ToArray();
-
                 foreach (var part in files)
                 {
                     string ext = part.Extension.ToUpper();
@@ -88,35 +131,43 @@ namespace WebToonViewer.ViewModels
                         parts.Add(part.FullName);
                 }
 
-                WebToon.Add(new Episode() { Name = Title, Parts = parts });
+                SelectedEpisode = new Episode() { Name = "", Parts = parts };
+                FitImageWidth_button_Click(ScrollListView);
             }
-            else
+            catch (Exception ex)
             {
-                if (dialog.ShowDialog() != DialogResult.OK) return;
-
-                Title = dialog.SelectedPath.Split('\\').Last();
-
-                WebToon = new List<Episode>();
-
-                DirectoryInfo dir = new DirectoryInfo(dialog.SelectedPath);
-                DirectoryInfo[] episodes = dir.GetDirectories().OrderBy(n => Regex.Replace(n.Name, @"\d+", a => a.Value.PadLeft(4, '0'))).ToArray();
-
-                foreach (var episode in episodes)
-                {
-                    List<string> parts = new List<string>();
-                    FileInfo[] files = episode.GetFiles().OrderBy(n => Regex.Replace(n.Name, @"\d+", a => a.Value.PadLeft(4, '0'))).ToArray();
-                    foreach (var part in files)
-                    {
-                        string ext = part.Extension.ToUpper();
-                        if (ext == ".JPEG" || ext == ".JPG" || ext == ".PNG" || ext == ".BMP")
-                            parts.Add(part.FullName);
-                    }
-
-                    WebToon.Add(new Episode() { Name = episode.Name, Parts = parts });
-                }
-
-                RaisePropertyChanged(nameof(WebToon));
+                MessageBox.Show(ex.Message);
             }
+        }
+
+        internal void FitImageWidth_button_Click(ListView ScrollListView)
+        {
+            try
+            {
+                if (SelectedEpisode == null) return;
+                if (SelectedEpisode.Parts.Count == 0) return;
+
+                Bitmap bmp = new Bitmap(SelectedEpisode.Parts[0]);
+                if (bmp.Width > ScrollListView.ActualWidth)
+                    Width = (int)ScrollListView.ActualWidth;
+                else
+                    Width = bmp.Width;
+                bmp.Dispose();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        internal void Window_Closing()
+        {
+            ((App)Application.Current).Xml.SettingsSave();
+        }
+
+        internal void ScrollSpeedReset_button_Click()
+        {
+            SpeedFactor = 2.5;
         }
 
     }
@@ -126,5 +177,4 @@ namespace WebToonViewer.ViewModels
         public string Name { get; set; }
         public List<string> Parts { get; set; }
     }
-
 }

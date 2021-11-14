@@ -27,14 +27,9 @@ namespace WebToonViewer
             DataContext = new MainWindow_ViewModel();
         }
 
-        private void WebToonLoad_button_Click(object sender, RoutedEventArgs e)
-        {
-            (DataContext as MainWindow_ViewModel).OpenWebToonFolder();
-        }
-
         private void FitImageWidth_button_Click(object sender, RoutedEventArgs e)
         {
-            (DataContext as MainWindow_ViewModel).FitImageWidth_button_Click();
+            (DataContext as MainWindow_ViewModel).FitImageWidth_button_Click(ScrollListView);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -42,14 +37,21 @@ namespace WebToonViewer
             (DataContext as MainWindow_ViewModel).Window_Closing();
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SpeedyScrollViewer.ScrollToTop();
-        }
-
         private void ScrollSpeedReset_button_Click(object sender, RoutedEventArgs e)
         {
             (DataContext as MainWindow_ViewModel).ScrollSpeedReset_button_Click();
         }
+
+        private void FolderBrowser_treeView_Loaded(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainWindow_ViewModel).FolderBrowser_treeView_Loaded(sender);
+        }
+
+        private void FolderBrowser_treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            SpeedyScrollViewer.ScrollToTop();
+            (DataContext as MainWindow_ViewModel).FolderBrowser_treeView_SelectedItemChanged(sender, ScrollListView);
+        }
+
     }
 }

@@ -62,6 +62,7 @@ namespace Helltaker_Sticker.Xml
     {
         public List<GirlSetting> GirlSettings { get; set; }
         public string Language { get; set; }
+        public bool Topmost { get; set; }
 
         public Settings()
         {

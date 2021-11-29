@@ -18,8 +18,6 @@ namespace Helltaker_Sticker.ViewModels
         private CreditWindow credit;
         private WMPLib.WindowsMediaPlayer m_Player;
         private System.Windows.Forms.Timer timer;
-        //private DispatcherTimer timer;
-        //private System.Timers.Timer timer;
         private Xml_Parser m_Xml;
 
         private int _frame;
@@ -27,7 +25,8 @@ namespace Helltaker_Sticker.ViewModels
         private int _frameInterval;
         private int _selectedMusic;
 
-        public int Frame { get => _frame; set { _frame = value; RaisePropertyChanged(nameof(Frame)); } }
+        public int Frame { get => _frame; set { _frame = value; RaisePropertyChanged(); } }
+        //public bool Topmost { get => m_Xml.settings.Topmost; set { m_Xml.settings.Topmost = value; RaisePropertyChanged(); } }
         public int Volume
         {
             get => _volume;

@@ -49,39 +49,50 @@ namespace OnScreenReticle2
                 else
                 {
                     settings = new Settings();
-                    NewSettings();
+                    DefaultSettings();
                 }
             }
             catch
             {
                 settings = new Settings();
-                NewSettings();
+                DefaultSettings();
             }
         }
 
-        private void NewSettings()
+        public void DefaultSettings()
         {
             settings.ColorR = 255;
             settings.ColorG = 50;
             settings.ColorB = 50;
             settings.ColorA = 255;
-            settings.ReticleSize = 6;
+            settings.DotDiameter = 6;
+            settings.AngleThickness = 3;
+            settings.AngleLength = 8;
             settings.WindowTop = Screen.PrimaryScreen.Bounds.Height * 0.5 - 50;
             settings.WindowLeft = Screen.PrimaryScreen.Bounds.Width * 0.5 - 50;
-            settings.Visibility = true;
+            settings.DotVisibility = true;
+            settings.AngleVisibility = false;
+            settings.CrossVisibility = false;
         }
 
     }
 
     public class Settings
     {
-        public double ReticleSize { get; set; }
+        public double DotDiameter { get; set; }
+        public double AngleThickness { get; set; }
+        public double AngleLength { get; set; }
+        public double CrossThickness { get; set; }
+        public double CrossLength { get; set; }
+        public double CrossOffset { get; set; }
         public double WindowTop { get; set; }
         public double WindowLeft { get; set; }
         public int ColorR { get; set; }
         public int ColorG { get; set; }
         public int ColorB { get; set; }
         public int ColorA { get; set; }
-        public bool Visibility { get; set; }
+        public bool DotVisibility { get; set; }
+        public bool AngleVisibility { get; set; }
+        public bool CrossVisibility { get; set; }
     }
 }

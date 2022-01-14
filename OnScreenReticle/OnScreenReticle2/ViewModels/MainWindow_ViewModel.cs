@@ -17,15 +17,24 @@ namespace OnScreenReticle2.ViewModels
         private SettingsWindow window;
         private MainWindow main;
         private NotifyIcon Noti;
+        private bool allVisibility;
 
-        public double ReticleSize { get => settings.ReticleSize; set { settings.ReticleSize = Math.Round(value, 1); RaisePropertyChanged(nameof(ReticleSize)); } }
-        public double WindowTop { get => settings.WindowTop; set { settings.WindowTop = value; RaisePropertyChanged(nameof(WindowTop)); } }
-        public double WindowLeft { get => settings.WindowLeft; set { settings.WindowLeft = value; RaisePropertyChanged(nameof(WindowLeft)); } }
-        public int ColorR { get => settings.ColorR; set { settings.ColorR = value; RaisePropertyChanged(nameof(ColorR)); RaisePropertyChanged(nameof(ColorBrush)); } }
-        public int ColorG { get => settings.ColorG; set { settings.ColorG = value; RaisePropertyChanged(nameof(ColorG)); RaisePropertyChanged(nameof(ColorBrush)); } }
-        public int ColorB { get => settings.ColorB; set { settings.ColorB = value; RaisePropertyChanged(nameof(ColorB)); RaisePropertyChanged(nameof(ColorBrush)); } }
-        public int ColorA { get => settings.ColorA; set { settings.ColorA = value; RaisePropertyChanged(nameof(ColorA)); RaisePropertyChanged(nameof(ColorBrush)); } }
-        public bool Visibility { get => settings.Visibility; set { settings.Visibility = value; RaisePropertyChanged(nameof(Visibility)); } }
+        public double DotDiameter { get => settings.DotDiameter; set { settings.DotDiameter = Math.Round(value, 1); RaisePropertyChanged(); } }
+        public double AngleThickness { get => settings.AngleThickness; set { settings.AngleThickness = Math.Round(value, 1); RaisePropertyChanged(); } }
+        public double AngleLength { get => settings.AngleLength; set { settings.AngleLength = Math.Round(value, 1); RaisePropertyChanged(); } }
+        public double CrossThickness { get => settings.CrossThickness; set { settings.CrossThickness = Math.Round(value, 1); RaisePropertyChanged(); } }
+        public double CrossLength { get => settings.CrossLength; set { settings.CrossLength = Math.Round(value, 1); RaisePropertyChanged(); } }
+        public double CrossOffset { get => settings.CrossOffset; set { settings.CrossOffset = Math.Round(value, 1); RaisePropertyChanged(); } }
+        public double WindowTop { get => settings.WindowTop; set { settings.WindowTop = value; RaisePropertyChanged(); } }
+        public double WindowLeft { get => settings.WindowLeft; set { settings.WindowLeft = value; RaisePropertyChanged(); } }
+        public int ColorR { get => settings.ColorR; set { settings.ColorR = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(ColorBrush)); } }
+        public int ColorG { get => settings.ColorG; set { settings.ColorG = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(ColorBrush)); } }
+        public int ColorB { get => settings.ColorB; set { settings.ColorB = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(ColorBrush)); } }
+        public int ColorA { get => settings.ColorA; set { settings.ColorA = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(ColorBrush)); } }
+        public bool DotVisibility { get => settings.DotVisibility; set { settings.DotVisibility = value; RaisePropertyChanged(); } }
+        public bool AngleVisibility { get => settings.AngleVisibility; set { settings.AngleVisibility = value; RaisePropertyChanged(); } }
+        public bool CrossVisibility { get => settings.CrossVisibility; set { settings.CrossVisibility = value; RaisePropertyChanged(); } }
+        public bool AllVisibility { get => allVisibility; set { allVisibility = value; RaisePropertyChanged(); } }
 
         public Brush ColorBrush
         {
@@ -38,7 +47,15 @@ namespace OnScreenReticle2.ViewModels
 
         public void Refresh()
         {
-            RaisePropertyChanged(nameof(ReticleSize));
+            RaisePropertyChanged(nameof(DotDiameter));
+            RaisePropertyChanged(nameof(AngleThickness));
+            RaisePropertyChanged(nameof(AngleLength));
+            RaisePropertyChanged(nameof(CrossThickness));
+            RaisePropertyChanged(nameof(CrossLength));
+            RaisePropertyChanged(nameof(CrossOffset));
+            RaisePropertyChanged(nameof(DotVisibility));
+            RaisePropertyChanged(nameof(AngleVisibility));
+            RaisePropertyChanged(nameof(CrossVisibility));
             RaisePropertyChanged(nameof(WindowTop));
             RaisePropertyChanged(nameof(WindowLeft));
             RaisePropertyChanged(nameof(ColorR));
@@ -52,12 +69,13 @@ namespace OnScreenReticle2.ViewModels
         {
             this.main = main;
             settings = ((App)Application.Current).Xml.settings;
+            AllVisibility = true;
             GenerateNotifyIcon();
         }
 
         internal void SetVisibility()
         {
-            Visibility = !Visibility;
+            AllVisibility = !AllVisibility;
         }
 
         internal void RotateProfiles()
@@ -157,6 +175,28 @@ namespace OnScreenReticle2.ViewModels
                 window = new SettingsWindow(this);
                 window.ShowDialog();
             }
+        }
+    }
+
+    public class VisibilityMultiConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool val = true;
+            foreach (var o in values)
+            {
+                if (o is bool v)
+                {
+                    if (val != v) val = v;
+                }
+            }
+
+            return val;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

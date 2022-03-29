@@ -1,0 +1,16 @@
+﻿<Window x:Class="HuntHighLightBackUper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HuntHighLightBackUper"
+        mc:Ignorable="d"
+        Title="Hunt : Showdown HighLight BackUper" Height="176.496" Width="700.299" Closing="Window_Closing">
+    <Grid Background="#FF494949">
+        <TextBlock HorizontalAlignment="Left" Margin="70,16,0,0" TextWrapping="Wrap" Text="HUNT : SHOWDOWN HIGHLIGHT BACKUPer" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI" FontSize="18" FontWeight="Bold"/>
+        <TextBox Name="TempFolder_textBox" Height="23" Margin="105,60,40,0" TextWrapping="Wrap" Text="{Binding TempFolderPath}" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="4,0" IsReadOnly="True" PreviewMouseDown="TempFolder_textBox_PreviewMouseDown" Cursor="Hand" FontFamily="Segoe UI"/>
+        <TextBox x:Name="SaveFolder_textBox" Height="23" Margin="105,94,40,0" TextWrapping="Wrap" Text="{Binding SaveFolderPath}" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="4,0" IsReadOnly="True" PreviewMouseDown="SaveFolder_textBox_PreviewMouseDown" Cursor="Hand" FontFamily="Segoe UI"/>
+        <TextBlock HorizontalAlignment="Left" Margin="23,64,0,0" TextWrapping="Wrap" Text="Temp Folder" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI"/>
+        <TextBlock HorizontalAlignment="Left" Margin="22,96,0,0" TextWrapping="Wrap" Text="Save Folder" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI"/>
+    </Grid>
+</Window>

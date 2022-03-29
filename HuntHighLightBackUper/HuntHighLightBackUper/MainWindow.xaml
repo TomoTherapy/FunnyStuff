@@ -5,12 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HuntHighLightBackUper"
         mc:Ignorable="d"
-        Title="Hunt : Showdown HighLight BackUper" Height="176.496" Width="700.299" Closing="Window_Closing">
-    <Grid Background="#FF494949">
-        <TextBlock HorizontalAlignment="Left" Margin="70,16,0,0" TextWrapping="Wrap" Text="HUNT : SHOWDOWN HIGHLIGHT BACKUPer" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI" FontSize="18" FontWeight="Bold"/>
-        <TextBox Name="TempFolder_textBox" Height="23" Margin="105,60,40,0" TextWrapping="Wrap" Text="{Binding TempFolderPath}" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="4,0" IsReadOnly="True" PreviewMouseDown="TempFolder_textBox_PreviewMouseDown" Cursor="Hand" FontFamily="Segoe UI"/>
-        <TextBox x:Name="SaveFolder_textBox" Height="23" Margin="105,94,40,0" TextWrapping="Wrap" Text="{Binding SaveFolderPath}" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="4,0" IsReadOnly="True" PreviewMouseDown="SaveFolder_textBox_PreviewMouseDown" Cursor="Hand" FontFamily="Segoe UI"/>
-        <TextBlock HorizontalAlignment="Left" Margin="23,64,0,0" TextWrapping="Wrap" Text="Temp Folder" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI"/>
-        <TextBlock HorizontalAlignment="Left" Margin="22,96,0,0" TextWrapping="Wrap" Text="Save Folder" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI"/>
+        Title="Hunt : Showdown HighLight BackUper" Height="134.496" Width="700.299" Closing="Window_Closing" ResizeMode="NoResize" WindowStyle="None">
+    <Grid Background="#FF363636" MouseDown="Grid_MouseDown">
+        <TextBlock HorizontalAlignment="Left" Margin="76,14,0,0" TextWrapping="Wrap" Text="HUNT : SHOWDOWN HIGHLIGHT BACKUPer" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI" FontSize="18" FontWeight="Bold"/>
+        <TextBox Name="TempFolder_textBox" Height="23" Margin="111,58,34,0" TextWrapping="Wrap" Text="{Binding TempFolderPath}" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="4,0" IsReadOnly="True" PreviewMouseDown="TempFolder_textBox_PreviewMouseDown" Cursor="Hand" FontFamily="Segoe UI"/>
+        <TextBox x:Name="SaveFolder_textBox" Height="23" Margin="111,92,34,0" TextWrapping="Wrap" Text="{Binding SaveFolderPath}" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="4,0" IsReadOnly="True" PreviewMouseDown="SaveFolder_textBox_PreviewMouseDown" Cursor="Hand" FontFamily="Segoe UI"/>
+        <TextBlock HorizontalAlignment="Left" Margin="29,62,0,0" TextWrapping="Wrap" Text="Temp Folder" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI"/>
+        <TextBlock HorizontalAlignment="Left" Margin="28,94,0,0" TextWrapping="Wrap" Text="Save Folder" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI"/>
+        <Button x:Name="Close_button" HorizontalAlignment="Right" VerticalAlignment="Top" Width="34" Height="34" Background="#FFC52323" BorderBrush="#FF8D1818" Foreground="White" Cursor="Hand" Click="Close_button_Click">
+            <Grid>
+                <Rectangle Width="26" Height="2" RenderTransformOrigin="0.5,0.5" Fill="#FFEAEAEA">
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="45"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <Rectangle Width="26" Height="2" RenderTransformOrigin="0.5,0.5" Fill="#FFEAEAEA">
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-45"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+            </Grid>
+        </Button>
     </Grid>
 </Window>

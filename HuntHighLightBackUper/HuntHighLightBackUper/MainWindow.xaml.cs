@@ -62,7 +62,7 @@ namespace HuntHighLightBackUper
                     foreach (string p in paths)
                     {
                         string filename = p.Split('\\').Last();
-                        if (File.Exists(SaveFolderPath + '\\' + filename)) continue;
+                        if (File.Exists(SaveFolderPath + '\\' + filename) && new FileInfo(SaveFolderPath + '\\' + filename).Length == new FileInfo(p).Length) continue;
                         File.Copy(p, SaveFolderPath + '\\' + filename);
                     }
                 }
@@ -96,6 +96,16 @@ namespace HuntHighLightBackUper
             {
                 SaveFolderPath = dialog.SelectedPath;
             }
+        }
+
+        private void Close_button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 

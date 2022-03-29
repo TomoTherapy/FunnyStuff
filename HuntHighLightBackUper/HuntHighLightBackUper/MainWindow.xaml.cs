@@ -30,15 +30,18 @@ namespace HuntHighLightBackUper
     {
         private DispatcherTimer scanner;
         private XmlParser parser;
+        private int processedCount;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public string TempFolderPath { get => parser.Settings.TempFolderPath; set { parser.Settings.TempFolderPath = value; RaisePropertyChanged(); } }
         public string SaveFolderPath { get => parser.Settings.SaveFolderPath; set { parser.Settings.SaveFolderPath = value; RaisePropertyChanged(); } }
+        public int ProcessedCount { get => processedCount; set { processedCount = value; RaisePropertyChanged(); } }
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
+            ProcessedCount = 0;
 
             parser = new XmlParser();
             parser.LoadSettings();
@@ -62,8 +65,22 @@ namespace HuntHighLightBackUper
                     foreach (string p in paths)
                     {
                         string filename = p.Split('\\').Last();
-                        if (File.Exists(SaveFolderPath + '\\' + filename) && new FileInfo(SaveFolderPath + '\\' + filename).Length == new FileInfo(p).Length) continue;
-                        File.Copy(p, SaveFolderPath + '\\' + filename, true);
+                        if (File.Exists(SaveFolderPath + '\\' + filename))
+                        {
+                            if (new FileInfo(SaveFolderPath + '\\' + filename).Length == new FileInfo(p).Length)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                File.Copy(p, SaveFolderPath + '\\' + filename, true);
+                            }
+                        }
+                        else
+                        {
+                            File.Copy(p, SaveFolderPath + '\\' + filename);
+                            ProcessedCount++;
+                        }
                     }
                 }
             }

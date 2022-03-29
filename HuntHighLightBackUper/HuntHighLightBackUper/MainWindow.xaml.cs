@@ -63,7 +63,7 @@ namespace HuntHighLightBackUper
                     {
                         string filename = p.Split('\\').Last();
                         if (File.Exists(SaveFolderPath + '\\' + filename) && new FileInfo(SaveFolderPath + '\\' + filename).Length == new FileInfo(p).Length) continue;
-                        File.Copy(p, SaveFolderPath + '\\' + filename);
+                        File.Copy(p, SaveFolderPath + '\\' + filename, true);
                     }
                 }
             }

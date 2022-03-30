@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -54,35 +55,42 @@ namespace HuntHighLightBackUper
 
         private void Scanner_Tick(object sender, EventArgs e)
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Temp\Highlights\Hunt  Showdown";
-            if (Directory.Exists(path))
+            try
             {
-                string[] paths = Directory.GetFiles(path);
-
-                if (paths.Length == 0) return;
-                else
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Temp\Highlights\Hunt  Showdown";
+                if (Directory.Exists(path))
                 {
-                    foreach (string p in paths)
+                    string[] paths = Directory.GetFiles(path);
+
+                    if (paths.Length == 0) return;
+                    else
                     {
-                        string filename = p.Split('\\').Last();
-                        if (File.Exists(SaveFolderPath + '\\' + filename))
+                        foreach (string p in paths)
                         {
-                            if (new FileInfo(SaveFolderPath + '\\' + filename).Length == new FileInfo(p).Length)
+                            string filename = p.Split('\\').Last();
+                            if (File.Exists(SaveFolderPath + '\\' + filename))
                             {
-                                continue;
+                                if (new FileInfo(SaveFolderPath + '\\' + filename).Length == new FileInfo(p).Length)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    File.Copy(p, SaveFolderPath + '\\' + filename, true);
+                                }
                             }
                             else
                             {
-                                File.Copy(p, SaveFolderPath + '\\' + filename, true);
+                                File.Copy(p, SaveFolderPath + '\\' + filename);
+                                ProcessedCount++;
                             }
-                        }
-                        else
-                        {
-                            File.Copy(p, SaveFolderPath + '\\' + filename);
-                            ProcessedCount++;
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -123,6 +131,16 @@ namespace HuntHighLightBackUper
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        private void TempFolderOpen_button_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(TempFolderPath);
+        }
+
+        private void SaveFolderOpen_button_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(SaveFolderPath);
         }
     }
 

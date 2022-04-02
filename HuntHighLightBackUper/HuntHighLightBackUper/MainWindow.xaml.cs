@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -20,6 +21,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Serialization;
+using DataGrid = System.Windows.Controls.DataGrid;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace HuntHighLightBackUper
@@ -32,11 +34,14 @@ namespace HuntHighLightBackUper
         private DispatcherTimer scanner;
         private XmlParser parser;
         private int processedCount;
+        private int totalCount;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public string TempFolderPath { get => parser.Settings.TempFolderPath; set { parser.Settings.TempFolderPath = value; RaisePropertyChanged(); } }
         public string SaveFolderPath { get => parser.Settings.SaveFolderPath; set { parser.Settings.SaveFolderPath = value; RaisePropertyChanged(); } }
         public int ProcessedCount { get => processedCount; set { processedCount = value; RaisePropertyChanged(); } }
+        public int TotalCount { get => totalCount; set { totalCount = value; RaisePropertyChanged(); } }
+        public ObservableCollection<string> HighLightCollection { get; set; }
 
         public MainWindow()
         {
@@ -57,6 +62,10 @@ namespace HuntHighLightBackUper
         {
             try
             {
+                TotalCount = Directory.GetFiles(SaveFolderPath).Length;
+                HighLightCollection = new ObservableCollection<string>(Directory.GetFiles(SaveFolderPath).ToList());
+                RaisePropertyChanged("HighLightCollection");
+
                 string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Temp\Highlights\Hunt  Showdown";
                 if (Directory.Exists(path))
                 {
@@ -141,6 +150,20 @@ namespace HuntHighLightBackUper
         private void SaveFolderOpen_button_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(SaveFolderPath);
+        }
+
+        private void DataGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+        }
+
+        private void DataGrid_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                Process.Start((sender as DataGrid).SelectedValue as string);
+            }
+            catch { }
         }
     }
 

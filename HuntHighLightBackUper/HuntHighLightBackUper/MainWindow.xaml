@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HuntHighLightBackUper"
         mc:Ignorable="d"
-        Title="Hunt : Showdown HighLight BackUper" Height="534.996" Width="700.299" Closing="Window_Closing" ResizeMode="NoResize" WindowStyle="None">
+        Title="Hunt : Showdown HighLight BackUper" Height="137.496" Width="700.299" Closing="Window_Closing" ResizeMode="NoResize" WindowStyle="None">
     <Grid Background="#FF272630" MouseDown="Grid_MouseDown">
         <TextBlock HorizontalAlignment="Left" Margin="28,14,0,0" TextWrapping="Wrap" Text="HUNT : SHOWDOWN HIGHLIGHT BACKUPer" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI Semibold" FontSize="20"/>
         <TextBox Name="TempFolder_textBox" Height="23" Margin="111,58,98,0" TextWrapping="Wrap" Text="{Binding TempFolderPath}" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="4,0" IsReadOnly="True" PreviewMouseDown="TempFolder_textBox_PreviewMouseDown" Cursor="Hand" FontFamily="Segoe UI"/>
@@ -59,10 +59,5 @@
         <TextBlock HorizontalAlignment="Left" Margin="489,14,0,0" TextWrapping="Wrap" Text="{Binding TotalCount}" VerticalAlignment="Top" FontFamily="Segoe Script" FontSize="20" Foreground="White"/>
         <Button x:Name="TempFolderOpen_button" Content="Open" HorizontalAlignment="Right" Margin="0,58,37,0" VerticalAlignment="Top" Width="56" Height="23" FontFamily="Segoe UI" Padding="0,0,0,1" Click="TempFolderOpen_button_Click"/>
         <Button x:Name="SaveFolderOpen_button" Content="Open" HorizontalAlignment="Right" Margin="0,92,37,0" VerticalAlignment="Top" Width="56" Height="23" FontFamily="Segoe UI" Padding="0,0,0,1" Click="SaveFolderOpen_button_Click"/>
-        <DataGrid Margin="29,138,29,29" ItemsSource="{Binding HighLightCollection}" AutoGenerateColumns="False" IsReadOnly="True" SizeChanged="DataGrid_SizeChanged" PreviewMouseDoubleClick="DataGrid_PreviewMouseDoubleClick">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Paths" Width="*" Binding="{Binding Path=.}"/>
-            </DataGrid.Columns>
-        </DataGrid>
     </Grid>
 </Window>

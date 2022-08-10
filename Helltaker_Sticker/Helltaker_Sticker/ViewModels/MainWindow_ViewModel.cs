@@ -26,7 +26,7 @@ namespace Helltaker_Sticker.ViewModels
         private int _selectedMusic;
 
         public int Frame { get => _frame; set { _frame = value; RaisePropertyChanged(); } }
-        //public bool Topmost { get => m_Xml.settings.Topmost; set { m_Xml.settings.Topmost = value; RaisePropertyChanged(); } }
+        public bool Topmost { get => m_Xml.settings.Topmost; set { m_Xml.settings.Topmost = value; RaisePropertyChanged(); } }
         public int Volume
         {
             get => _volume;
@@ -134,29 +134,24 @@ namespace Helltaker_Sticker.ViewModels
                 ContextMenu = Menu
             };
 
+            m_Window.Topmost = Topmost;
+            foreach (var girl in (Application.Current as App).Girls)
+                girl.Topmost = Topmost;
+
             MenuItem TopMostItem = new MenuItem
             {
                 Text = m_Language ? "최상위고정" : "Top Most",
-                Checked = true
+                Checked = Topmost
             };
             TopMostItem.Click += (object o, EventArgs e) =>
             {
-                if (m_Window.Topmost)
-                {
-                    m_Window.Topmost = false;
-                    foreach (var girl in (Application.Current as App).Girls)
-                        girl.Topmost = false;
+                Topmost = !Topmost;
+                m_Window.Topmost = Topmost;
+                foreach (var girl in (Application.Current as App).Girls)
+                    girl.Topmost = Topmost;
 
-                    TopMostItem.Checked = false;
-                }
-                else
-                {
-                    m_Window.Topmost = true;
-                    foreach (var girl in (Application.Current as App).Girls)
-                        girl.Topmost = true;
-
-                    TopMostItem.Checked = true;
-                }
+                TopMostItem.Checked = Topmost;
+                (Application.Current as App).SaveCurrentState();
             };
 
             #region Girls menuItem

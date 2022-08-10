@@ -86,12 +86,16 @@ namespace Helltaker_Sticker.ViewModels
             m_MainWindow_ViewModel = mainWindow;
 
             if (girlSetting == null)
+            {
                 CreateSpriteCollection("Lucifer");
+                window.Topmost = mainWindow.Topmost;
+            }
             else
             {
                 CreateSpriteCollection(girlSetting.Name);
                 window.Top = girlSetting.Top;
                 window.Left = girlSetting.Left;
+                window.Topmost = mainWindow.Topmost;
             }
 
             Naming(m_Language);

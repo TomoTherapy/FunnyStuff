@@ -127,7 +127,7 @@ namespace WebToonViewer.ViewModels
                 foreach (var part in files)
                 {
                     string ext = part.Extension.ToUpper();
-                    if (ext == ".JPEG" || ext == ".JPG" || ext == ".PNG" || ext == ".BMP")
+                    if (ext == ".JPEG" || ext == ".JPG" || ext == ".PNG" || ext == ".BMP" || ext == ".WEBP")
                         parts.Add(part.FullName);
                 }
 

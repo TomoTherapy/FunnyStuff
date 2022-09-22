@@ -263,15 +263,15 @@ namespace Helltaker_Sticker.ViewModels
             };
             SummonGirls.MenuItems.Add(ZdradaItem);
 
-            MenuItem Beelzebub = new MenuItem() { Text = m_Language ? "베엘제붑" : "Beelzebub" };
-            Beelzebub.Click += (object o, EventArgs e) =>
-            {
-                m_Girls.Add(new HellGirl(this, null));
-                (m_Girls.Last().DataContext as HellGirl_ViewModel).Beelzebub_button_Click();
-                m_Girls.Last().Show();
-                (Application.Current as App).SaveCurrentState();
-            };
-            SummonGirls.MenuItems.Add(Beelzebub);
+            //MenuItem Beelzebub = new MenuItem() { Text = m_Language ? "베엘제붑" : "Beelzebub" };
+            //Beelzebub.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Girls.Add(new HellGirl(this, null));
+            //    (m_Girls.Last().DataContext as HellGirl_ViewModel).Beelzebub_button_Click();
+            //    m_Girls.Last().Show();
+            //    (Application.Current as App).SaveCurrentState();
+            //};
+            //SummonGirls.MenuItems.Add(Beelzebub);
 
             MenuItem SkeletonItem = new MenuItem() { Text = m_Language ? "스켈레톤" : "Skeleton" };
             SkeletonItem.Click += (object o, EventArgs e) =>
@@ -303,15 +303,15 @@ namespace Helltaker_Sticker.ViewModels
             };
             SummonGirls.MenuItems.Add(HelltakerApronItem);
 
-            MenuItem Subject67 = new MenuItem() { Text = m_Language ? "실험체 67" : "Subject 67" };
-            Subject67.Click += (object o, EventArgs e) =>
-            {
-                m_Girls.Add(new HellGirl(this, null));
-                (m_Girls.Last().DataContext as HellGirl_ViewModel).Subject67_button_Click();
-                m_Girls.Last().Show();
-                (Application.Current as App).SaveCurrentState();
-            };
-            SummonGirls.MenuItems.Add(Subject67);
+            //MenuItem Subject67 = new MenuItem() { Text = m_Language ? "실험체 67" : "Subject 67" };
+            //Subject67.Click += (object o, EventArgs e) =>
+            //{
+            //    m_Girls.Add(new HellGirl(this, null));
+            //    (m_Girls.Last().DataContext as HellGirl_ViewModel).Subject67_button_Click();
+            //    m_Girls.Last().Show();
+            //    (Application.Current as App).SaveCurrentState();
+            //};
+            //SummonGirls.MenuItems.Add(Subject67);
 
             MenuItem GloriousLeftItem = new MenuItem() { Text = m_Language ? "Glorious 왼쪽" : "Glorious Left" };
             GloriousLeftItem.Click += (object o, EventArgs e) =>

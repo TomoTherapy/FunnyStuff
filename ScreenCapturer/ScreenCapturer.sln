@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeLapseScreenCapturer", "TimeLapseScreenCapturer\TimeLapseScreenCapturer.csproj", "{A1EF6490-6AF0-4861-AF1C-968FC39E43A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1EF6490-6AF0-4861-AF1C-968FC39E43A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1EF6490-6AF0-4861-AF1C-968FC39E43A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1EF6490-6AF0-4861-AF1C-968FC39E43A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1EF6490-6AF0-4861-AF1C-968FC39E43A1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2AF263E6-54F4-4ADC-8C10-8E698AFB6A08}
+	EndGlobalSection
+EndGlobal

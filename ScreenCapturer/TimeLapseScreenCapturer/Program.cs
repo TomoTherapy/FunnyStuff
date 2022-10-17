@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -27,14 +28,18 @@ namespace TimeLapseScreenCapturer
     public class Context : ApplicationContext
     {
         private NotifyIcon trayIcon;
+        private JsonParser jsonParser;
         private Timer timer;
         private bool isRunning;
-        public int Interval;
+        public int Interval { get => jsonParser.Settings.Interval; set => jsonParser.Settings.Interval = value; }
+        public string SavePath { get => jsonParser.Settings.SavePath; set => jsonParser.Settings.SavePath = value; }
 
         public Context()
         {
+            jsonParser = new JsonParser();
+            jsonParser.DeserializeSettings();
+
             isRunning = false;
-            Interval = 100000;
 
             // Initialize Tray Icon
             trayIcon = new NotifyIcon() { Icon = new Icon("Resources/icon.ico"), Visible = true };
@@ -69,7 +74,8 @@ namespace TimeLapseScreenCapturer
         private void OpenSettingsForm(object sender, EventArgs e)
         {
             SettingsForm settings = new SettingsForm(this);
-            settings.Show();
+            settings.ShowDialog();
+            jsonParser.SerializeSettings();
         }
 
         private void OnTimerEvent(object sender, EventArgs e)
@@ -79,16 +85,23 @@ namespace TimeLapseScreenCapturer
 
             gfxScreenShot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
 
-            string directoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Captures");
+            string directoryPath = SavePath;
             Directory.CreateDirectory(directoryPath);
 
-            string fullPath = Path.Combine(directoryPath, DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".png");
+            string fullPath;
+            if (Interval < 1100)
+                fullPath = Path.Combine(directoryPath, DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff") + ".png");
+            else
+                fullPath = Path.Combine(directoryPath, DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".png");
+
             bmp.Save(fullPath, ImageFormat.Png);
             bmp.Dispose();
+            GC.Collect();
         }
 
         private void Exit(object sender, EventArgs e)
         {
+            jsonParser.SerializeSettings();
             trayIcon.Visible = false;
             Application.Exit();
         }

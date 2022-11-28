@@ -148,6 +148,7 @@ namespace HuntHighLightBackUper
         {
             try
             {
+                Directory.CreateDirectory(TempFolderPath);
                 Process.Start(TempFolderPath);
             }
             catch (Exception ex)
@@ -160,6 +161,7 @@ namespace HuntHighLightBackUper
         {
             try
             {
+                Directory.CreateDirectory(SaveFolderPath);
                 Process.Start(SaveFolderPath);
             }
             catch (Exception ex)

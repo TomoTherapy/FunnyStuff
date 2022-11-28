@@ -55,9 +55,10 @@
                 </Style>
             </Button.Style>
         </Button>
-        <TextBlock HorizontalAlignment="Left" Margin="585,14,0,0" TextWrapping="Wrap" Text="{Binding ProcessedCount}" VerticalAlignment="Top" FontFamily="Segoe Script" FontSize="20" Foreground="White"/>
-        <TextBlock HorizontalAlignment="Left" Margin="489,14,0,0" TextWrapping="Wrap" Text="{Binding TotalCount}" VerticalAlignment="Top" FontFamily="Segoe Script" FontSize="20" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Margin="613,14,0,0" TextWrapping="Wrap" Text="{Binding ProcessedCount}" VerticalAlignment="Top" FontFamily="Segoe Script" FontSize="20" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Margin="534,14,0,0" TextWrapping="Wrap" Text="{Binding TotalCount}" VerticalAlignment="Top" FontFamily="Segoe Script" FontSize="20" Foreground="White"/>
         <Button x:Name="TempFolderOpen_button" Content="Open" HorizontalAlignment="Right" Margin="0,58,37,0" VerticalAlignment="Top" Width="56" Height="23" FontFamily="Segoe UI" Padding="0,0,0,1" Click="TempFolderOpen_button_Click"/>
         <Button x:Name="SaveFolderOpen_button" Content="Open" HorizontalAlignment="Right" Margin="0,92,37,0" VerticalAlignment="Top" Width="56" Height="23" FontFamily="Segoe UI" Padding="0,0,0,1" Click="SaveFolderOpen_button_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="472,14,0,0" TextWrapping="Wrap" Text="total:" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe Script" FontSize="20"/>
     </Grid>
 </Window>

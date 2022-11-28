@@ -63,10 +63,9 @@ namespace HuntHighLightBackUper
             {
                 TotalCount = Directory.GetFiles(SaveFolderPath).Length;
 
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Temp\Highlights\Hunt  Showdown";
-                if (Directory.Exists(path))
+                if (Directory.Exists(TempFolderPath))
                 {
-                    string[] paths = Directory.GetFiles(path);
+                    string[] paths = Directory.GetFiles(TempFolderPath);
 
                     if (paths.Length == 0) return;
                     else
@@ -114,6 +113,9 @@ namespace HuntHighLightBackUper
         private void TempFolder_textBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
+            Directory.CreateDirectory(TempFolderPath);
+            dialog.SelectedPath = TempFolderPath;
+
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 TempFolderPath = dialog.SelectedPath;
@@ -123,6 +125,9 @@ namespace HuntHighLightBackUper
         private void SaveFolder_textBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
+            Directory.CreateDirectory(SaveFolderPath);
+            dialog.SelectedPath = SaveFolderPath;
+
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 SaveFolderPath = dialog.SelectedPath;
@@ -141,12 +146,26 @@ namespace HuntHighLightBackUper
 
         private void TempFolderOpen_button_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(TempFolderPath);
+            try
+            {
+                Process.Start(TempFolderPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void SaveFolderOpen_button_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(SaveFolderPath);
+            try
+            {
+                Process.Start(SaveFolderPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 

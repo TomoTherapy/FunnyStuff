@@ -59,9 +59,6 @@ namespace HuntHighLightBackUper
 
         private void Scanner_Tick(object sender, EventArgs e)
         {
-            if (!File.Exists(SaveFolderPath)) MessageBox.Show(SaveFolderPath + " does not exist.");
-            if (!File.Exists(TempFolderPath)) MessageBox.Show(TempFolderPath + " does not exist.");
-
             try
             {
                 TotalCount = Directory.GetFiles(SaveFolderPath).Length;
@@ -155,7 +152,7 @@ namespace HuntHighLightBackUper
         {
             try
             {
-                if (File.Exists(TempFolderPath))
+                if (Directory.Exists(TempFolderPath))
                     Process.Start(TempFolderPath);
                 else
                     MessageBox.Show(TempFolderPath + " does not exist.");
@@ -170,7 +167,7 @@ namespace HuntHighLightBackUper
         {
             try
             {
-                if (File.Exists(SaveFolderPath))
+                if (Directory.Exists(SaveFolderPath))
                     Process.Start(SaveFolderPath);
                 else
                     MessageBox.Show(SaveFolderPath + " does not exist.");

@@ -113,8 +113,10 @@ namespace HuntHighLightBackUper
         private void TempFolder_textBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            Directory.CreateDirectory(TempFolderPath);
-            dialog.SelectedPath = TempFolderPath;
+            if (File.Exists(TempFolderPath))
+            {
+                dialog.SelectedPath = TempFolderPath;
+            }
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

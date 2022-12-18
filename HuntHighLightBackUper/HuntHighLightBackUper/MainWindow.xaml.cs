@@ -59,6 +59,9 @@ namespace HuntHighLightBackUper
 
         private void Scanner_Tick(object sender, EventArgs e)
         {
+            if (!File.Exists(SaveFolderPath)) MessageBox.Show(SaveFolderPath + " does not exist.");
+            if (!File.Exists(TempFolderPath)) MessageBox.Show(TempFolderPath + " does not exist.");
+
             try
             {
                 TotalCount = Directory.GetFiles(SaveFolderPath).Length;
@@ -127,8 +130,10 @@ namespace HuntHighLightBackUper
         private void SaveFolder_textBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            Directory.CreateDirectory(SaveFolderPath);
-            dialog.SelectedPath = SaveFolderPath;
+            if (File.Exists(SaveFolderPath))
+            {
+                dialog.SelectedPath = SaveFolderPath;
+            }
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -150,8 +155,10 @@ namespace HuntHighLightBackUper
         {
             try
             {
-                Directory.CreateDirectory(TempFolderPath);
-                Process.Start(TempFolderPath);
+                if (File.Exists(TempFolderPath))
+                    Process.Start(TempFolderPath);
+                else
+                    MessageBox.Show(TempFolderPath + " does not exist.");
             }
             catch (Exception ex)
             {
@@ -163,8 +170,10 @@ namespace HuntHighLightBackUper
         {
             try
             {
-                Directory.CreateDirectory(SaveFolderPath);
-                Process.Start(SaveFolderPath);
+                if (File.Exists(SaveFolderPath))
+                    Process.Start(SaveFolderPath);
+                else
+                    MessageBox.Show(SaveFolderPath + " does not exist.");
             }
             catch (Exception ex)
             {

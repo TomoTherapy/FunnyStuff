@@ -76,6 +76,7 @@ namespace TimeLapseScreenCapturer
             SettingsForm settings = new SettingsForm(this);
             settings.ShowDialog();
             jsonParser.SerializeSettings();
+            if (timer != null) timer.Interval = Interval;
         }
 
         private void OnTimerEvent(object sender, EventArgs e)

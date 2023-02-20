@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.SavePath_textBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Interval_textBox
@@ -80,11 +81,22 @@
             this.SavePath_textBox.TabIndex = 3;
             this.SavePath_textBox.DoubleClick += new System.EventHandler(this.SavePath_textBox_DoubleClick);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(210, 14);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(25, 17);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "ms";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(349, 168);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.SavePath_textBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -104,6 +116,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox SavePath_textBox;
+        private System.Windows.Forms.Label label3;
     }
 }
 

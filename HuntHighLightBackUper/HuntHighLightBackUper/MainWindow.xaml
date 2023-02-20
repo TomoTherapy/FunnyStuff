@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Hunt : Showdown HighLight BackUper" Height="137.496" Width="700.299" Closing="Window_Closing" ResizeMode="NoResize" WindowStyle="None">
     <Grid Background="#FF272630" MouseDown="Grid_MouseDown">
-        <TextBlock HorizontalAlignment="Left" Margin="28,14,0,0" TextWrapping="Wrap" Text="HUNT : SHOWDOWN HIGHLIGHT BACKUPer" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI Semibold" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="28,14,0,0" TextWrapping="Wrap" Text="HUNT : SHOWDOWN HIGHLIGHT BACKUPPER" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI Semibold" FontSize="20"/>
         <TextBox Name="TempFolder_textBox" Height="23" Margin="111,58,98,0" TextWrapping="Wrap" Text="{Binding TempFolderPath}" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="4,0" IsReadOnly="True" PreviewMouseDown="TempFolder_textBox_PreviewMouseDown" Cursor="Hand" FontFamily="Segoe UI"/>
         <TextBox x:Name="SaveFolder_textBox" Height="23" Margin="111,92,98,0" TextWrapping="Wrap" Text="{Binding SaveFolderPath}" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="4,0" IsReadOnly="True" PreviewMouseDown="SaveFolder_textBox_PreviewMouseDown" Cursor="Hand" FontFamily="Segoe UI"/>
         <TextBlock HorizontalAlignment="Left" Margin="29,62,0,0" TextWrapping="Wrap" Text="Temp Folder" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI"/>

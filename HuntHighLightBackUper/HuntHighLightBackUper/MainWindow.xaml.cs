@@ -113,8 +113,10 @@ namespace HuntHighLightBackUper
         private void TempFolder_textBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            Directory.CreateDirectory(TempFolderPath);
-            dialog.SelectedPath = TempFolderPath;
+            if (File.Exists(TempFolderPath))
+            {
+                dialog.SelectedPath = TempFolderPath;
+            }
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -125,8 +127,10 @@ namespace HuntHighLightBackUper
         private void SaveFolder_textBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
-            Directory.CreateDirectory(SaveFolderPath);
-            dialog.SelectedPath = SaveFolderPath;
+            if (File.Exists(SaveFolderPath))
+            {
+                dialog.SelectedPath = SaveFolderPath;
+            }
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -148,8 +152,10 @@ namespace HuntHighLightBackUper
         {
             try
             {
-                Directory.CreateDirectory(TempFolderPath);
-                Process.Start(TempFolderPath);
+                if (Directory.Exists(TempFolderPath))
+                    Process.Start(TempFolderPath);
+                else
+                    MessageBox.Show(TempFolderPath + " does not exist.");
             }
             catch (Exception ex)
             {
@@ -161,8 +167,10 @@ namespace HuntHighLightBackUper
         {
             try
             {
-                Directory.CreateDirectory(SaveFolderPath);
-                Process.Start(SaveFolderPath);
+                if (Directory.Exists(SaveFolderPath))
+                    Process.Start(SaveFolderPath);
+                else
+                    MessageBox.Show(SaveFolderPath + " does not exist.");
             }
             catch (Exception ex)
             {

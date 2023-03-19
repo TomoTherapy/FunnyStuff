@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>huntshowdown.ico</ApplicationIcon>
+    <ApplicationIcon>huntshowdown_white.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -100,6 +100,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="huntshowdown.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="huntshowdown_white.ico" />
+    <Resource Include="huntshowdown_white.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

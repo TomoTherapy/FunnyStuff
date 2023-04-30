@@ -50,6 +50,8 @@ namespace HuntHighLightBackUper
 
             parser = new XmlParser();
             parser.LoadSettings();
+            this.Top = parser.Settings.Top;
+            this.Left = parser.Settings.Left;
 
             scanner = new DispatcherTimer();
             scanner.Tick += Scanner_Tick;
@@ -102,6 +104,8 @@ namespace HuntHighLightBackUper
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             scanner.Stop();
+            parser.Settings.Top = this.Top;
+            parser.Settings.Left = this.Left;
             parser.SaveSettings();
         }
 
@@ -231,10 +235,15 @@ namespace HuntHighLightBackUper
     {
         public string TempFolderPath { get; set; }
         public string SaveFolderPath { get; set; }
+        public double Top { get; set; }
+        public double Left { get; set; }
+
         public Settings()
         {
             TempFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Temp\Highlights\Hunt  Showdown";
             SaveFolderPath = @"D:\";
+            Top = 100;
+            Left = 100;
         }
     }
 }

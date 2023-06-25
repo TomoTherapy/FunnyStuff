@@ -227,6 +227,7 @@ namespace HuntHighLightBackUper
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                Settings = new Settings();
             }
         }
     }

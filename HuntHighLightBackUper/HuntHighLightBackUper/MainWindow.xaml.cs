@@ -1,27 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Serialization;
-using DataGrid = System.Windows.Controls.DataGrid;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace HuntHighLightBackUper
@@ -50,8 +38,8 @@ namespace HuntHighLightBackUper
 
             parser = new XmlParser();
             parser.LoadSettings();
-            this.Top = parser.Settings.Top;
-            this.Left = parser.Settings.Left;
+
+            CheckMonitorBoundary(this, parser.Settings.Top, parser.Settings.Left);
 
             scanner = new DispatcherTimer();
             scanner.Tick += Scanner_Tick;
@@ -104,9 +92,6 @@ namespace HuntHighLightBackUper
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             scanner.Stop();
-            parser.Settings.Top = this.Top;
-            parser.Settings.Left = this.Left;
-            parser.SaveSettings();
         }
 
         public void RaisePropertyChanged([CallerMemberName] string name = null)
@@ -150,6 +135,10 @@ namespace HuntHighLightBackUper
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+
+            parser.Settings.Top = this.Top;
+            parser.Settings.Left = this.Left;
+            parser.SaveSettings();
         }
 
         private void TempFolderOpen_button_Click(object sender, RoutedEventArgs e)
@@ -179,6 +168,41 @@ namespace HuntHighLightBackUper
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void CheckMonitorBoundary(System.Windows.Window window, double savedTop, double savedLeft)
+        {
+            // Get the bounds of all screens
+            bool isOutOfBounds = true;
+            foreach (Screen screen in Screen.AllScreens)
+            {
+                // Check if the saved window position is within any screen's working area
+                if (savedLeft >= screen.WorkingArea.Left &&
+                    savedLeft <= screen.WorkingArea.Right - window.Width &&
+                savedTop >= screen.WorkingArea.Top &&
+                    savedTop <= screen.WorkingArea.Bottom - window.Height)
+                {
+                    isOutOfBounds = false;
+                    break;
+                }
+            }
+
+            // If the saved position is out of bounds, move the window to the primary screen
+            if (isOutOfBounds)
+            {
+                // Get the working area of the primary screen
+                var primaryScreen = Screen.PrimaryScreen.WorkingArea;
+
+                // Set window to the primary screen (center it)
+                window.Top = primaryScreen.Top + (primaryScreen.Height - window.Height) / 2;
+                window.Left = primaryScreen.Left + (primaryScreen.Width - window.Width) / 2;
+            }
+            else
+            {
+                // Set the window to the saved position if it's within bounds
+                window.Top = savedTop;
+                window.Left = savedLeft;
             }
         }
     }
